@@ -1,0 +1,6 @@
+html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label
+{
+    margin  : 0;
+    padding : 0;
+    border  : 0;
+}

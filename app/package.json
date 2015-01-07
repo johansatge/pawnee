@@ -1,0 +1,16 @@
+{
+    "name": "Pawnee",
+    "version": "0.1-beta",
+    "main": "app.html",
+    "window": {
+        "width": 50,
+        "height": 50,
+        "show": false
+    },
+    "webkit": {
+        "plugin": true,
+        "page-cache": false
+    },
+    "dependencies": {
+    }
+}
