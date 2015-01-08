@@ -26,7 +26,7 @@
         /**
          * Show main window & inits events
          */
-        this.show = function()
+        this.init = function()
         {
             var window_params =
             {
@@ -59,6 +59,7 @@
             window.focus();
             $body = $(window.window.document.body);
             app.disableDragDrop($body);
+            events.emit('loaded');
         };
 
     };

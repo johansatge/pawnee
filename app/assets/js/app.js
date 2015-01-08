@@ -23,7 +23,29 @@
     app.init = function()
     {
         var panel = new app.controllers.panel();
+        panel.on('loaded', function(evt)
+        {
+            console.log('loaded');
+        });
         panel.init();
+
+
+        // Create a tray icon
+        var tray = new app.node.gui.Tray({
+            title: '',
+            icon: 'assets/css/images/menu_icon.png',
+            alticon: 'assets/css/images/menu_alticon.png'
+        });
+        tray.on('click', function(evt)
+        {
+            for(var index in evt)
+            {
+                console.log(index + ': ' + evt[index]);
+            }
+
+        });
+
+
     };
 
     /**
