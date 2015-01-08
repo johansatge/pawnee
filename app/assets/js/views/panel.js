@@ -12,6 +12,7 @@
         var window = null;
         var $body = null;
         var events = new app.node.events.EventEmitter();
+        var isVisible = false;
 
         /**
          * Attaches an event
@@ -32,34 +33,58 @@
             {
                 toolbar: app.devMode,
                 frame: false,
-                width: 400,
-                height: 362,
+                width: 460,
+                height: 300,
+                transparent: true,
                 position: 'mouse',
-                min_width: 400,
-                min_height: 362,
-                max_width: 400,
-                max_height: 362,
+                min_width: 460,
+                min_height: 300,
+                max_width: 460,
+                max_height: 300,
                 show: false,
                 title: ''
             };
             window = app.node.gui.Window.open('templates/panel.html', window_params);
             window.on('document-end', $.proxy(function()
             {
-                window.window.onload = $.proxy(onWindowLoaded, this);
+                window.window.onload = $.proxy(_onWindowLoaded, this);
             }, this));
         };
 
         /**
-         * Loads the template when the view is ready
+         * Loads the template when the view is ready and tells the controller
          */
-        var onWindowLoaded = function()
+        var _onWindowLoaded = function()
         {
-            window.menu = app.menubar;
-            window.show();
-            window.focus();
             $body = $(window.window.document.body);
             app.disableDragDrop($body);
             events.emit('loaded');
+        };
+
+        /**
+         * Toggles the view
+         * @todo check screen bounds
+         * @todo hide on blur
+         * @param x
+         * @param y
+         */
+        this.toggle = function(x, y)
+        {
+            if (!isVisible)
+            {
+                window.moveTo(x, y);
+                window.show();
+                window.focus();
+                if (app.devMode)
+                {
+                    window.showDevTools();
+                }
+            }
+            else
+            {
+                window.hide();
+            }
+            isVisible = !isVisible;
         };
 
     };

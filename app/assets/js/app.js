@@ -17,35 +17,16 @@
     app.devMode = app.node.fs.existsSync('.dev') && app.node.fs.readFileSync('.dev', {encoding: 'utf8'}) === '1';
     app.menubar = false;
 
+    var panel;
+
     /**
      * Inits
      */
     app.init = function()
     {
-        var panel = new app.controllers.panel();
-        panel.on('loaded', function(evt)
-        {
-            console.log('loaded');
-        });
+        panel = new app.controllers.panel();
+        panel.on('loaded', $.proxy(_onPanelReady, this));
         panel.init();
-
-
-        // Create a tray icon
-        var tray = new app.node.gui.Tray({
-            title: '',
-            icon: 'assets/css/images/menu_icon.png',
-            alticon: 'assets/css/images/menu_alticon.png'
-        });
-        tray.on('click', function(evt)
-        {
-            for(var index in evt)
-            {
-                console.log(index + ': ' + evt[index]);
-            }
-
-        });
-
-
     };
 
     /**
@@ -64,6 +45,28 @@
             evt.preventDefault();
             evt.stopPropagation();
         });
+    };
+
+    /**
+     * Creates the tray icon when the panel view is ready
+     */
+    var _onPanelReady = function()
+    {
+        var tray = new app.node.gui.Tray({
+            title: '',
+            icon: 'assets/css/images/menu_icon.png',
+            alticon: 'assets/css/images/menu_alticon.png'
+        });
+        tray.on('click', $.proxy(_onTrayClick, this));
+    };
+
+    /**
+     * Clicks on the tray icon
+     * @param evt
+     */
+    var _onTrayClick = function(evt)
+    {
+        panel.toggle(evt.x, evt.y);
     };
 
     window.App = app;

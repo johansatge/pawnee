@@ -28,13 +28,13 @@
         this.init = function()
         {
             view.init();
-            view.on('loaded', onViewLoaded);
+            view.on('loaded', $.proxy(_onViewLoaded, this));
         };
 
         /**
          * Fired when the view is loaded
          */
-        var onViewLoaded = function()
+        var _onViewLoaded = function()
         {
             events.emit('loaded');
         };
@@ -44,7 +44,7 @@
          * @param x
          * @param y
          */
-        this.toggle(x, y)
+        this.toggle = function(x, y)
         {
             view.toggle(x, y);
         };
