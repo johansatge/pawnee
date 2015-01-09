@@ -26,21 +26,21 @@
 
         /**
          * Show main window & inits events
+         * @todo make window size dynamic
          */
         this.init = function()
         {
+            var width = 500;
+            var height = 400;
             var window_params =
             {
                 toolbar: app.devMode,
                 frame: false,
-                width: 460,
-                height: 300,
+                width: width,
+                height: height,
                 transparent: true,
                 position: 'mouse',
-                min_width: 460,
-                min_height: 300,
-                max_width: 460,
-                max_height: 300,
+                resizable: false,
                 show: false,
                 title: ''
             };
@@ -49,16 +49,6 @@
             {
                 window.window.onload = $.proxy(_onWindowLoaded, this);
             }, this));
-        };
-
-        /**
-         * Loads the template when the view is ready and tells the controller
-         */
-        var _onWindowLoaded = function()
-        {
-            $body = $(window.window.document.body);
-            app.disableDragDrop($body);
-            events.emit('loaded');
         };
 
         /**
@@ -85,6 +75,24 @@
                 window.hide();
             }
             isVisible = !isVisible;
+        };
+
+        /**
+         * Loads the template when the view is ready and tells the controller
+         */
+        var _onWindowLoaded = function()
+        {
+            $body = $(window.window.document.body);
+            app.disableDragDrop($body);
+            events.emit('loaded');
+        };
+
+        /**
+         * Sets the window size depending on its content
+         */
+        var _setWindowDimensions = function()
+        {
+            window.resizeTo($body.width(), $body.height());
         };
 
     };

@@ -31,7 +31,7 @@
 
     /**
      * Disables drag&drop
-     * @param document
+     * @param $body
      */
     app.disableDragDrop = function($body)
     {
