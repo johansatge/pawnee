@@ -54,6 +54,7 @@
         /**
          * Toggles the view
          * @todo check screen bounds
+         * @todo calculate position depending on dynamic window dimensions
          * @todo hide on blur
          * @param x
          * @param y
@@ -62,7 +63,7 @@
         {
             if (!isVisible)
             {
-                window.moveTo(x, y);
+                window.moveTo(x - 250 + 15, y);
                 window.show();
                 window.focus();
                 if (app.devMode)
@@ -85,14 +86,6 @@
             $body = $(window.window.document.body);
             app.disableDragDrop($body);
             events.emit('loaded');
-        };
-
-        /**
-         * Sets the window size depending on its content
-         */
-        var _setWindowDimensions = function()
-        {
-            window.resizeTo($body.width(), $body.height());
         };
 
     };

@@ -1,22 +1,38 @@
-html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label {
-    margin: 0;
-    padding: 0;
-    border: 0;
+html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label
+{
+    margin  : 0;
+    padding : 0;
+    border  : 0;
 }
 
 html,
-body {
-    background: #ff99ff;
+body
+{
+    background : #ff99ff;
 }
 
-.background {
-    z-index: 1;
-    margin: 10px 0 0 20px;
-    position: relative;
-    box-sizing: border-box;
-    width: 460px;
-    height: 360px;
-    background: #ffffff;
-    border-radius: 3px;
-    box-shadow: 0 5px 20px rgba(58, 58, 58, 0.5);
+.arrow
+{
+    z-index      : 2;
+    position     : absolute;
+    top          : 0;
+    left         : 240px;
+    width        : 0;
+    height       : 0;
+    border-style : solid;
+    border-width : 0 10px 10px 10px;
+    border-color : transparent transparent #ffffff transparent;
+}
+
+.panel
+{
+    z-index       : 1;
+    position      : absolute;
+    margin        : 10px 0 0 20px;
+    box-sizing    : border-box;
+    width         : 460px;
+    height        : 360px;
+    background    : #ffffff;
+    border-radius : 3px;
+    box-shadow    : 0 5px 20px rgba(58, 58, 58, 0.5);
 }
