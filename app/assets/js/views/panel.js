@@ -13,6 +13,7 @@
         var $body = null;
         var events = new app.node.events.EventEmitter();
         var isVisible = false;
+        var $ui = {};
 
         /**
          * Attaches an event
@@ -84,9 +85,22 @@
         var _onWindowLoaded = function()
         {
             $body = $(window.window.document.body);
+            $ui.switcher = $body.find('.js-switcher');
+            $ui.switch = $body.find('.js-switch');
             app.disableDragDrop($body);
+            $ui.switcher.on('click', $.proxy(_onToggleSwitcher, this));
             events.emit('loaded');
         };
+
+        /**
+         * Toggles the main switcher
+         * @param evt
+         */
+        var _onToggleSwitcher = function(evt)
+        {
+            evt.preventDefault();
+            $ui.switch.toggleClass('js-off');
+        }
 
     };
 
