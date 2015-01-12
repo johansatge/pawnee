@@ -32,7 +32,7 @@
         this.init = function()
         {
             var width = 500;
-            var height = 400;
+            var height = 450;
             var window_params =
             {
                 toolbar: app.devMode,

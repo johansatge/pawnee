@@ -1,8 +1,8 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1689" measuredH="733" mockupW="1313" mockupH="662">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1689" measuredH="864" mockupW="1315" mockupH="793">
   <controls>
     <control controlID="3" controlTypeID="com.balsamiq.mockups::MenuBar" x="376" y="175" w="808" h="29" measuredW="189" measuredH="29" zOrder="0" locked="false" isInGroup="-1"/>
     <control controlID="5" controlTypeID="com.balsamiq.mockups::Switch" x="790" y="242" w="-1" h="-1" measuredW="49" measuredH="28" zOrder="3" locked="false" isInGroup="-1"/>
-    <control controlID="6" controlTypeID="com.balsamiq.mockups::iPadPopover" x="776" y="204" w="397" h="500" measuredW="222" measuredH="187" zOrder="1" locked="false" isInGroup="-1">
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::iPadPopover" x="776" y="204" w="397" h="632" measuredW="222" measuredH="187" zOrder="1" locked="false" isInGroup="-1">
       <controlProperties>
         <popoverArrowPosition>3</popoverArrowPosition>
         <text/>
@@ -21,7 +21,7 @@
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="11" controlTypeID="com.balsamiq.mockups::RoundButton" x="1134" y="661" w="28" h="29" measuredW="32" measuredH="32" zOrder="6" locked="false" isInGroup="-1">
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::RoundButton" x="1134" y="792" w="28" h="29" measuredW="32" measuredH="32" zOrder="6" locked="false" isInGroup="-1">
       <controlProperties>
         <text/>
       </controlProperties>
@@ -76,7 +76,7 @@
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="32" controlTypeID="com.balsamiq.mockups::Menu" x="1154" y="676" w="-1" h="-1" measuredW="150" measuredH="57" zOrder="15" locked="false" isInGroup="-1">
+    <control controlID="32" controlTypeID="com.balsamiq.mockups::Menu" x="1154" y="807" w="-1" h="-1" measuredW="150" measuredH="57" zOrder="15" locked="false" isInGroup="-1">
       <controlProperties>
         <text>About...%0A---%0AQuit%2CCMD+Q</text>
       </controlProperties>
@@ -91,119 +91,175 @@
         <text>5.3.24</text>
       </controlProperties>
     </control>
-    <control controlID="35" controlTypeID="com.balsamiq.mockups::RoundButton" x="865" y="338" w="24" h="24" measuredW="32" measuredH="32" zOrder="18" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text/>
-      </controlProperties>
-    </control>
-    <control controlID="36" controlTypeID="com.balsamiq.mockups::Menu" x="881" y="351" w="114" h="-1" measuredW="150" measuredH="57" zOrder="34" locked="false" isInGroup="-1">
-      <controlProperties>
-        <text>Edit%20php.ini%0A---%0AShow%20in%20Finder</text>
-      </controlProperties>
-    </control>
-    <control controlID="40" controlTypeID="com.balsamiq.mockups::Arrow" x="778" y="414" w="394" h="10" measuredW="150" measuredH="100" zOrder="19" locked="false" isInGroup="-1">
+    <control controlID="40" controlTypeID="com.balsamiq.mockups::Arrow" x="778" y="415" w="394" h="10" measuredW="150" measuredH="100" zOrder="18" locked="false" isInGroup="-1">
       <controlProperties>
         <backgroundAlpha>1</backgroundAlpha>
         <leftArrow>false</leftArrow>
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="41" controlTypeID="com.balsamiq.mockups::Label" x="790" y="392" w="-1" h="-1" measuredW="74" measuredH="21" zOrder="20" locked="false" isInGroup="-1">
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::Label" x="790" y="392" w="-1" h="-1" measuredW="74" measuredH="21" zOrder="19" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Virtual%20hosts</text>
       </controlProperties>
     </control>
-    <control controlID="43" controlTypeID="com.balsamiq.mockups::Paragraph" x="789" y="562" w="367" h="89" measuredW="275" measuredH="80" zOrder="21" locked="false" isInGroup="-1">
+    <control controlID="43" controlTypeID="com.balsamiq.mockups::Paragraph" x="789" y="695" w="367" h="89" measuredW="275" measuredH="80" zOrder="20" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Main%20DocumentRoot%3A%20%22/Users/osx/www%22%0AMain%20ErrorLog%3A%20%22/private/var/log/apache2/error_log%22%0AMutex%20default%3A%20dir%3D%22/private/var/run/%22%20mechanism%3Ddefault%20%0AMutex%20mpm-accept%3A%20using_defaults%0AMutex%20rewrite-map%3A%20using_defaults%0APidFile%3A%20%22/private/var/run/httpd.pid%22%0ADefine%3A%20DUMP_VHOSTS%0ADefine%3A%20DUMP_RUN_CFG%0AUser%3A%20name%3D%22_www%22%20id%3D70%20not_used%0AGroup%3A%20name%3D%22_www%22%20id%3D70%20not_used</text>
       </controlProperties>
     </control>
-    <control controlID="44" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1151" y="556" w="-1" h="89" measuredW="16" measuredH="100" zOrder="22" locked="false" isInGroup="-1"/>
-    <control controlID="47" controlTypeID="com.balsamiq.mockups::ComboBox" x="1066" y="338" w="90" h="-1" measuredW="87" measuredH="24" zOrder="23" locked="false" isInGroup="-1">
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1151" y="689" w="-1" h="89" measuredW="16" measuredH="100" zOrder="21" locked="false" isInGroup="-1"/>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::ComboBox" x="1066" y="338" w="90" h="-1" measuredW="87" measuredH="24" zOrder="22" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Packages</text>
       </controlProperties>
     </control>
-    <control controlID="48" controlTypeID="com.balsamiq.mockups::Menu" x="1254" y="251" w="202" h="-1" measuredW="150" measuredH="161" zOrder="24" locked="false" isInGroup="-1">
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Menu" x="1254" y="251" w="202" h="-1" measuredW="150" measuredH="161" zOrder="23" locked="false" isInGroup="-1">
       <controlProperties>
         <text>php53-htscanner%2C%20Installed%0A---%0Aphp53-xhprof%2C%20Installed%0A---%0Aphp54-protobuf%2C%20Installed%0A---%0Aphp55-graphdat%2C%20Install%0A---%0Aphp55-xdebug%2C%20Install%0A---%0Aphp53-http%2C%20Installed</text>
       </controlProperties>
     </control>
-    <control controlID="49" controlTypeID="com.balsamiq.mockups::Arrow" x="1162" y="293" w="84" h="51" measuredW="150" measuredH="100" zOrder="25" locked="false" isInGroup="-1">
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::Arrow" x="1162" y="293" w="84" h="51" measuredW="150" measuredH="100" zOrder="24" locked="false" isInGroup="-1">
       <controlProperties>
         <curvature>0</curvature>
         <direction>bottom</direction>
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="51" controlTypeID="com.balsamiq.mockups::Arrow" x="778" y="546" w="394" h="10" measuredW="150" measuredH="100" zOrder="26" locked="false" isInGroup="-1">
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::Arrow" x="778" y="682" w="394" h="10" measuredW="150" measuredH="100" zOrder="25" locked="false" isInGroup="-1">
       <controlProperties>
         <backgroundAlpha>1</backgroundAlpha>
         <leftArrow>false</leftArrow>
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="52" controlTypeID="com.balsamiq.mockups::Label" x="790" y="523" w="-1" h="-1" measuredW="45" measuredH="21" zOrder="27" locked="false" isInGroup="-1">
+    <control controlID="52" controlTypeID="com.balsamiq.mockups::Label" x="790" y="659" w="-1" h="-1" measuredW="45" measuredH="21" zOrder="26" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Activity</text>
       </controlProperties>
     </control>
-    <control controlID="53" controlTypeID="com.balsamiq.mockups::Arrow" x="777" y="645" w="394" h="10" measuredW="150" measuredH="100" zOrder="28" locked="false" isInGroup="-1">
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Arrow" x="777" y="778" w="394" h="10" measuredW="150" measuredH="100" zOrder="27" locked="false" isInGroup="-1">
       <controlProperties>
         <backgroundAlpha>1</backgroundAlpha>
         <leftArrow>false</leftArrow>
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="54" controlTypeID="com.balsamiq.mockups::DataGrid" x="780" y="421" w="388" h="92" measuredW="221" measuredH="161" zOrder="29" locked="false" isInGroup="-1">
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::DataGrid" x="780" y="422" w="388" h="92" measuredW="217" measuredH="161" zOrder="28" locked="false" isInGroup="-1">
       <controlProperties>
         <borderStyle>none</borderStyle>
         <hasHeader>false</hasHeader>
         <hLines>false</hLines>
         <rowHeight>26</rowHeight>
-        <text>domain1.com%2CPort%2080%2C%20View%0Adomain2.com%2CPort%2080%2C%20View%0Adomain3.com%2CPort%208080%2C%20View%0Adomain4.com%2CPort%2080%2C%20View%0Adomain5.com%2CPort%2080%2C%20View%0Adomain6.com%2CPort%208080%2C%20View</text>
+        <text>domain1.com%2CPort%2080%2C%20Edit%0Adomain2.com%2CPort%2080%2C%20Edit%0Adomain3.com%2CPort%208080%2C%20Edit%0Adomain4.com%2CPort%2080%2C%20Edit%0Adomain5.com%2CPort%2080%2C%20Edit%0Adomain6.com%2CPort%208080%2C%20Edit</text>
         <verticalScrollbar>true</verticalScrollbar>
         <vLines>false</vLines>
       </controlProperties>
     </control>
-    <control controlID="56" controlTypeID="com.balsamiq.mockups::Arrow" x="1453" y="349" w="84" h="51" measuredW="150" measuredH="100" zOrder="30" locked="false" isInGroup="-1">
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::Arrow" x="1453" y="349" w="84" h="51" measuredW="150" measuredH="100" zOrder="29" locked="false" isInGroup="-1">
       <controlProperties>
         <curvature>0</curvature>
         <direction>top</direction>
         <rightArrow>false</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="57" controlTypeID="com.balsamiq.mockups::Label" x="1537" y="409" w="-1" h="-1" measuredW="152" measuredH="21" zOrder="31" locked="false" isInGroup="-1">
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Label" x="1537" y="409" w="-1" h="-1" measuredW="152" measuredH="21" zOrder="30" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Opens%20a%20Terminal%20window</text>
       </controlProperties>
     </control>
-    <control controlID="58" controlTypeID="com.balsamiq.mockups::Button" x="1054" y="391" w="68" h="25" measuredW="68" measuredH="27" zOrder="32" locked="false" isInGroup="-1">
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::Label" x="1134" y="392" w="-1" h="-1" measuredW="31" measuredH="21" zOrder="31" locked="false" isInGroup="-1">
       <controlProperties>
-        <size>10</size>
-        <state>up</state>
-        <text>httpd.conf</text>
+        <text>Add...</text>
       </controlProperties>
     </control>
-    <control controlID="59" controlTypeID="com.balsamiq.mockups::Button" x="978" y="390" w="70" h="25" measuredW="70" measuredH="27" zOrder="33" locked="false" isInGroup="-1">
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::Label" x="1132" y="659" w="-1" h="-1" measuredW="33" measuredH="21" zOrder="32" locked="false" isInGroup="-1">
       <controlProperties>
-        <size>10</size>
-        <text>/etc/hosts</text>
+        <text>Clear</text>
       </controlProperties>
     </control>
-    <control controlID="60" controlTypeID="com.balsamiq.mockups::RoundButton" x="1149" y="527" w="15" h="15" measuredW="32" measuredH="32" zOrder="35" locked="false" isInGroup="-1">
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::Arrow" x="644" y="381" w="117" h="19" measuredW="150" measuredH="100" zOrder="33" locked="false" isInGroup="-1">
       <controlProperties>
-        <text/>
+        <curvature>0</curvature>
+        <direction>top</direction>
+        <leftArrow>false</leftArrow>
+        <rightArrow>true</rightArrow>
       </controlProperties>
     </control>
-    <control controlID="61" controlTypeID="com.balsamiq.mockups::RoundButton" x="1148" y="395" w="15" h="15" measuredW="32" measuredH="32" zOrder="36" locked="false" isInGroup="-1">
+    <control controlID="66" controlTypeID="com.balsamiq.mockups::TitleWindow" x="374" y="297" w="262" h="362" measuredW="450" measuredH="400" zOrder="34" locked="false" isInGroup="-1">
       <controlProperties>
-        <text/>
+        <bottomheight>0</bottomheight>
+        <close>true</close>
+        <dragger>false</dragger>
+        <minimize>false</minimize>
+        <text>Add%20a%20new%20VirtualHost</text>
       </controlProperties>
     </control>
-    <control controlID="62" controlTypeID="com.balsamiq.mockups::RoundButton" x="1148" y="293" w="15" h="15" measuredW="32" measuredH="32" zOrder="37" locked="false" isInGroup="-1">
+    <control controlID="67" controlTypeID="com.balsamiq.mockups::TextInput" x="387" y="351" w="238" h="-1" measuredW="79" measuredH="26" zOrder="35" locked="false" isInGroup="-1"/>
+    <control controlID="68" controlTypeID="com.balsamiq.mockups::Label" x="387" y="327" w="-1" h="-1" measuredW="77" measuredH="21" zOrder="36" locked="false" isInGroup="-1">
       <controlProperties>
-        <text/>
+        <text>Server%20name</text>
+      </controlProperties>
+    </control>
+    <control controlID="69" controlTypeID="com.balsamiq.mockups::TextInput" x="387" y="411" w="238" h="-1" measuredW="21" measuredH="27" zOrder="37" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*</text>
+      </controlProperties>
+    </control>
+    <control controlID="70" controlTypeID="com.balsamiq.mockups::Label" x="387" y="387" w="-1" h="-1" measuredW="65" measuredH="21" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>IP%20address</text>
+      </controlProperties>
+    </control>
+    <control controlID="71" controlTypeID="com.balsamiq.mockups::TextInput" x="387" y="472" w="238" h="-1" measuredW="30" measuredH="27" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>80</text>
+      </controlProperties>
+    </control>
+    <control controlID="72" controlTypeID="com.balsamiq.mockups::Label" x="387" y="448" w="-1" h="-1" measuredW="73" measuredH="21" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Port%20number</text>
+      </controlProperties>
+    </control>
+    <control controlID="74" controlTypeID="com.balsamiq.mockups::Label" x="387" y="511" w="-1" h="-1" measuredW="87" measuredH="21" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Server%20aliases</text>
+      </controlProperties>
+    </control>
+    <control controlID="75" controlTypeID="com.balsamiq.mockups::TextArea" x="387" y="536" w="238" h="69" measuredW="200" measuredH="140" zOrder="42" locked="false" isInGroup="-1"/>
+    <control controlID="76" controlTypeID="com.balsamiq.mockups::Button" x="387" y="620" w="-1" h="-1" measuredW="45" measuredH="27" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add</text>
+      </controlProperties>
+    </control>
+    <control controlID="77" controlTypeID="com.balsamiq.mockups::CheckBox" x="477" y="622" w="-1" h="-1" measuredW="148" measuredH="22" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Add%20entry%20in%20hosts%20file</text>
+      </controlProperties>
+    </control>
+    <control controlID="82" controlTypeID="com.balsamiq.mockups::VerticalScrollBar" x="1150" y="558" w="-1" h="89" measuredW="16" measuredH="100" zOrder="45" locked="false" isInGroup="-1"/>
+    <control controlID="83" controlTypeID="com.balsamiq.mockups::Arrow" x="777" y="548" w="394" h="10" measuredW="150" measuredH="100" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>1</backgroundAlpha>
+        <leftArrow>false</leftArrow>
+        <rightArrow>false</rightArrow>
+      </controlProperties>
+    </control>
+    <control controlID="84" controlTypeID="com.balsamiq.mockups::Label" x="789" y="525" w="-1" h="-1" measuredW="49" measuredH="21" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Modules</text>
+      </controlProperties>
+    </control>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::Arrow" x="777" y="647" w="394" h="10" measuredW="150" measuredH="100" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <backgroundAlpha>1</backgroundAlpha>
+        <leftArrow>false</leftArrow>
+        <rightArrow>false</rightArrow>
+      </controlProperties>
+    </control>
+    <control controlID="87" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="784" y="559" w="164" h="90" measuredW="164" measuredH="193" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%5B%20%5D%20libphp5.so%0A%5Bx%5D%20mod_access_compat.so%0A%5Bx%5D%20mod_actions.so%0A%5B%20%5D%20mod_alias.so%0A%5Bx%5D%20mod_allowmethods.so%0A%5B%20%5D%20mod_asis.so%0A%5B%20%5D%20mod_auth_basic.so%0A%5B%20%5D%20mod_auth_digest.so%0A%5B%20%5D%20mod_auth_form.so</text>
       </controlProperties>
     </control>
   </controls>
