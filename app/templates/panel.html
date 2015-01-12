@@ -5,11 +5,10 @@
         <link rel="stylesheet" href="../assets/css/panel.css" type="text/css">
     </head>
     <body>
-
-        <div class="panel">
+        <div class="js-panel panel">
             <div class="top">
                 <div class="js-status status">
-                    Running on port 80
+                    Running on port 80 @todo
                 </div>
                 <div class="js-switcher switcher">
                     <div class="js-switch switch"></div>
@@ -17,32 +16,46 @@
                     <div class="text">O</div>
                 </div>
             </div>
-            <div class="section">
-                <div class="heading">
+            <div class="js-section section">
+                <div class="js-heading heading">
+                    <a class="js-toggle toggle" href="#"><i></i></a>
                     PHP
                 </div>
-                <div class="content">
+                <div class="js-content content">
                     <select>
-                        <option>5.4.35</option>
+                        <option>5.4.35 @todo</option>
                     </select>
                     <select class="right">
-                        <option>Available packages...</option>
+                        <option>Available packages... @todo</option>
                     </select>
                 </div>
             </div>
-            <div class="section">
-                <div class="heading">
-                    Test heading
+            <div class="js-section section">
+                <div class="js-heading heading">
+                    <a class="js-toggle toggle" href="#"><i></i></a>
+                    Virtual hosts
+                    <a class="action" href="#">Add</a>
                 </div>
-                <div class="content">
-                    test1
+                <div class="js-content content">
+                    @todo
                 </div>
             </div>
-            <div class="section">
-                <div class="heading">
-                    Activity
+            <div class="js-section section">
+                <div class="js-heading heading">
+                    <a class="js-toggle toggle" href="#"><i></i></a>
+                    Modules
                 </div>
-                <textarea class="activity">(13)Permission denied: AH00072: make_sock: could not bind to address [::]:80
+                <div class="js-content content">
+                    @todo
+                </div>
+            </div>
+            <div class="js-section section">
+                <div class="js-heading heading">
+                    <a class="js-toggle toggle" href="#"><i></i></a>
+                    Activity
+                    <a class="action" href="#">Clear</a>
+                </div>
+                <textarea class="js-content activity">@todo (13)Permission denied: AH00072: make_sock: could not bind to address [::]:80
 (13)Permission denied: AH00072: make_sock: could not bind to address 0.0.0.0:80
 no listening sockets available, shutting down
 AH00015: Unable to open logs</textarea>

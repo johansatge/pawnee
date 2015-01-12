@@ -10,7 +10,7 @@
     {
 
         var window = null;
-        var $body = null;
+        var $panel = null;
         var events = new app.node.events.EventEmitter();
         var isVisible = false;
         var $ui = {};
@@ -27,18 +27,13 @@
 
         /**
          * Show main window & inits events
-         * @todo make window size dynamic
          */
         this.init = function()
         {
-            var width = 500;
-            var height = 450;
             var window_params =
             {
                 toolbar: app.devMode,
                 frame: false,
-                width: width,
-                height: height,
                 transparent: true,
                 position: 'mouse',
                 resizable: false,
@@ -55,7 +50,6 @@
         /**
          * Toggles the view
          * @todo check screen bounds
-         * @todo calculate position depending on dynamic window dimensions
          * @todo hide on blur
          * @param x
          * @param y
@@ -65,6 +59,7 @@
             if (!isVisible)
             {
                 window.moveTo(x - 250 + 15, y);
+                _setWindowSize.apply(this);
                 window.show();
                 window.focus();
                 if (app.devMode)
@@ -84,12 +79,15 @@
          */
         var _onWindowLoaded = function()
         {
-            $body = $(window.window.document.body);
-            $ui.switcher = $body.find('.js-switcher');
-            $ui.switch = $body.find('.js-switch');
-            app.disableDragDrop($body);
+            $panel = $(window.window.document.body).find('.js-panel');
+            $ui.switcher = $panel.find('.js-switcher');
+            $ui.switch = $panel.find('.js-switch');
+            $ui.heading = $panel.find('.js-heading');
+            app.disableDragDrop($panel);
             $ui.switcher.on('click', $.proxy(_onToggleSwitcher, this));
+            $ui.heading.on('click', $.proxy(_onToggleSection, this));
             events.emit('loaded');
+            _setWindowSize.apply(this);
         };
 
         /**
@@ -100,7 +98,28 @@
         {
             evt.preventDefault();
             $ui.switch.toggleClass('js-off');
-        }
+        };
+
+        /**
+         * Toggles a section
+         * @param evt
+         */
+        var _onToggleSection = function(evt)
+        {
+            evt.preventDefault();
+            var $heading = $(evt.currentTarget);
+            $heading.closest('.js-section').toggleClass('js-closed');
+            _setWindowSize.apply(this);
+        };
+
+        /**
+         * Updates the size of the window depending on its content
+         * @private
+         */
+        var _setWindowSize = function()
+        {
+            window.resizeTo($panel.width() + 40, $panel.height() + 40);
+        };
 
     };
 

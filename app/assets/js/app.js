@@ -58,6 +58,12 @@
             alticon: 'assets/css/images/menu_alticon.png'
         });
         tray.on('click', $.proxy(_onTrayClick, this));
+
+        // @todo remove
+        var mb = new app.node.gui.Menu({type:"menubar"});
+        mb.createMacBuiltin("your-app-name");
+        app.node.gui.Window.get().menu = mb;
+
     };
 
     /**

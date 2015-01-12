@@ -131,20 +131,86 @@ body
     margin      : 0 15px 0 0;
 }
 
+.panel .section
+{
+    padding    : 0 0 1px 0;
+    background : #ffffff;
+}
+
 .panel .section .heading
 {
-    padding     : 6px 0 8px 0;
-    text-indent : 8px;
+    position    : relative;
+    height      : 27px;
+    line-height : 26px;
+    padding     : 0 8px 0 24px;
     color       : #757678;
     font-size   : 11px;
     font-weight : bold;
     background  : #f2f3f6;
 }
 
+.panel .section .heading .action
+{
+    display         : block;
+    height          : 27px;
+    line-height     : 26px;
+    float           : right;
+    color           : #757678;
+    text-decoration : none;
+    opacity         : 0.4;
+    transition      : opacity 150ms;
+}
+
+.panel .section .heading .action:hover
+{
+    opacity : 1;
+}
+
+.panel .section.js-closed .heading .action
+{
+    display : none;
+}
+
+.panel .section .heading .toggle
+{
+    top        : 0;
+    left       : 0;
+    position   : absolute;
+    width      : 27px;
+    height     : 27px;
+    opacity    : 0.4;
+    transition : opacity 150ms;
+}
+
+.panel .section .heading .toggle:hover
+{
+    opacity : 1;
+}
+
+.panel .section .heading .toggle i
+{
+    position     : absolute;
+    margin       : 9px 0 0 8px;
+    border-style : solid;
+    border-width : 0 5px 8px 5px;
+    border-color : transparent transparent #757678 transparent;
+    transform    : rotate(180deg);
+    transition   : transform 150ms;
+}
+
+.panel .section.js-closed .heading .toggle i
+{
+    transform : rotate(90deg);
+}
+
 .panel .section .content
 {
-    padding    : 15px;
-    background : #ffffff;
+    padding : 15px;
+}
+
+.panel .section.js-closed .content
+{
+    display : none;
 }
 
 .panel .section .content select
@@ -171,6 +237,16 @@ body
     font-family : Courier;
     font-size   : 11px;
     color       : #252525;
+}
+
+.panel .section.js-closed .activity
+{
+    display : none;
+}
+
+.panel .section .list
+{
+
 }
 
 .panel .bottom
