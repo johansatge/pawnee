@@ -206,11 +206,6 @@ body
     padding : 15px;
 }
 
-.panel .section.js-closed .content
-{
-    display : none;
-}
-
 .panel .section .content select
 {
     height     : 26px;
@@ -235,11 +230,6 @@ body
     font-family : Courier;
     font-size   : 11px;
     color       : #252525;
-}
-
-.panel .section.js-closed .activity
-{
-    display : none;
 }
 
 .panel .section .list

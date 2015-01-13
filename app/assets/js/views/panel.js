@@ -14,6 +14,7 @@
         var events = new app.node.events.EventEmitter();
         var isVisible = false;
         var $ui = {};
+        var maxHeight = 0;
 
         /**
          * Attaches an event
@@ -108,17 +109,27 @@
         {
             evt.preventDefault();
             var $heading = $(evt.currentTarget);
-            $heading.closest('.js-section').toggleClass('js-closed');
-            _setWindowSize.apply(this);
+            _setWindowSize.apply(this, [maxHeight]);
+            $heading.closest('.js-section').toggleClass('js-closed').find('.js-content').slideToggle({
+                duration: 200,
+                easing: 'linear',
+                complete: $.proxy(_setWindowSize, this)
+            });
         };
 
         /**
          * Updates the size of the window depending on its content
+         * @param height
          * @private
          */
-        var _setWindowSize = function()
+        var _setWindowSize = function(height)
         {
-            window.resizeTo($panel.width() + 40, $panel.height() + 40);
+            height = height || $panel.height() + 40;
+            window.resizeTo($panel.width() + 40, height);
+            if (height > maxHeight)
+            {
+                maxHeight = height;
+            }
         };
 
     };
