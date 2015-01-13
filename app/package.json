@@ -3,9 +3,8 @@
     "version": "0.1-beta",
     "main": "app.html",
     "window": {
-        "width": 50,
-        "height": 50,
-        "show": false
+        "show": false,
+        "show_in_taskbar": false
     },
     "webkit": {
         "plugin": true,
