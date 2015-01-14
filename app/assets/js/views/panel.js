@@ -83,10 +83,12 @@
             $panel = $(window.window.document.body).find('.js-panel');
             $ui.switcher = $panel.find('.js-switcher');
             $ui.switch = $panel.find('.js-switch');
+            $ui.restart = $panel.find('.js-restart');
             $ui.heading = $panel.find('.js-heading');
             $ui.search = $panel.find('.js-search');
             app.disableDragDrop($panel);
             $ui.switcher.on('click', $.proxy(_onToggleSwitcher, this));
+            $ui.restart.on('click', $.proxy(_onRestart, this));
             $ui.heading.on('click', $.proxy(_onToggleSection, this));
             $ui.search.on('keyup', $.proxy(_onSearchList, this));
             events.emit('loaded');
@@ -101,6 +103,7 @@
         {
             evt.preventDefault();
             $ui.switch.toggleClass('js-off');
+            events.emit('action', 'toggle_server');
         };
 
         /**
@@ -117,6 +120,16 @@
                 easing: 'linear',
                 complete: $.proxy(_setWindowSize, this)
             });
+        };
+
+        /**
+         * Restarts the server
+         * @param evt
+         */
+        var _onRestart = function(evt)
+        {
+            evt.preventDefault();
+            events.emit('action', 'restart_server');
         };
 
         /**

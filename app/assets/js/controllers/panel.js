@@ -10,6 +10,7 @@
     {
 
         var view = new app.views.panel();
+        var model = new app.models.panel();
         var events = new app.node.events.EventEmitter();
 
         /**
@@ -29,6 +30,7 @@
         {
             view.init();
             view.on('loaded', $.proxy(_onViewLoaded, this));
+            view.on('action', $.proxy(_onViewAction, this));
         };
 
         /**
@@ -37,6 +39,15 @@
         var _onViewLoaded = function()
         {
             events.emit('loaded');
+        };
+
+        /**
+         * Fired when an action is called from the view
+         * @param action
+         */
+        var _onViewAction = function(action)
+        {
+            console.log(action);
         };
 
         /**
