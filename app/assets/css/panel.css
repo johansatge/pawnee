@@ -147,7 +147,7 @@ body
     font-size: 11px;
     font-weight: bold;
     background: #f2f3f6;
-    border-top: 1px solid rgba(163, 163, 163, 0.5);
+    border-top: 1px solid rgba(163, 163, 163, 1);
     border-bottom: 1px solid rgba(163, 163, 163, 0.5);
 }
 
@@ -259,7 +259,7 @@ body
 .panel .section .list
 {
     list-style-type : none;
-    max-height      : 125px;
+    height      : 125px;
     overflow-y      : auto;
 }
 
@@ -282,11 +282,12 @@ body
     position: relative;
     display: block;
     float: left;
-    padding: 5px 0 5px 0;
+    padding: 6px 0 5px 0;
     margin: 0 5px 0 0;
     width: 70%;
     white-space: nowrap;
     overflow: hidden;
+    color: #4a4a4a;
 }
 
 .panel .section .list .entry span:after
@@ -320,6 +321,12 @@ body
 .panel .section .list .entry a:hover
 {
     opacity: 1;
+}
+
+.panel .section .list .entry input
+{
+    float: right;
+    margin: 6px 8px 0 0;
 }
 
 .panel .section .activity

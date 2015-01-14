@@ -84,9 +84,11 @@
             $ui.switcher = $panel.find('.js-switcher');
             $ui.switch = $panel.find('.js-switch');
             $ui.heading = $panel.find('.js-heading');
+            $ui.search = $panel.find('.js-search');
             app.disableDragDrop($panel);
             $ui.switcher.on('click', $.proxy(_onToggleSwitcher, this));
             $ui.heading.on('click', $.proxy(_onToggleSection, this));
+            $ui.search.on('keyup', $.proxy(_onSearchList, this));
             events.emit('loaded');
             _setWindowSize.apply(this);
         };
@@ -115,6 +117,22 @@
                 easing: 'linear',
                 complete: $.proxy(_setWindowSize, this)
             });
+        };
+
+        /**
+         * Search in a list
+         * @param evt
+         */
+        var _onSearchList = function(evt)
+        {
+            var $field = $(evt.currentTarget);
+            var items = $field.closest('.js-content').find('.js-search-item').get();
+            var search_term = $field.val();
+            for(var index = 0; index < items.length; index += 1)
+            {
+                var $item = $(items[index]);
+                $item.toggle($item.find('.js-search-value').text().search(search_term) !== -1);
+            }
         };
 
         /**
