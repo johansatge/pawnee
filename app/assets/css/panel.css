@@ -110,44 +110,45 @@ body
 
 .panel .top .switcher .text
 {
-    z-index: 5;
-    position: relative;
-    width: 40px;
-    float: left;
-    text-align: center;
-    font-size: 15px;
-    padding: 6px 0 0 0;
-    font-weight: bold;
-    color: #747474;
+    z-index     : 5;
+    position    : relative;
+    width       : 40px;
+    float       : left;
+    text-align  : center;
+    font-size   : 15px;
+    line-height : 15px;
+    padding     : 6px 0 0 0;
+    font-weight : bold;
+    color       : #747474;
 }
 
 .panel .top .restart
 {
-    display: block;
-    position: absolute;
-    top: 15px;
-    left: 105px;
-    background: linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%);
-    width: 26px;
-    height: 26px;
-    border: 1px solid #6b6b6b;
-    border-radius: 50%;
-    box-shadow: 0 1px 0 rgba(256, 256, 256, 0.7);
+    display       : block;
+    position      : absolute;
+    top           : 15px;
+    left          : 105px;
+    background    : linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%);
+    width         : 26px;
+    height        : 26px;
+    border        : 1px solid #6b6b6b;
+    border-radius : 50%;
+    box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7);
 }
 
 .panel .top .restart:active
 {
-    background: linear-gradient(to top, #fdfdfd 0%, #e8e8e8 100%);
-    box-shadow: 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2)
+    background : linear-gradient(to top, #fdfdfd 0%, #e8e8e8 100%);
+    box-shadow : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2)
 }
 
 .panel .top .restart i
 {
-    position: absolute;
-    font-size: 14px;
-    top: 6px;
-    left: 6px;
-    color: #747474;
+    position  : absolute;
+    font-size : 14px;
+    top       : 6px;
+    left      : 6px;
+    color     : #747474;
 }
 
 .panel .top .status
@@ -170,14 +171,15 @@ body
 
 .panel .section .heading
 {
-    position: relative;
-    padding: 8px 8px 6px 24px;
-    color: #757678;
-    font-size: 11px;
-    font-weight: bold;
-    background: #f2f3f6;
-    border-top: 1px solid rgba(163, 163, 163, 1);
-    border-bottom: 1px solid rgba(163, 163, 163, 0.5);
+    position      : relative;
+    padding       : 8px 8px 9px 24px;
+    color         : #757678;
+    font-size     : 11px;
+    line-height   : 11px;
+    font-weight   : bold;
+    background    : #f2f3f6;
+    border-top    : 1px solid rgba(163, 163, 163, 1);
+    border-bottom : 1px solid rgba(163, 163, 163, 0.5);
 }
 
 .panel .section.js-closed .heading
@@ -187,12 +189,12 @@ body
 
 .panel .section .heading .action
 {
-    display: block;
-    float: right;
-    color: #757678;
-    text-decoration: none;
-    opacity: 0.4;
-    transition: opacity 150ms;
+    display         : block;
+    float           : right;
+    color           : #757678;
+    text-decoration : none;
+    opacity         : 0.4;
+    transition      : opacity 150ms;
 }
 
 .panel .section .heading .action:hover
@@ -224,7 +226,7 @@ body
 .panel .section .heading .toggle i
 {
     position     : absolute;
-    margin       : 9px 0 0 8px;
+    margin       : 10px 0 0 8px;
     border-style : solid;
     border-width : 0 5px 8px 5px;
     border-color : transparent transparent #757678 transparent;
@@ -259,46 +261,46 @@ body
 
 .panel .section .search
 {
-    position: relative;
-    padding : 5px;
+    position : relative;
+    padding  : 5px;
 }
 
 .panel .section .search i
 {
-    position: absolute;
-    font-size: 12px;
-    top: 11px;
-    left: 12px;
-    color: #aeaeae;
+    position  : absolute;
+    font-size : 12px;
+    top       : 11px;
+    left      : 12px;
+    color     : #aeaeae;
 }
 
 .panel .section .search input
 {
-    cursor: text;
-    width: 100%;
-    border: 2px solid rgba(117, 118, 120, 0.2);
-    height: 25px;
-    box-sizing: border-box;
-    border-radius: 15px;
-    padding: 0 8px 0 20px;
-    font-size   : 11px;
-    font-family : 'Helvetica Neue';
+    cursor        : text;
+    width         : 100%;
+    border        : 2px solid rgba(117, 118, 120, 0.2);
+    height        : 25px;
+    box-sizing    : border-box;
+    border-radius : 15px;
+    padding       : 0 8px 0 20px;
+    font-size     : 11px;
+    font-family   : 'Helvetica Neue';
 }
 
 .panel .section .list
 {
     list-style-type : none;
-    height      : 125px;
+    height          : 125px;
     overflow-y      : auto;
 }
 
 .panel .section .list .entry
 {
-    font-size: 12px;
-    float: left;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 0 0 8px;
+    font-size  : 12px;
+    float      : left;
+    width      : 100%;
+    box-sizing : border-box;
+    padding    : 0 0 0 8px;
 }
 
 .panel .section .list .entry:nth-child(odd)
@@ -308,54 +310,54 @@ body
 
 .panel .section .list .entry span
 {
-    position: relative;
-    display: block;
-    float: left;
-    padding: 6px 0 5px 0;
-    margin: 0 5px 0 0;
-    width: 70%;
-    white-space: nowrap;
-    overflow: hidden;
-    color: #4a4a4a;
+    position    : relative;
+    display     : block;
+    float       : left;
+    padding     : 6px 0 5px 0;
+    margin      : 0 5px 0 0;
+    width       : 70%;
+    white-space : nowrap;
+    overflow    : hidden;
+    color       : #4a4a4a;
 }
 
 .panel .section .list .entry span:after
 {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    content: '';
-    width: 30px;
-    height: 25px;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 80%);
+    display    : block;
+    position   : absolute;
+    top        : 0;
+    right      : 0;
+    content    : '';
+    width      : 30px;
+    height     : 25px;
+    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 80%);
 }
 
 .panel .section .list .entry:nth-child(odd) span:after
 {
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(243,246,251,1) 80%);
+    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(243, 246, 251, 1) 80%);
 }
 
 .panel .section .list .entry a
 {
-    cursor: default;
-    color: #757678;
-    float: right;
-    opacity: 0.5;
-    text-decoration: none;
-    transition: opacity 150ms;
-    padding: 5px 8px 6px 5px;
+    cursor          : default;
+    color           : #757678;
+    float           : right;
+    opacity         : 0.5;
+    text-decoration : none;
+    transition      : opacity 150ms;
+    padding         : 5px 8px 6px 5px;
 }
 
 .panel .section .list .entry a:hover
 {
-    opacity: 1;
+    opacity : 1;
 }
 
 .panel .section .list .entry input
 {
-    float: right;
-    margin: 6px 8px 0 0;
+    float  : right;
+    margin : 6px 8px 0 0;
 }
 
 .panel .section .activity
