@@ -87,35 +87,13 @@
                         <i class="fa fa-search"></i>
                         <input type="text" class="js-search" placeholder="Search...">
                     </div>
-                    <ul class="list">
-                        <li class="entry js-search-item">
-                            <span class="js-search-value">mod_access_compat</span>
-                            <input type="checkbox">
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="js-search-value">mod_actions</span>
-                            <input type="checkbox" checked="checked">
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="js-search-value">mod_alias</span>
-                            <input type="checkbox">
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="js-search-value">mod_allowmethods</span>
-                            <input type="checkbox" checked="checked">
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="js-search-value">mod_asis</span>
-                            <input type="checkbox" checked="checked">
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="js-search-value">mod_auth_basic</span>
-                            <input type="checkbox">
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="js-search-value">mod_auth_digest</span>
-                            <input type="checkbox">
-                        </li>
+                    <ul class="list js-modules-list">
+                        <script type="text/template" class="js-module-template">
+                            <li class="entry js-search-item">
+                                <span class="js-search-value">{{name}}</span>
+                                <input type="checkbox">
+                            </li>
+                        </script>
                     </ul>
                 </div>
             </div>

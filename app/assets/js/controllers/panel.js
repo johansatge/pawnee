@@ -10,7 +10,6 @@
     {
 
         var view = new app.views.panel();
-        var model = new app.models.panel();
         var events = new app.node.events.EventEmitter();
 
         /**
@@ -40,7 +39,7 @@
         {
             // @todo update modules and vhosts lists
             var modules = app.utils.apache.getAvailableModules();
-            app.log(modules);
+            view.setModules(modules);
         };
 
         /**

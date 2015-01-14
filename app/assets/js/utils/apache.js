@@ -25,7 +25,7 @@
             var match = new RegExp(/^mod_([^.]*)\.so$/).exec(filename);
             if (match !== null && typeof match[1] !== 'undefined')
             {
-                modules.push('module_' + match[1]);
+                modules.push({name: 'module_' + match[1]});
             }
         }
         return modules;

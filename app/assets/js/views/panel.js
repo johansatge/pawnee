@@ -14,6 +14,7 @@
         var events = new app.node.events.EventEmitter();
         var isVisible = false;
         var $ui = {};
+        var templates = {};
         var maxHeight = 0;
 
         /**
@@ -76,6 +77,20 @@
         };
 
         /**
+         * Populates the list of modules
+         * @param modules
+         */
+        this.setModules = function(modules)
+        {
+            $ui.modulesList.children().remove();
+            for (var index = 0; index < modules.length; index += 1)
+            {
+                var html = app.utils.template.render(templates.module, modules[index]);
+                $ui.modulesList.append(html);
+            }
+        };
+
+        /**
          * Loads the template when the view is ready and tells the controller
          */
         var _onWindowLoaded = function()
@@ -86,6 +101,8 @@
             $ui.restart = $panel.find('.js-restart');
             $ui.heading = $panel.find('.js-heading');
             $ui.search = $panel.find('.js-search');
+            $ui.modulesList = $panel.find('.js-modules-list');
+            templates.module = $panel.find('.js-module-template').html();
             app.disableDragDrop($panel);
             $ui.switcher.on('click', $.proxy(_onToggleSwitcher, this));
             $ui.restart.on('click', $.proxy(_onRestart, this));
@@ -141,7 +158,7 @@
             var $field = $(evt.currentTarget);
             var items = $field.closest('.js-content').find('.js-search-item').get();
             var search_term = $field.val();
-            for(var index = 0; index < items.length; index += 1)
+            for (var index = 0; index < items.length; index += 1)
             {
                 var $item = $(items[index]);
                 $item.toggle($item.find('.js-search-value').text().search(search_term) !== -1);
