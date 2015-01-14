@@ -161,6 +161,7 @@
 
         /**
          * Search in a list
+         * @todo move in a separate view
          * @param evt
          */
         var _onSearchList = function(evt)

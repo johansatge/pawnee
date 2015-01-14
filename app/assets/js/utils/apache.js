@@ -13,6 +13,7 @@
 
     /**
      * Returns the list of available modules
+     * @todo check which modules are enabled by parsing the httpd.conf file
      * @return object
      */
     module.getAvailableModules = function()
