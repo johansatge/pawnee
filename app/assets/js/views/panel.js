@@ -85,9 +85,19 @@
             $ui.modulesList.children().remove();
             for (var index = 0; index < modules.length; index += 1)
             {
-                var html = app.utils.template.render(templates.module, modules[index]);
-                $ui.modulesList.append(html);
+                var $html = $(app.utils.template.render(templates.module, modules[index]));
+                $html.appendTo($ui.modulesList);
+                $html.find('.js-checkbox').on('change', $.proxy(_onToggleModule, this));
             }
+        };
+
+        /**
+         * Toggles a module
+         */
+        var _onToggleModule = function(evt)
+        {
+            var $checkbox = $(evt.currentTarget);
+            events.emit('action', 'toggle_module', {module: $checkbox.val(), enable: $checkbox.is(':checked')});
         };
 
         /**

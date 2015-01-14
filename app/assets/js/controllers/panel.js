@@ -63,10 +63,25 @@
         /**
          * Fired when an action is called from the view
          * @param action
+         * @param value
          */
-        var _onViewAction = function(action)
+        var _onViewAction = function(action, data)
         {
             console.log(action);
+            if (action === 'toggle_server')
+            {
+                // @todo
+            }
+            if (action === 'restart_server')
+            {
+                // @todo
+            }
+            if (action === 'toggle_module')
+            {
+                // @todo
+                app.log(data.module);
+                app.log(data.enable);
+            }
         };
 
     };
