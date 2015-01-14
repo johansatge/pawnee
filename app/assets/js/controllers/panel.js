@@ -34,12 +34,13 @@
         };
 
         /**
-         * Updates the configuration
-         * Triggered when the Apache configuration has been updated
+         * Updates the configuration of the panel
          */
         this.updateConfiguration = function()
         {
-            console.log('@todo parse httpd.conf and update view');
+            // @todo update modules and vhosts lists
+            var modules = app.utils.apache.getAvailableModules();
+            app.log(modules);
         };
 
         /**

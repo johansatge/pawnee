@@ -1,7 +1,7 @@
 /**
  * App bootstrap
  */
-(function(window, $, require)
+(function(window, $, require, process)
 {
 
     'use strict';
@@ -12,6 +12,7 @@
     app.node.fs = require('fs');
     app.node.events = require('events');
     app.node.watcher = require('chokidar');
+    app.node.util = require('util');
     app.models = {};
     app.views = {};
     app.controllers = {};
@@ -46,6 +47,15 @@
             evt.preventDefault();
             evt.stopPropagation();
         });
+    };
+
+    /**
+     * Readable console.log
+     * @param thing
+     */
+    app.log = function(thing)
+    {
+        process.stdout.write(app.node.util.inspect(thing));
     };
 
     /**
@@ -106,4 +116,4 @@
 
     window.App = app;
 
-})(window, jQuery, require);
+})(window, jQuery, require, process);
