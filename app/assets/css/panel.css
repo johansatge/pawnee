@@ -110,16 +110,15 @@ body
 
 .panel .top .switcher .text
 {
-    z-index     : 5;
-    position    : relative;
-    width       : 40px;
-    height      : 26px;
-    float       : left;
-    text-align  : center;
-    line-height : 26px;
-    font-size   : 15px;
-    font-weight : bold;
-    color       : #747474;
+    z-index: 5;
+    position: relative;
+    width: 40px;
+    float: left;
+    text-align: center;
+    font-size: 15px;
+    padding: 6px 0 0 0;
+    font-weight: bold;
+    color: #747474;
 }
 
 .panel .top .status
@@ -142,16 +141,14 @@ body
 
 .panel .section .heading
 {
-    position      : relative;
-    height        : 27px;
-    line-height   : 26px;
-    padding       : 0 8px 0 24px;
-    color         : #757678;
-    font-size     : 11px;
-    font-weight   : bold;
-    background    : #f2f3f6;
-    border-top    : 1px solid rgba(163, 163, 163, 0.5);
-    border-bottom : 1px solid rgba(163, 163, 163, 0.5);
+    position: relative;
+    padding: 8px 8px 6px 24px;
+    color: #757678;
+    font-size: 11px;
+    font-weight: bold;
+    background: #f2f3f6;
+    border-top: 1px solid rgba(163, 163, 163, 0.5);
+    border-bottom: 1px solid rgba(163, 163, 163, 0.5);
 }
 
 .panel .section.js-closed .heading
@@ -161,14 +158,12 @@ body
 
 .panel .section .heading .action
 {
-    display         : block;
-    height          : 27px;
-    line-height     : 26px;
-    float           : right;
-    color           : #757678;
-    text-decoration : none;
-    opacity         : 0.4;
-    transition      : opacity 150ms;
+    display: block;
+    float: right;
+    color: #757678;
+    text-decoration: none;
+    opacity: 0.4;
+    transition: opacity 150ms;
 }
 
 .panel .section .heading .action:hover
@@ -235,35 +230,96 @@ body
 
 .panel .section .search
 {
+    position: relative;
     padding : 5px;
+}
+
+.panel .section .search i
+{
+    position: absolute;
+    font-size: 12px;
+    top: 11px;
+    left: 12px;
+    color: #aeaeae;
 }
 
 .panel .section .search input
 {
-    cursor        : text;
-    width         : 100%;
-    border        : 2px solid #f2f3f6;
-    height        : 25px;
-    border-radius : 15px;
-    padding       : 0 4px 0 4px;
+    cursor: text;
+    width: 100%;
+    border: 2px solid rgba(117, 118, 120, 0.2);
+    height: 25px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 0 8px 0 20px;
+    font-size   : 11px;
+    font-family : 'Helvetica Neue';
 }
 
 .panel .section .list
 {
     list-style-type : none;
-    max-height      : 120px;
+    max-height      : 125px;
     overflow-y      : auto;
 }
 
 .panel .section .list .entry
 {
-    font-size : 12px;
-    padding   : 5px 5px 5px 5px;
+    font-size: 12px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 0 0 8px;
 }
 
 .panel .section .list .entry:nth-child(odd)
 {
     background : #f3f6fb;
+}
+
+.panel .section .list .entry span
+{
+    position: relative;
+    display: block;
+    float: left;
+    padding: 5px 0 5px 0;
+    margin: 0 5px 0 0;
+    width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.panel .section .list .entry span:after
+{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    content: '';
+    width: 30px;
+    height: 25px;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 80%);
+}
+
+.panel .section .list .entry:nth-child(odd) span:after
+{
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(243,246,251,1) 80%);
+}
+
+.panel .section .list .entry a
+{
+    cursor: default;
+    color: #757678;
+    float: right;
+    opacity: 0.5;
+    text-decoration: none;
+    transition: opacity 150ms;
+    padding: 5px 8px 6px 5px;
+}
+
+.panel .section .list .entry a:hover
+{
+    opacity: 1;
 }
 
 .panel .section .activity
