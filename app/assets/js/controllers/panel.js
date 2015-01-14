@@ -34,6 +34,25 @@
         };
 
         /**
+         * Updates the configuration
+         * Triggered when the Apache configuration has been updated
+         */
+        this.updateConfiguration = function()
+        {
+            console.log('@todo parse httpd.conf and update view');
+        };
+
+        /**
+         * Toggles the view
+         * @param x
+         * @param y
+         */
+        this.toggle = function(x, y)
+        {
+            view.toggle(x, y);
+        };
+
+        /**
          * Fired when the view is loaded
          */
         var _onViewLoaded = function()
@@ -48,16 +67,6 @@
         var _onViewAction = function(action)
         {
             console.log(action);
-        };
-
-        /**
-         * Toggles the view
-         * @param x
-         * @param y
-         */
-        this.toggle = function(x, y)
-        {
-            view.toggle(x, y);
         };
 
     };

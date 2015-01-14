@@ -1,15 +1,16 @@
 {
-    "name": "Pawnee",
-    "version": "0.1-beta",
-    "main": "app.html",
-    "window": {
-        "show": false,
-        "show_in_taskbar": false
-    },
-    "webkit": {
-        "plugin": true,
-        "page-cache": false
-    },
-    "dependencies": {
-    }
+  "name": "Pawnee",
+  "version": "0.1.0-beta",
+  "main": "app.html",
+  "window": {
+    "show": false,
+    "show_in_taskbar": false
+  },
+  "webkit": {
+    "plugin": true,
+    "page-cache": false
+  },
+  "dependencies": {
+    "chokidar": "~0.12.6"
+  }
 }

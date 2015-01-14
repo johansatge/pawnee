@@ -11,6 +11,7 @@
     app.node.gui = require('nw.gui');
     app.node.fs = require('fs');
     app.node.events = require('events');
+    app.node.watcher = require('chokidar');
     app.models = {};
     app.views = {};
     app.controllers = {};
@@ -48,9 +49,23 @@
     };
 
     /**
-     * Creates the tray icon when the panel view is ready
+     * Starts working when the panel is ready
      */
     var _onPanelReady = function()
+    {
+        _initTray();
+        _initWatchers();
+
+        // @todo remove
+        var mb = new app.node.gui.Menu({type: "menubar"});
+        mb.createMacBuiltin("your-app-name");
+        app.node.gui.Window.get().menu = mb;
+    };
+
+    /**
+     * Creates the tray icon
+     */
+    var _initTray = function()
     {
         var tray = new app.node.gui.Tray({
             title: '',
@@ -58,12 +73,27 @@
             alticon: 'assets/css/images/menu_alticon.png'
         });
         tray.on('click', $.proxy(_onTrayClick, this));
+    };
 
-        // @todo remove
-        var mb = new app.node.gui.Menu({type:"menubar"});
-        mb.createMacBuiltin("your-app-name");
-        app.node.gui.Window.get().menu = mb;
+    /**
+     * Starts watching Apache files
+     * @todo do not keep hard-coded paths
+     * @todo close watcher when closing app - watcher.close()
+     */
+    var _initWatchers = function()
+    {
+        var watcher = app.node.watcher.watch('/etc/apache2/httpd.conf', {persistent: true});
+        watcher.add('/usr/libexec/apache2');
+        watcher.on('change', $.proxy(_onApacheWatcherUpdate, this));
+        watcher.on('ready', $.proxy(_onApacheWatcherUpdate, this));
+    };
 
+    /**
+     * Updates UI when an Apache file changes
+     */
+    var _onApacheWatcherUpdate = function()
+    {
+        panel.updateConfiguration();
     };
 
     /**
