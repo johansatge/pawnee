@@ -15,8 +15,8 @@
     app.models = {};
     app.views = {};
     app.controllers = {};
+    app.utils = {};
     app.devMode = app.node.fs.existsSync('.dev') && app.node.fs.readFileSync('.dev', {encoding: 'utf8'}) === '1';
-    app.menubar = false;
 
     var panel;
 
@@ -77,13 +77,12 @@
 
     /**
      * Starts watching Apache files
-     * @todo do not keep hard-coded paths
      * @todo close watcher when closing app - watcher.close()
      */
     var _initWatchers = function()
     {
-        var watcher = app.node.watcher.watch('/etc/apache2/httpd.conf', {persistent: true});
-        watcher.add('/usr/libexec/apache2');
+        var watcher = app.node.watcher.watch(app.utils.apache.confPath, {persistent: true});
+        watcher.add(app.utils.apache.modulesPath);
         watcher.on('change', $.proxy(_onApacheWatcherUpdate, this));
         watcher.on('ready', $.proxy(_onApacheWatcherUpdate, this));
     };
