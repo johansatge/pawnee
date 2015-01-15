@@ -13,40 +13,20 @@
     app.node.events = require('events');
     app.node.watcher = require('chokidar');
     app.node.util = require('util');
+    app.node.exec = require('child_process').exec;
     app.models = {};
     app.views = {};
     app.controllers = {};
     app.utils = {};
     app.devMode = app.node.fs.existsSync('.dev') && app.node.fs.readFileSync('.dev', {encoding: 'utf8'}) === '1';
 
-    var panel;
-
     /**
      * Inits
      */
     app.init = function()
     {
-        panel = new app.controllers.panel();
-        panel.on('loaded', $.proxy(_onPanelReady, this));
-        panel.init();
-    };
-
-    /**
-     * Disables drag&drop
-     * @param $body
-     */
-    app.disableDragDrop = function($body)
-    {
-        $body.on('dragover', function(evt)
-        {
-            evt.preventDefault();
-            evt.stopPropagation();
-        });
-        $body.on('drop', function(evt)
-        {
-            evt.preventDefault();
-            evt.stopPropagation();
-        });
+        app.controllers.panel.on('loaded', $.proxy(_onPanelReady, this));
+        app.controllers.panel.load();
     };
 
     /**
@@ -64,12 +44,7 @@
     var _onPanelReady = function()
     {
         _initTray();
-        _initWatchers();
-
-        // @todo remove
-        var mb = new app.node.gui.Menu({type: "menubar"});
-        mb.createMacBuiltin("your-app-name");
-        app.node.gui.Window.get().menu = mb;
+        _initMenu();
     };
 
     /**
@@ -86,23 +61,14 @@
     };
 
     /**
-     * Starts watching Apache files
-     * @todo close watcher when closing app - watcher.close()
+     * Inits app menu
+     * @todo remove unused items
      */
-    var _initWatchers = function()
+    var _initMenu = function()
     {
-        var watcher = app.node.watcher.watch(app.utils.apache.confPath, {persistent: true});
-        watcher.add(app.utils.apache.modulesPath);
-        watcher.on('change', $.proxy(_onApacheWatcherUpdate, this));
-        watcher.on('ready', $.proxy(_onApacheWatcherUpdate, this));
-    };
-
-    /**
-     * Updates UI when an Apache file changes
-     */
-    var _onApacheWatcherUpdate = function()
-    {
-        panel.updateConfiguration();
+        var menubar = new app.node.gui.Menu({type: 'menubar'});
+        menubar.createMacBuiltin('');
+        app.node.gui.Window.get().menu = menubar;
     };
 
     /**
@@ -111,7 +77,7 @@
      */
     var _onTrayClick = function(evt)
     {
-        panel.toggle(evt.x, evt.y);
+        app.controllers.panel.toggle(evt.x, evt.y);
     };
 
     window.App = app;

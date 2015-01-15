@@ -8,19 +8,42 @@
 
     var module = {};
 
-    module.confPath = '/etc/apache2/httpd.conf';
-    module.modulesPath = '/usr/libexec/apache2/';
+    var events = new app.node.events.EventEmitter();
+    var confPath = '/etc/apache2/httpd.conf';
+    var modulesPath = '/usr/libexec/apache2/';
 
     /**
-     * Returns the list of available modules
-     * @todo check which modules are enabled by parsing the httpd.conf file
-     * @return object
+     * Attaches an event
+     * @param event
+     * @param callback
      */
-    module.getAvailableModules = function()
+    module.on = function(event, callback)
     {
-        var files = app.node.fs.readdirSync(module.modulesPath);
+        events.on(event, callback);
+    };
+
+    /**
+     * Starts watching files
+     * @todo close watcher when closing app - watcher.close()
+     */
+    module.watch = function()
+    {
+        var watcher = app.node.watcher.watch(confPath, {persistent: true});
+        watcher.add(modulesPath);
+        watcher.on('change', $.proxy(_onFileChange, this));
+        watcher.on('ready', $.proxy(_onFileChange, this));
+    };
+
+    /**
+     * Triggered when a config file changes
+     * @todo refactor
+     */
+    var _onFileChange = function()
+    {
+        events.emit('load_config');
+        var files = app.node.fs.readdirSync(modulesPath);
         var modules = [];
-        for(var index = 0; index < files.length; index += 1)
+        for (var index = 0; index < files.length; index += 1)
         {
             var filename = files[index];
             var match = new RegExp(/^mod_([^.]*)\.so$/).exec(filename);
@@ -29,7 +52,16 @@
                 modules.push({name: 'module_' + match[1]});
             }
         }
-        return modules;
+        app.node.exec('apachectl -t -D DUMP_MODULES', function(error, stdout, stderr)
+        {
+            app.log('stdout: ' + stdout);
+            app.log('stderr: ' + stderr);
+            if (error !== null)
+            {
+                app.log('exec error: ' + error);
+            }
+            events.emit('loaded_config', modules);
+        });
     };
 
     app.utils.apache = module;

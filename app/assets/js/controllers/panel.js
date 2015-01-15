@@ -6,84 +6,89 @@
 
     'use strict';
 
-    var module = function()
+    var module = {};
+
+    var events = new app.node.events.EventEmitter();
+
+    /**
+     * Attaches an event
+     * @param event
+     * @param callback
+     */
+    module.on = function(event, callback)
     {
+        events.on(event, callback);
+    };
 
-        var view = new app.views.panel();
-        var events = new app.node.events.EventEmitter();
+    /**
+     * Inits the controller
+     */
+    module.load = function()
+    {
+        app.views.panel.init();
+        app.views.panel.on('loaded', $.proxy(_onViewLoaded, this));
+        app.views.panel.on('action', $.proxy(_onViewAction, this));
+    };
 
-        /**
-         * Attaches an event
-         * @param event
-         * @param callback
-         */
-        this.on = function(event, callback)
+    /**
+     * Toggles the view
+     * @param x
+     * @param y
+     */
+    module.toggle = function(x, y)
+    {
+        app.views.panel.toggle(x, y);
+    };
+
+    /**
+     * Fired when the view is loaded
+     */
+    var _onViewLoaded = function()
+    {
+        app.utils.apache.on('load_config', $.proxy(_onApacheLoadConfiguration, this));
+        app.utils.apache.on('loaded_config', $.proxy(_onApacheLoadedConfiguration, this));
+        app.utils.apache.watch();
+        events.emit('loaded');
+    };
+
+    /**
+     * Starts loading the Apache configuration
+     */
+    var _onApacheLoadConfiguration = function()
+    {
+        // @todo add "pending" state to the view
+    };
+
+    /**
+     * Updates the UI when the Apache configuration has been loaded
+     */
+    var _onApacheLoadedConfiguration = function(modules)
+    {
+        // @todo update modues & vhost list
+        app.views.panel.setModules(modules);
+    };
+
+    /**
+     * Fired when an action is called from the view
+     * @param action
+     * @param value
+     */
+    var _onViewAction = function(action, data)
+    {
+        if (action === 'toggle_server')
         {
-            events.on(event, callback);
-        };
-
-        /**
-         * Inits the controller
-         */
-        this.init = function()
+            // @todo
+        }
+        if (action === 'restart_server')
         {
-            view.init();
-            view.on('loaded', $.proxy(_onViewLoaded, this));
-            view.on('action', $.proxy(_onViewAction, this));
-        };
-
-        /**
-         * Updates the configuration of the panel
-         */
-        this.updateConfiguration = function()
+            // @todo
+        }
+        if (action === 'toggle_module')
         {
-            // @todo update modules and vhosts lists
-            var modules = app.utils.apache.getAvailableModules();
-            view.setModules(modules);
-        };
-
-        /**
-         * Toggles the view
-         * @param x
-         * @param y
-         */
-        this.toggle = function(x, y)
-        {
-            view.toggle(x, y);
-        };
-
-        /**
-         * Fired when the view is loaded
-         */
-        var _onViewLoaded = function()
-        {
-            events.emit('loaded');
-        };
-
-        /**
-         * Fired when an action is called from the view
-         * @param action
-         * @param value
-         */
-        var _onViewAction = function(action, data)
-        {
-            console.log(action);
-            if (action === 'toggle_server')
-            {
-                // @todo
-            }
-            if (action === 'restart_server')
-            {
-                // @todo
-            }
-            if (action === 'toggle_module')
-            {
-                // @todo
-                app.log(data.module);
-                app.log(data.enable);
-            }
-        };
-
+            // @todo
+            app.log(data.module);
+            app.log(data.enable);
+        }
     };
 
     app.controllers.panel = module;
