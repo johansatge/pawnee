@@ -85,7 +85,7 @@
         {
             var $html = $(app.utils.template.render(templates.module, modules[index]));
             $html.appendTo($ui.modulesList);
-            $html.find('.js-checkbox').on('change', $.proxy(_onToggleModule, this));
+            $html.find('.js-checkbox').attr('checked', modules[index].enabled ? 'checked' : false).on('change', $.proxy(_onToggleModule, this));
         }
     };
 

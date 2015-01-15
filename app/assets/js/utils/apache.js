@@ -41,24 +41,24 @@
     var _onFileChange = function()
     {
         events.emit('load_config');
-        var files = app.node.fs.readdirSync(modulesPath);
-        var modules = [];
-        for (var index = 0; index < files.length; index += 1)
-        {
-            var filename = files[index];
-            var match = new RegExp(/^mod_([^.]*)\.so$/).exec(filename);
-            if (match !== null && typeof match[1] !== 'undefined')
-            {
-                modules.push({name: 'module_' + match[1]});
-            }
-        }
         app.node.exec('apachectl -t -D DUMP_MODULES', function(error, stdout, stderr)
         {
-            app.log('stdout: ' + stdout);
-            app.log('stderr: ' + stderr);
-            if (error !== null)
+            var enabled_modules = [];
+            var regexp = /([a-zA-Z0-9_-]+) \([a-z]+\)/gm;
+            while (match = regexp.exec(stdout))
             {
-                app.log('exec error: ' + error);
+                enabled_modules.push(match[1]);
+            }
+            var files = app.node.fs.readdirSync(modulesPath);
+            var modules = [];
+            for (var index = 0; index < files.length; index += 1)
+            {
+                var filename = files[index];
+                var match = new RegExp(/^mod_([^.]*)\.so$/).exec(filename);
+                if (match !== null && typeof match[1] !== 'undefined')
+                {
+                    modules.push({name: match[1] + '_module', enabled: enabled_modules.indexOf(match[1] + '_module') !== -1});
+                }
             }
             events.emit('loaded_config', modules);
         });

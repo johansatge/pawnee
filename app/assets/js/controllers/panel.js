@@ -9,6 +9,7 @@
     var module = {};
 
     var events = new app.node.events.EventEmitter();
+    var view = app.views.panel;
 
     /**
      * Attaches an event
@@ -25,9 +26,9 @@
      */
     module.load = function()
     {
-        app.views.panel.init();
-        app.views.panel.on('loaded', $.proxy(_onViewLoaded, this));
-        app.views.panel.on('action', $.proxy(_onViewAction, this));
+        view.init();
+        view.on('loaded', $.proxy(_onViewLoaded, this));
+        view.on('action', $.proxy(_onViewAction, this));
     };
 
     /**
@@ -37,11 +38,11 @@
      */
     module.toggle = function(x, y)
     {
-        app.views.panel.toggle(x, y);
+        view.toggle(x, y);
     };
 
     /**
-     * Fired when the view is loaded
+     * Starts watching Apache files when the view is ready
      */
     var _onViewLoaded = function()
     {
@@ -64,8 +65,8 @@
      */
     var _onApacheLoadedConfiguration = function(modules)
     {
-        // @todo update modues & vhost list
-        app.views.panel.setModules(modules);
+        // @todo update vhost list
+        view.setModules(modules);
     };
 
     /**

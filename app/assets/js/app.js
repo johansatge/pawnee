@@ -35,7 +35,7 @@
      */
     app.log = function(thing)
     {
-        process.stdout.write(app.node.util.inspect(thing));
+        process.stdout.write(app.node.util.inspect(thing) + "\n");
     };
 
     /**
