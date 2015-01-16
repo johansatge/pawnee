@@ -6,188 +6,158 @@
 
     'use strict';
 
-    var module = {};
-    var window = null;
-    var $panel = null;
-    var events = new app.node.events.EventEmitter();
-    var isVisible = false;
-    var $ui = {};
-    var templates = {};
-    var maxHeight = 0;
-
-    /**
-     * Attaches an event
-     * @param event
-     * @param callback
-     */
-    module.on = function(event, callback)
+    var module = function()
     {
-        events.on(event, callback);
-    };
 
-    /**
-     * Show main window & inits events
-     */
-    module.init = function()
-    {
-        var window_params =
+        var window = null;
+        var $panel = null;
+        var events = new app.node.events.EventEmitter();
+        var isVisible = false;
+        var maxHeight = 0;
+        var modulesView;
+        var switcherView;
+
+        /**
+         * Attaches an event
+         * @param event
+         * @param callback
+         */
+        this.on = function(event, callback)
         {
-            toolbar: app.devMode,
-            frame: false,
-            transparent: true,
-            position: 'mouse',
-            resizable: false,
-            show: false,
-            title: ''
+            events.on(event, callback);
         };
-        window = app.node.gui.Window.open('templates/panel.html', window_params);
-        window.on('document-end', $.proxy(function()
-        {
-            window.window.onload = $.proxy(_onWindowLoaded, this);
-        }, this));
-    };
 
-    /**
-     * Toggles the view
-     * @todo check screen bounds
-     * @todo hide on blur
-     * @param x
-     * @param y
-     */
-    module.toggle = function(x, y)
-    {
-        if (!isVisible)
+        /**
+         * Show main window & inits events
+         */
+        this.init = function()
         {
-            window.moveTo(x - 250 + 15, y);
-            _setWindowSize.apply(this);
-            window.show();
-            window.focus();
-            if (app.devMode)
+            var window_params =
             {
-                window.showDevTools();
+                toolbar: app.devMode,
+                frame: false,
+                transparent: true,
+                position: 'mouse',
+                resizable: false,
+                show: false,
+                title: ''
+            };
+            window = app.node.gui.Window.open('templates/panel.html', window_params);
+            window.on('document-end', $.proxy(function()
+            {
+                window.window.onload = $.proxy(_onWindowLoaded, this);
+            }, this));
+        };
+
+        /**
+         * Toggles the view
+         * @todo check screen bounds & make dimensions dynamic
+         * @todo hide on blur
+         * @param x
+         * @param y
+         */
+        this.toggle = function(x, y)
+        {
+            if (!isVisible)
+            {
+                window.moveTo(x - 250 + 15, y);
+                _setWindowSize.apply(this);
+                window.show();
+                window.focus();
+                if (app.devMode)
+                {
+                    window.showDevTools();
+                }
             }
-        }
-        else
+            else
+            {
+                window.hide();
+            }
+            isVisible = !isVisible;
+        };
+
+        /**
+         * Populates the list of modules in the child view
+         * @param modules
+         */
+        this.setModules = function(modules)
         {
-            window.hide();
-        }
-        isVisible = !isVisible;
-    };
+            modulesView.setModules(modules);
+        };
 
-    /**
-     * Populates the list of modules
-     * @param modules
-     */
-    module.setModules = function(modules)
-    {
-        $ui.modulesList.children().remove();
-        for (var index = 0; index < modules.length; index += 1)
+        /**
+         * Loads the template when the view is ready and tells the controller
+         */
+        var _onWindowLoaded = function()
         {
-            var $html = $(app.utils.template.render(templates.module, modules[index]));
-            $html.appendTo($ui.modulesList);
-            $html.find('.js-checkbox').attr('checked', modules[index].enabled ? 'checked' : false).on('change', $.proxy(_onToggleModule, this));
-        }
-    };
+            var $body = $(window.window.document.body);
 
-    /**
-     * Toggles a module
-     */
-    var _onToggleModule = function(evt)
-    {
-        var $checkbox = $(evt.currentTarget);
-        events.emit('action', 'toggle_module', {module: $checkbox.val(), enable: $checkbox.is(':checked')});
-    };
+            modulesView = new app.views.modules();
+            modulesView.on('action', $.proxy(_onModulesAction, this));
+            modulesView.init($body.find('.js-modules-list'));
 
-    /**
-     * Loads the template when the view is ready and tells the controller
-     */
-    var _onWindowLoaded = function()
-    {
-        var $body = $(window.window.document.body);
-        $panel = $body.find('.js-panel');
-        $ui.switcher = $panel.find('.js-switcher');
-        $ui.switch = $panel.find('.js-switch');
-        $ui.restart = $panel.find('.js-restart');
-        $ui.heading = $panel.find('.js-heading');
-        $ui.search = $panel.find('.js-search');
-        $ui.modulesList = $panel.find('.js-modules-list');
-        templates.module = $panel.find('.js-module-template').html();
-        app.utils.window.disableDragDrop($body);
-        $ui.switcher.on('click', $.proxy(_onToggleSwitcher, this));
-        $ui.restart.on('click', $.proxy(_onRestart, this));
-        $ui.heading.on('click', $.proxy(_onToggleSection, this));
-        $ui.search.on('keyup', $.proxy(_onSearchList, this));
-        events.emit('loaded');
-        _setWindowSize.apply(this);
-    };
+            switcherView = new app.views.switcher();
+            switcherView.on('action', $.proxy(_onSwitcherAction, this));
+            switcherView.init($body);
 
-    /**
-     * Toggles the main switcher
-     * @param evt
-     */
-    var _onToggleSwitcher = function(evt)
-    {
-        evt.preventDefault();
-        $ui.switch.toggleClass('js-off');
-        events.emit('action', 'toggle_server');
-    };
+            app.utils.window.disableDragDrop($body);
 
-    /**
-     * Toggles a section
-     * @param evt
-     */
-    var _onToggleSection = function(evt)
-    {
-        evt.preventDefault();
-        var $heading = $(evt.currentTarget);
-        _setWindowSize.apply(this, [maxHeight]);
-        $heading.closest('.js-section').toggleClass('js-closed').find('.js-content').slideToggle({
-            duration: 200,
-            easing: 'linear',
-            complete: $.proxy(_setWindowSize, this)
-        });
-    };
+            $panel = $body.find('.js-panel');
+            $panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
+            events.emit('loaded');
+            _setWindowSize.apply(this);
+        };
 
-    /**
-     * Restarts the server
-     * @param evt
-     */
-    var _onRestart = function(evt)
-    {
-        evt.preventDefault();
-        events.emit('action', 'restart_server');
-    };
-
-    /**
-     * Search in a list
-     * @todo move in a separate view
-     * @param evt
-     */
-    var _onSearchList = function(evt)
-    {
-        var $field = $(evt.currentTarget);
-        var items = $field.closest('.js-content').find('.js-search-item').get();
-        var search_term = $field.val();
-        for (var index = 0; index < items.length; index += 1)
+        /**
+         * Switcher action (restarts or toggles the server status)
+         * @param action
+         */
+        var _onSwitcherAction = function(action)
         {
-            var $item = $(items[index]);
-            $item.toggle($item.find('.js-search-value').text().search(search_term) !== -1);
-        }
-    };
+            events.emit('action', action);
+        };
 
-    /**
-     * Updates the size of the window depending on its content
-     * @param height
-     * @private
-     */
-    var _setWindowSize = function(height)
-    {
-        height = height || $panel.height() + 40;
-        window.resizeTo($panel.width() + 40, height);
-        if (height > maxHeight)
+        /**
+         * Toggles a module from the child view
+         * @param action
+         * @param data
+         */
+        var _onModulesAction = function(action, data)
         {
-            maxHeight = height;
-        }
+            events.emit('action', action, data);
+        };
+
+        /**
+         * Toggles a section
+         * @param evt
+         */
+        var _onToggleSection = function(evt)
+        {
+            evt.preventDefault();
+            var $heading = $(evt.currentTarget);
+            _setWindowSize.apply(this, [maxHeight]);
+            $heading.closest('.js-section').toggleClass('js-closed').find('.js-content').slideToggle({
+                duration: 200,
+                easing: 'linear',
+                complete: $.proxy(_setWindowSize, this)
+            });
+        };
+
+        /**
+         * Updates the size of the window depending on its content
+         * @param height
+         * @private
+         */
+        var _setWindowSize = function(height)
+        {
+            height = height || $panel.height() + 40;
+            window.resizeTo($panel.width() + 40, height);
+            if (height > maxHeight)
+            {
+                maxHeight = height;
+            }
+        };
+
     };
 
     app.views.panel = module;

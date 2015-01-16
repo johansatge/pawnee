@@ -20,13 +20,16 @@
     app.utils = {};
     app.devMode = app.node.fs.existsSync('.dev') && app.node.fs.readFileSync('.dev', {encoding: 'utf8'}) === '1';
 
+    var panel;
+
     /**
      * Inits
      */
     app.init = function()
     {
-        app.controllers.panel.on('loaded', $.proxy(_onPanelReady, this));
-        app.controllers.panel.load();
+        panel = new app.controllers.panel();
+        panel.on('loaded', $.proxy(_onPanelReady, this));
+        panel.load();
     };
 
     /**
@@ -77,7 +80,7 @@
      */
     var _onTrayClick = function(evt)
     {
-        app.controllers.panel.toggle(evt.x, evt.y);
+        panel.toggle(evt.x, evt.y);
     };
 
     window.App = app;
