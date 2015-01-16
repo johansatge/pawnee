@@ -28,52 +28,42 @@
         };
 
         /**
-         * Show main window & inits events
+         * Inits the main window and waits for its content to be loaded
          */
         this.init = function()
         {
-            var window_params =
-            {
-                toolbar: app.devMode,
-                frame: false,
-                transparent: true,
-                position: 'mouse',
-                resizable: false,
-                show: false,
-                title: ''
-            };
-            window = app.node.gui.Window.open('templates/panel.html', window_params);
-            window.on('document-end', $.proxy(function()
-            {
-                window.window.onload = $.proxy(_onWindowLoaded, this);
-            }, this));
+            var params = {toolbar: app.devMode, frame: false, transparent: true, resizable: false, show: false};
+            window = app.node.gui.Window.open('templates/panel.html', params);
+            window.on('document-end', $.proxy(_onWindowInited, this));
         };
 
         /**
-         * Toggles the view
-         * @todo check screen bounds & make dimensions dynamic
-         * @todo hide on blur
+         * Toggles the window
          * @param x
          * @param y
          */
         this.toggle = function(x, y)
         {
-            if (!isVisible)
-            {
-                window.moveTo(x - 250 + 15, y);
-                _setWindowSize.apply(this);
-                window.show();
-                window.focus();
-                if (app.devMode)
-                {
-                    window.showDevTools();
-                }
-            }
-            else
-            {
-                window.hide();
-            }
+            isVisible ? window.hide() : _show.apply(this, [x, y]);
             isVisible = !isVisible;
+        };
+
+        /**
+         * Shows the window
+         * @todo hide on blur
+         * @param x
+         * @param y
+         */
+        var _show = function(x, y)
+        {
+            window.moveTo(x - ($panel.width() / 2) - 6, y);
+            _fitWindowToContent.apply(this);
+            window.show();
+            window.focus();
+            if (app.devMode)
+            {
+                window.showDevTools();
+            }
         };
 
         /**
@@ -86,26 +76,57 @@
         };
 
         /**
-         * Loads the template when the view is ready and tells the controller
+         * Triggered when the window has been constructed (the DOM is ready, but the page is still loading)
+         * @private
+         */
+        var _onWindowInited = function()
+        {
+            window.window.onload = $.proxy(_onWindowLoaded, this);
+        };
+
+        /**
+         * Triggered when the window content has been loaded (DOM and assets)
          */
         var _onWindowLoaded = function()
         {
-            var $body = $(window.window.document.body);
+            $panel = $(window.window.document.body).find('.js-panel');
 
+            _fitWindowToContent.apply(this);
+            app.utils.window.disableDragDrop(window.window.document);
+
+            _initModules();
+            _initSwitcher();
+            _initSections();
+
+            events.emit('loaded');
+        };
+
+        /**
+         * Inits the modules subview
+         */
+        var _initModules = function()
+        {
             modulesView = new app.views.modules();
             modulesView.on('action', $.proxy(_onModulesAction, this));
-            modulesView.init($body.find('.js-modules-list'));
+            modulesView.init($panel.find('.js-modules-list'));
+        };
 
+        /**
+         * Inits the switcher subview
+         */
+        var _initSwitcher = function()
+        {
             switcherView = new app.views.switcher();
             switcherView.on('action', $.proxy(_onSwitcherAction, this));
-            switcherView.init($body);
+            switcherView.init($panel);
+        };
 
-            app.utils.window.disableDragDrop($body);
-
-            $panel = $body.find('.js-panel');
+        /**
+         * Inits section events
+         */
+        var _initSections = function()
+        {
             $panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
-            events.emit('loaded');
-            _setWindowSize.apply(this);
         };
 
         /**
@@ -134,28 +155,20 @@
         var _onToggleSection = function(evt)
         {
             evt.preventDefault();
-            var $heading = $(evt.currentTarget);
-            _setWindowSize.apply(this, [maxHeight]);
-            $heading.closest('.js-section').toggleClass('js-closed').find('.js-content').slideToggle({
-                duration: 200,
-                easing: 'linear',
-                complete: $.proxy(_setWindowSize, this)
-            });
+            _fitWindowToContent.apply(this, [maxHeight]);
+            var $section = $(evt.currentTarget).closest('.js-section');
+            $section.toggleClass('js-closed').find('.js-content').slideToggle({duration: 200, complete: $.proxy(_fitWindowToContent, this)});
         };
 
         /**
-         * Updates the size of the window depending on its content
+         * Updates the size of the window depending on its content (or a forced height, if providden)
          * @param height
-         * @private
          */
-        var _setWindowSize = function(height)
+        var _fitWindowToContent = function(height)
         {
             height = height || $panel.height() + 40;
             window.resizeTo($panel.width() + 40, height);
-            if (height > maxHeight)
-            {
-                maxHeight = height;
-            }
+            maxHeight = height > maxHeight ? height : maxHeight;
         };
 
     };

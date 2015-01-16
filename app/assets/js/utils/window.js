@@ -1,7 +1,7 @@
 /**
  * Window utils
  */
-(function(app)
+(function(app, $)
 {
 
     'use strict';
@@ -10,16 +10,17 @@
 
     /**
      * Disables drag&drop
-     * @param $body
+     * @param document
      */
-    module.disableDragDrop = function($body)
+    module.disableDragDrop = function(document)
     {
-        $body.on('dragover', function(evt)
+        var $document = $(document);
+        $document.on('dragover', function(evt)
         {
             evt.preventDefault();
             evt.stopPropagation();
         });
-        $body.on('drop', function(evt)
+        $document.on('drop', function(evt)
         {
             evt.preventDefault();
             evt.stopPropagation();
@@ -28,4 +29,4 @@
 
     app.utils.window = module;
 
-})(window.App);
+})(window.App, jQuery);
