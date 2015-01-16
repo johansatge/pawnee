@@ -1,5 +1,8 @@
 /**
  * App bootstrap
+ * @todo check if:
+ *  * config files exist
+ *  * cli commands exist
  */
 (function(window, $, require, process)
 {
@@ -38,7 +41,18 @@
      */
     app.log = function(thing)
     {
-        process.stdout.write(app.node.util.inspect(thing) + "\n");
+        var output = typeof thing === 'string' ? thing : app.node.util.inspect(thing);
+        process.stdout.write("\n" + output + "\n");
+    };
+
+    /**
+     * Quits the app
+     */
+    app.quit = function()
+    {
+        // @todo kill windows
+        // @todo close apache watchers
+        app.node.gui.App.quit();
     };
 
     /**
@@ -46,8 +60,39 @@
      */
     var _onPanelReady = function()
     {
-        _initTray();
-        _initMenu();
+        _askSudo();
+    };
+
+    /**
+     * Ask for the required sudo credentials
+     * @private
+     */
+    var _askSudo = function()
+    {
+        app.utils.sudo.on('answer', $.proxy(_onSudoAnswer, this));
+        app.utils.sudo.ask();
+    };
+
+    /**
+     * Triggered when the user has filled the sudo input
+     * Possible answers are: "success", "fail", "cancel"
+     * @param answer
+     */
+    var _onSudoAnswer = function(answer)
+    {
+        if (answer === 'cancel')
+        {
+            app.quit();
+        }
+        if (answer === 'fail')
+        {
+            app.utils.sudo.ask();
+        }
+        else
+        {
+            _initTray();
+            _initMenu();
+        }
     };
 
     /**
