@@ -38,6 +38,7 @@
 
         /**
          * Populates the list of modules
+         * @todo tell which ones need a server restart
          * @param modules
          */
         this.setModules = function(modules)
