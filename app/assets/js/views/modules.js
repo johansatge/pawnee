@@ -32,6 +32,8 @@
             row_template = $dom.find('.js-module-template').html();
             $dom.find('.js-search').on('keyup', $.proxy(_onSearchList, this));
             $ui.list = $dom.find('.js-list');
+            $ui.loader = $dom.find('.js-load');
+            $ui.loader.hide();
         };
 
         /**
@@ -47,6 +49,15 @@
                 $html.appendTo($ui.list);
                 $html.find('.js-checkbox').attr('checked', modules[index].enabled ? 'checked' : false).on('change', $.proxy(_onToggleModule, this));
             }
+        };
+
+        /**
+         * Toggles the pending state of the view
+         * @param visible
+         */
+        this.togglePendingState = function(visible)
+        {
+            $ui.loader.toggle(visible);
         };
 
         /**

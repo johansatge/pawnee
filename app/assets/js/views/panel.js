@@ -49,6 +49,15 @@
         };
 
         /**
+         * Toggles the pending state of the view - mostly used when doing stuff in the system
+         * @param visible
+         */
+        this.togglePendingState = function(visible)
+        {
+            modulesView.togglePendingState(visible);
+        };
+
+        /**
          * Shows the window
          * @todo hide on blur
          * @param x
