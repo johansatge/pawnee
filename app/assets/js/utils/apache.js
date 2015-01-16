@@ -1,7 +1,7 @@
 /**
  * Apache utils
  */
-(function(app)
+(function(app, $)
 {
 
     'use strict';
@@ -11,6 +11,7 @@
     var events = new app.node.events.EventEmitter();
     var confPath = '/etc/apache2/httpd.conf';
     var modulesPath = '/usr/libexec/apache2/';
+    var a2Path = 'assets/perl/';
 
     /**
      * Attaches an event
@@ -35,12 +36,41 @@
     };
 
     /**
+     * Toggles the state of a module
+     * @todo
+     * @param module
+     * @param enable
+     */
+    module.toggleModule = function(module, enable)
+    {
+        events.emit('working');
+        var path = a2Path + (enable ? 'a2enmod' : 'a2dismod');
+        app.node.exec(path + ' ' + module, function(error, stdout, stderr)
+        {
+            app.log(stdout);
+            app.log(stderr);
+            app.log(error);
+            // does not work, we need to edit httpd.conf
+
+            _refreshModules();
+        });
+    };
+
+    /**
      * Triggered when a config file changes
-     * @todo refactor
      */
     var _onFileChange = function()
     {
-        events.emit('load_config');
+        events.emit('working');
+        _refreshModules();
+    };
+
+    /**
+     * Gets the modules list
+     * @todo refactor
+     */
+    var _refreshModules = function()
+    {
         app.node.exec('apachectl -t -D DUMP_MODULES', function(error, stdout, stderr)
         {
             var enabled_modules = [];
@@ -57,13 +87,13 @@
                 var match = new RegExp(/^mod_([^.]*)\.so$/).exec(filename);
                 if (match !== null && typeof match[1] !== 'undefined')
                 {
-                    modules.push({name: match[1] + '_module', enabled: enabled_modules.indexOf(match[1] + '_module') !== -1});
+                    modules.push({name: match[1], enabled: enabled_modules.indexOf(match[1] + '_module') !== -1});
                 }
             }
-            events.emit('loaded_config', modules);
+            events.emit('idle', modules);
         });
     };
 
     app.utils.apache = module;
 
-})(window.App);
+})(window.App, jQuery);

@@ -46,8 +46,8 @@
      */
     var _onViewLoaded = function()
     {
-        app.utils.apache.on('load_config', $.proxy(_onApacheLoadConfiguration, this));
-        app.utils.apache.on('loaded_config', $.proxy(_onApacheLoadedConfiguration, this));
+        app.utils.apache.on('working', $.proxy(_onApacheWorking, this));
+        app.utils.apache.on('idle', $.proxy(_onApacheIdle, this));
         app.utils.apache.watch();
         events.emit('loaded');
     };
@@ -55,7 +55,7 @@
     /**
      * Starts loading the Apache configuration
      */
-    var _onApacheLoadConfiguration = function()
+    var _onApacheWorking = function()
     {
         // @todo add "pending" state to the view
     };
@@ -63,10 +63,13 @@
     /**
      * Updates the UI when the Apache configuration has been loaded
      */
-    var _onApacheLoadedConfiguration = function(modules)
+    var _onApacheIdle = function(modules)
     {
         // @todo update vhost list
-        view.setModules(modules);
+        if (modules !== false)
+        {
+            view.setModules(modules);
+        }
     };
 
     /**
@@ -86,9 +89,7 @@
         }
         if (action === 'toggle_module')
         {
-            // @todo
-            app.log(data.module);
-            app.log(data.enable);
+            app.utils.apache.toggleModule(data.module, data.enable);
         }
     };
 
