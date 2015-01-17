@@ -25,9 +25,7 @@
      */
     module.ask = function()
     {
-        var command = 'sudo -K && osascript -e "Tell application \\"System Events\\"';
-        command += ' to display dialog \\"@todo words:\\" with hidden answer default answer \\"\\""';
-        command += ' -e "text returned of result" | sudo -S echo "is_sudo"';
+        var command = 'sudo -K && osascript templates/sudo.scpt | sudo -S echo "is_sudo"';
         app.node.exec(command, $.proxy(_onAsked, this));
     };
 
