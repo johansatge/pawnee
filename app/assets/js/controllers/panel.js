@@ -55,7 +55,7 @@
         };
 
         /**
-         * Starts doing Apache CLI stuff
+         * Starts doing Apache CLI stuff (when a file changes, or if the user asked to do something)
          */
         var _onApacheWorking = function()
         {
@@ -65,11 +65,12 @@
 
         /**
          * Stops doing Apache CLI stuff
+         * @param config
          */
-        var _onApacheIdle = function(modules)
+        var _onApacheIdle = function(config)
         {
-            // @todo update vhost list
-            view.setModules(modules);
+            // @todo update vhost list & update switcher
+            view.setModules(config.modules);
             view.togglePendingState(false);
             view.enableSwitcher();
         };

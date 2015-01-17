@@ -36,7 +36,7 @@
             app.log(error);
             app.log(stdout);
             app.log(stderr);
-            events.emit('idle', _getModules.apply(this));
+            _refreshConfiguration();
         });
     };
 
@@ -76,17 +76,8 @@
     {
         var watcher = app.node.watcher.watch(confPath, {persistent: true});
         watcher.add(modulesPath);
-        watcher.on('change', $.proxy(_onFileChange, this));
-        watcher.on('ready', $.proxy(_onFileChange, this));
-    };
-
-    /**
-     * Triggered when a config file changes
-     */
-    var _onFileChange = function()
-    {
-        events.emit('working');
-        module.restart();
+        watcher.on('change', _onFileChange);
+        watcher.on('ready', _onFileChange);
     };
 
     /**
@@ -119,6 +110,42 @@
             }
         }
         return modules;
+    };
+
+    /**
+     * Restarts the server when a config file changes (if already running)
+     */
+    var _onFileChange = function()
+    {
+        events.emit('working');
+        app.node.exec('ps aux', function(error, stdout, stderr)
+        {
+            var std = stdout + stderr;
+            if (std.search(/\/httpd/) !== -1)
+            {
+                module.restart();
+            }
+            else
+            {
+                _refreshConfiguration();
+            }
+        });
+    };
+
+    /**
+     * Asynchronously refreshes the configuration when a request has bee done (filechange, restart, etc)
+     * This will check if Apache is running, get the config files, and send an event when everything is done
+     */
+    var _refreshConfiguration = function()
+    {
+        app.node.exec('ps aux', function(error, stdout, stderr)
+        {
+            var std = stdout + stderr;
+            var config = {};
+            config.running = std.search(/\/httpd/) !== -1;
+            config.modules = _getModules();
+            events.emit('idle', config);
+        });
     };
 
     app.utils.apache = module;
