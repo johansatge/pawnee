@@ -80,10 +80,19 @@
         }
         else
         {
-            panel = new app.controllers.panel();
-            panel.on('loaded', $.proxy(_onPanelReady, this));
-            panel.load();
+            _initPanel();
         }
+    };
+
+    /**
+     * Inits the panel
+     */
+    var _initPanel = function()
+    {
+        panel = new app.controllers.panel();
+        panel.on('loaded', $.proxy(_onPanelReady, this));
+        panel.on('action', $.proxy(_onPanelAction, this));
+        panel.load();
     };
 
     /**
@@ -93,6 +102,56 @@
     {
         _initTray();
         _initMenu();
+        _initWatcher();
+    };
+
+    /**
+     * Triggers an action from the panel
+     * @param action
+     * @param data
+     */
+    var _onPanelAction = function(action, data)
+    {
+        if (action === 'toggle_server')
+        {
+            app.utils.apache.startstop();
+        }
+        if (action === 'restart_server')
+        {
+            app.utils.apache.restart();
+        }
+        if (action === 'toggle_module')
+        {
+            app.utils.apache.toggleModule(data.module, data.enable);
+        }
+    };
+
+    /**
+     * Inits the main Apache watcher
+     */
+    var _initWatcher = function()
+    {
+        app.utils.apache.on('working', $.proxy(_onApacheWorking, this));
+        app.utils.apache.on('idle', $.proxy(_onApacheIdle, this));
+        app.utils.apache.watch();
+    };
+
+    /**
+     * Starts doing Apache CLI stuff (when a file changes, or if the user asked to do something)
+     */
+    var _onApacheWorking = function()
+    {
+        panel.setWorking();
+    };
+
+    /**
+     * Stops doing Apache CLI stuff
+     * @param is_running
+     * @param modules
+     */
+    var _onApacheIdle = function(is_running, modules)
+    {
+        panel.setIdle(is_running, modules);
     };
 
     /**

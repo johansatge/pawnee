@@ -44,20 +44,9 @@
         };
 
         /**
-         * Starts watching Apache files when the view is ready
+         * Sets working status
          */
-        var _onViewLoaded = function()
-        {
-            app.utils.apache.on('working', $.proxy(_onApacheWorking, this));
-            app.utils.apache.on('idle', $.proxy(_onApacheIdle, this));
-            app.utils.apache.watch();
-            events.emit('loaded');
-        };
-
-        /**
-         * Starts doing Apache CLI stuff (when a file changes, or if the user asked to do something)
-         */
-        var _onApacheWorking = function()
+        this.setWorking = function()
         {
             view.togglePendingState(true);
             view.disableSwitcher();
@@ -65,14 +54,23 @@
 
         /**
          * Stops doing Apache CLI stuff
-         * @param config
+         * @param is_running
+         * @param modules
          */
-        var _onApacheIdle = function(is_running, modules)
+        this.setIdle = function(is_running, modules)
         {
             // @todo update vhost list
             view.setModules(modules);
             view.togglePendingState(false);
             view.enableSwitcher(is_running);
+        };
+
+        /**
+         * Starts watching Apache files when the view is ready
+         */
+        var _onViewLoaded = function()
+        {
+            events.emit('loaded');
         };
 
         /**
@@ -82,18 +80,7 @@
          */
         var _onViewAction = function(action, data)
         {
-            if (action === 'toggle_server')
-            {
-                app.utils.apache.startstop();
-            }
-            if (action === 'restart_server')
-            {
-                app.utils.apache.restart();
-            }
-            if (action === 'toggle_module')
-            {
-                app.utils.apache.toggleModule(data.module, data.enable);
-            }
+            events.emit('action', action, data);
         };
 
     };
