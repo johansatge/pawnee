@@ -11,6 +11,7 @@
 
         var events = new app.node.events.EventEmitter();
         var $ui = {};
+        var enabled = true;
 
         /**
          * Attaches an event
@@ -37,14 +38,37 @@
         };
 
         /**
+         * Enables actions
+         */
+        this.enable = function()
+        {
+            enabled = true;
+            $ui.switcher.removeClass('js-disabled');
+            $ui.restart.removeClass('js-disabled');
+        };
+
+        /**
+         * Disables actions
+         */
+        this.disable = function()
+        {
+            enabled = false;
+            $ui.switcher.addClass('js-disabled');
+            $ui.restart.addClass('js-disabled');
+        };
+
+        /**
          * Toggles the main switcher
          * @param evt
          */
         var _onToggleSwitcher = function(evt)
         {
             evt.preventDefault();
-            $ui.switch.toggleClass('js-off');
-            events.emit('action', 'toggle_server');
+            if (enabled)
+            {
+                $ui.switch.toggleClass('js-off');
+                events.emit('action', 'toggle_server');
+            }
         };
 
         /**
@@ -54,7 +78,10 @@
         var _onRestart = function(evt)
         {
             evt.preventDefault();
-            events.emit('action', 'restart_server');
+            if (enabled)
+            {
+                events.emit('action', 'restart_server');
+            }
         };
 
     };

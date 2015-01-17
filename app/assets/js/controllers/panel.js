@@ -55,30 +55,29 @@
         };
 
         /**
-         * Starts loading the Apache configuration
+         * Starts doing Apache CLI stuff
          */
         var _onApacheWorking = function()
         {
             view.togglePendingState(true);
+            view.disableSwitcher();
         };
 
         /**
-         * Updates the UI when the Apache configuration has been loaded
+         * Stops doing Apache CLI stuff
          */
         var _onApacheIdle = function(modules)
         {
             // @todo update vhost list
-            if (modules !== false)
-            {
-                view.setModules(modules);
-            }
+            view.setModules(modules);
             view.togglePendingState(false);
+            view.enableSwitcher();
         };
 
         /**
          * Fired when an action is called from the view
          * @param action
-         * @param value
+         * @param data
          */
         var _onViewAction = function(action, data)
         {
@@ -88,7 +87,7 @@
             }
             if (action === 'restart_server')
             {
-                // @todo
+                app.utils.apache.restart();
             }
             if (action === 'toggle_module')
             {

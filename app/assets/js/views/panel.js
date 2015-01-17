@@ -58,6 +58,31 @@
         };
 
         /**
+         * Populates the list of modules in the child view
+         * @param modules
+         */
+        this.setModules = function(modules)
+        {
+            modulesView.setModules(modules);
+        };
+
+        /**
+         * Enables the main switcher
+         */
+        this.enableSwitcher = function()
+        {
+            switcherView.enable();
+        };
+
+        /**
+         * Disables the main switcher
+         */
+        this.disableSwitcher = function()
+        {
+            switcherView.disable();
+        };
+
+        /**
          * Shows the window
          * @todo hide on blur
          * @param x
@@ -73,15 +98,6 @@
             {
                 window.showDevTools();
             }
-        };
-
-        /**
-         * Populates the list of modules in the child view
-         * @param modules
-         */
-        this.setModules = function(modules)
-        {
-            modulesView.setModules(modules);
         };
 
         /**

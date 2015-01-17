@@ -30,9 +30,7 @@
      */
     app.init = function()
     {
-        panel = new app.controllers.panel();
-        panel.on('loaded', $.proxy(_onPanelReady, this));
-        panel.load();
+        _askSudo();
     };
 
     /**
@@ -53,14 +51,6 @@
         // @todo kill windows
         // @todo close apache watchers
         app.node.gui.App.quit();
-    };
-
-    /**
-     * Starts working when the panel is ready
-     */
-    var _onPanelReady = function()
-    {
-        _askSudo();
     };
 
     /**
@@ -90,9 +80,19 @@
         }
         else
         {
-            _initTray();
-            _initMenu();
+            panel = new app.controllers.panel();
+            panel.on('loaded', $.proxy(_onPanelReady, this));
+            panel.load();
         }
+    };
+
+    /**
+     * Inits the tray icon and make UI available when the panel is ready
+     */
+    var _onPanelReady = function()
+    {
+        _initTray();
+        _initMenu();
     };
 
     /**

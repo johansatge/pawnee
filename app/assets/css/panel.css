@@ -89,6 +89,11 @@ body
     box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+.panel .top .switcher.js-disabled
+{
+    opacity: 0.3;
+}
+
 .panel .top .switch
 {
     z-index       : 4;
@@ -134,6 +139,11 @@ body
     border        : 1px solid #6b6b6b;
     border-radius : 50%;
     box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7);
+}
+
+.panel .top .restart.js-disabled
+{
+    opacity: 0.3;
 }
 
 .panel .top .restart:active
@@ -389,16 +399,6 @@ body
 .panel .section .list .entry a:hover
 {
     opacity : 1;
-}
-
-.panel .section .list .entry .status
-{
-    display    : block;
-    float      : right;
-    padding    : 6px 0 0 0;
-    margin     : 0 5px 0 0;
-    color      : #868686;
-    font-style : italic;
 }
 
 .panel .section .list .entry input

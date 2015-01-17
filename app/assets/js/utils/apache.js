@@ -13,7 +13,6 @@
     var modulesPath = '/usr/libexec/apache2/';
     var relativeModulesPath = 'libexec/apache2/';
     var tempPath = '/private/tmp/';
-    var pendingModules = {};
 
     /**
      * Attaches an event
@@ -26,18 +25,24 @@
     };
 
     /**
-     * Starts watching files
+     * Restarts the server
+     * @todo
      */
-    module.watch = function()
+    module.restart = function()
     {
-        var watcher = app.node.watcher.watch(confPath, {persistent: true});
-        watcher.add(modulesPath);
-        watcher.on('change', $.proxy(_onFileChange, this));
-        watcher.on('ready', $.proxy(_onFileChange, this));
+        events.emit('working');
+        app.node.exec('sudo apachectl restart', function(error, stdout, stderr)
+        {
+            app.log(error);
+            app.log(stdout);
+            app.log(stderr);
+            events.emit('idle', _getModules.apply(this));
+        });
     };
 
     /**
      * Toggles the state of a module
+     * The watcher will automatically restart the server on file change
      * @todo backup httpd.conf
      * @param module
      * @param enable
@@ -61,9 +66,18 @@
         app.node.exec('sudo rm ' + confPath + ' && sudo mv ' + updated_httpd_path + ' ' + confPath, function(error, stdout, stderr)
         {
             // @todo handle errors
-            // file change is handled by the main watcher
-            pendingModules[module] = true; // @todo find how to get loaded apache modules (currently running)
         });
+    };
+
+    /**
+     * Starts watching files
+     */
+    module.watch = function()
+    {
+        var watcher = app.node.watcher.watch(confPath, {persistent: true});
+        watcher.add(modulesPath);
+        watcher.on('change', $.proxy(_onFileChange, this));
+        watcher.on('ready', $.proxy(_onFileChange, this));
     };
 
     /**
@@ -72,14 +86,14 @@
     var _onFileChange = function()
     {
         events.emit('working');
-        _refreshModules();
+        module.restart();
     };
 
     /**
      * Gets the modules list
      * @todo refactor
      */
-    var _refreshModules = function()
+    var _getModules = function()
     {
         var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
         var regexp = /[^#]?LoadModule\s(.*)_module.*\.so/gi;
@@ -100,12 +114,11 @@
                 modules.push({
                     name: match[1],
                     filename: filename,
-                    enabled: enabled_modules.indexOf(match[1]) !== -1,
-                    pending: typeof pendingModules[match[1]] !== false && pendingModules[match[1]]
+                    enabled: enabled_modules.indexOf(match[1]) !== -1
                 });
             }
         }
-        events.emit('idle', modules);
+        return modules;
     };
 
     app.utils.apache = module;
