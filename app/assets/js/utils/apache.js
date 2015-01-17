@@ -75,6 +75,7 @@
     /**
      * Gets the modules list
      * @todo refactor
+     * @todo get loaded modules
      */
     var _refreshModules = function()
     {
