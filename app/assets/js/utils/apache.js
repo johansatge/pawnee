@@ -25,6 +25,32 @@
     };
 
     /**
+     * Starts or stops the server depending on its current state
+     */
+    module.startstop = function()
+    {
+        events.emit('working');
+        app.node.exec('ps aux', function(error, stdout, stderr)
+        {
+            var std = stdout + stderr;
+            if (std.search(/\/httpd/) !== -1)
+            {
+                app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
+                {
+                    _refreshConfiguration();
+                });
+            }
+            else
+            {
+                app.node.exec('sudo apachectl start', function(error, stdout, stderr)
+                {
+                    _refreshConfiguration();
+                });
+            }
+        });
+    };
+
+    /**
      * Restarts the server
      * @todo
      */
@@ -141,10 +167,9 @@
         app.node.exec('ps aux', function(error, stdout, stderr)
         {
             var std = stdout + stderr;
-            var config = {};
-            config.running = std.search(/\/httpd/) !== -1;
-            config.modules = _getModules();
-            events.emit('idle', config);
+            var is_running = std.search(/\/httpd/) !== -1;
+            var modules = _getModules();
+            events.emit('idle', is_running, modules);
         });
     };
 

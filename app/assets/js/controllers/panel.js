@@ -67,12 +67,12 @@
          * Stops doing Apache CLI stuff
          * @param config
          */
-        var _onApacheIdle = function(config)
+        var _onApacheIdle = function(is_running, modules)
         {
-            // @todo update vhost list & update switcher
-            view.setModules(config.modules);
+            // @todo update vhost list
+            view.setModules(modules);
             view.togglePendingState(false);
-            view.enableSwitcher();
+            view.enableSwitcher(is_running);
         };
 
         /**
@@ -84,7 +84,7 @@
         {
             if (action === 'toggle_server')
             {
-                // @todo
+                app.utils.apache.startstop();
             }
             if (action === 'restart_server')
             {

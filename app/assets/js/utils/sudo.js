@@ -1,5 +1,6 @@
 /**
  * Sudo utils
+ * @todo keep alive
  */
 (function(app, $)
 {

@@ -68,10 +68,11 @@
 
         /**
          * Enables the main switcher
+         * @param is_running
          */
-        this.enableSwitcher = function()
+        this.enableSwitcher = function(is_running)
         {
-            switcherView.enable();
+            switcherView.enable(is_running);
         };
 
         /**

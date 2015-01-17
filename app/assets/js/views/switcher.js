@@ -39,10 +39,12 @@
 
         /**
          * Enables actions
+         * @param is_running
          */
-        this.enable = function()
+        this.enable = function(is_running)
         {
             enabled = true;
+            $ui.switch.toggleClass('js-off', !is_running);
             $ui.switcher.removeClass('js-disabled');
             $ui.restart.removeClass('js-disabled');
         };
@@ -66,7 +68,6 @@
             evt.preventDefault();
             if (enabled)
             {
-                $ui.switch.toggleClass('js-off');
                 events.emit('action', 'toggle_server');
             }
         };
