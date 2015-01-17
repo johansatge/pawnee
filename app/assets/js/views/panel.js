@@ -89,7 +89,6 @@
          */
         this.logActivity = function(message)
         {
-            app.log('la');
             $ui.activity.val($ui.activity.val() + message);
         };
 
@@ -122,9 +121,14 @@
 
         /**
          * Triggered when the window content has been loaded (DOM and assets)
+         * @todo refactor
          */
         var _onWindowLoaded = function()
         {
+            var $body = $(window.window.document.body);
+
+            $body.html(app.utils.template.render($body.html(), app.locale));
+
             $ui.panel = $(window.window.document.body).find('.js-panel');
             $ui.activity = $ui.panel.find('.js-activity');
 

@@ -23,7 +23,7 @@
             <div class="js-section section">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
-                    PHP
+                    {{section_php}}
                 </div>
                 <div class="js-content content margin">
                     <select>
@@ -37,13 +37,13 @@
             <div class="js-section section">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
-                    Virtual hosts
+                    {{section_vhosts}}
                     <a class="action" href="#">Add @todo</a>
                 </div>
                 <div class="js-content js-vhosts-list content">
                     <div class="search">
                         <i class="fa fa-search"></i>
-                        <input type="text" class="js-search" placeholder="Search...">
+                        <input type="text" class="js-search" placeholder="{{search_placeholder}}">
                     </div>
                     <ul class="list">
                         <li class="entry js-search-item">
@@ -80,7 +80,7 @@
             <div class="js-section section">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
-                    Modules
+                    {{modules_section}}
                 </div>
                 <div class="js-content js-modules-list content">
                     <div class="js-load load">
@@ -88,7 +88,7 @@
                     </div>
                     <div class="search">
                         <i class="fa fa-search"></i>
-                        <input type="text" class="js-search" placeholder="Search...">
+                        <input type="text" class="js-search" placeholder="{{search_placeholder}}">
                     </div>
                     <ul class="list js-list">
                         <script type="text/template" class="js-module-template">
@@ -103,7 +103,7 @@
             <div class="js-section section">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
-                    Activity
+                    {{activity_section}}
                     <a class="action" href="#">Clear @todo</a>
                 </div>
                 <textarea class="js-content activity js-activity" disabled="disabled"></textarea>

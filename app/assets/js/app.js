@@ -22,6 +22,7 @@
     app.controllers = {};
     app.utils = {};
     app.devMode = app.node.fs.existsSync('.dev') && app.node.fs.readFileSync('.dev', {encoding: 'utf8'}) === '1';
+    app.locale = eval('(' + app.node.fs.readFileSync('locale/en.json') + ')');
 
     var panel;
 
