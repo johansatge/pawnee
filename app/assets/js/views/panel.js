@@ -10,7 +10,7 @@
     {
 
         var window = null;
-        var $panel = null;
+        var $ui = {};
         var events = new app.node.events.EventEmitter();
         var isVisible = false;
         var maxHeight = 0;
@@ -84,6 +84,16 @@
         };
 
         /**
+         * Logs activity
+         * @param message
+         */
+        this.logActivity = function(message)
+        {
+            app.log('la');
+            $ui.activity.val($ui.activity.val() + message);
+        };
+
+        /**
          * Shows the window
          * @todo hide on blur
          * @param x
@@ -91,7 +101,7 @@
          */
         var _show = function(x, y)
         {
-            window.moveTo(x - ($panel.width() / 2) - 6, y);
+            window.moveTo(x - ($ui.panel.width() / 2) - 6, y);
             _fitWindowToContent.apply(this);
             window.show();
             window.focus();
@@ -115,7 +125,8 @@
          */
         var _onWindowLoaded = function()
         {
-            $panel = $(window.window.document.body).find('.js-panel');
+            $ui.panel = $(window.window.document.body).find('.js-panel');
+            $ui.activity = $ui.panel.find('.js-activity');
 
             _fitWindowToContent.apply(this);
             app.utils.window.disableDragDrop(window.window.document);
@@ -134,7 +145,7 @@
         {
             modulesView = new app.views.modules();
             modulesView.on('action', $.proxy(_onModulesAction, this));
-            modulesView.init($panel.find('.js-modules-list'));
+            modulesView.init($ui.panel.find('.js-modules-list'));
         };
 
         /**
@@ -144,7 +155,7 @@
         {
             switcherView = new app.views.switcher();
             switcherView.on('action', $.proxy(_onSwitcherAction, this));
-            switcherView.init($panel);
+            switcherView.init($ui.panel);
         };
 
         /**
@@ -152,7 +163,7 @@
          */
         var _initSections = function()
         {
-            $panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
+            $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
         };
 
         /**
@@ -192,8 +203,8 @@
          */
         var _fitWindowToContent = function(height)
         {
-            height = height || $panel.height() + 40;
-            window.resizeTo($panel.width() + 40, height);
+            height = height || $ui.panel.height() + 40;
+            window.resizeTo($ui.panel.width() + 40, height);
             maxHeight = height > maxHeight ? height : maxHeight;
         };
 

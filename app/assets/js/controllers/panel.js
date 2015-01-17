@@ -23,6 +23,15 @@
         };
 
         /**
+         * Logs activity
+         * @param message
+         */
+        this.logActivity = function(message)
+        {
+            view.logActivity(message);
+        };
+
+        /**
          * Inits the controller
          */
         this.load = function()
