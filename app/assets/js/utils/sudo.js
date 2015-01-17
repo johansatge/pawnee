@@ -1,6 +1,6 @@
 /**
  * Sudo utils
- * @todo keep alive
+ * @todo keep alive & make class
  */
 (function(app, $)
 {
