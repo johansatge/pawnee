@@ -141,7 +141,6 @@
      */
     var _initWatcher = function()
     {
-        app.logActivity('@todo start watching...');
         app.utils.apache.on('working', $.proxy(_onApacheWorking, this));
         app.utils.apache.on('idle', $.proxy(_onApacheIdle, this));
         app.utils.apache.watch();

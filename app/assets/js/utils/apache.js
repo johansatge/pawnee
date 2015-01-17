@@ -35,15 +35,19 @@
             var std = stdout + stderr;
             if (std.search(/\/httpd/) !== -1)
             {
+                app.logActivity(app.locale.apache.stop);
                 app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
                 {
+                    app.logActivity(stdout + stderr);
                     _refreshConfiguration();
                 });
             }
             else
             {
+                app.logActivity(app.locale.apache.start);
                 app.node.exec('sudo apachectl start', function(error, stdout, stderr)
                 {
+                    app.logActivity(stdout + stderr);
                     _refreshConfiguration();
                 });
             }
@@ -52,16 +56,14 @@
 
     /**
      * Restarts the server
-     * @todo
      */
     module.restart = function()
     {
         events.emit('working');
+        app.logActivity(app.locale.apache.restart);
         app.node.exec('sudo apachectl restart', function(error, stdout, stderr)
         {
-            app.log(error);
-            app.log(stdout);
-            app.log(stderr);
+            app.logActivity(stdout + stderr);
             _refreshConfiguration();
         });
     };
@@ -75,6 +77,7 @@
      */
     module.toggleModule = function(module, enable)
     {
+        app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
         events.emit('working');
         var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
         if (enable)
@@ -91,7 +94,7 @@
         app.node.fs.writeFileSync(updated_httpd_path, updated_httpd);
         app.node.exec('sudo rm ' + confPath + ' && sudo mv ' + updated_httpd_path + ' ' + confPath, function(error, stdout, stderr)
         {
-            // @todo handle errors
+            app.logActivity(stdout + stderr);
         });
     };
 
@@ -104,11 +107,13 @@
         watcher.add(modulesPath);
         watcher.on('change', _onFileChange);
         watcher.on('ready', _onFileChange);
+        app.logActivity(app.locale.apache.watch.replace('%s', confPath));
+        app.logActivity(app.locale.apache.watch.replace('%s', modulesPath));
     };
 
     /**
      * Gets the modules list
-     * @todo refactor
+     * @todo refactor & log activity
      */
     var _getModules = function()
     {

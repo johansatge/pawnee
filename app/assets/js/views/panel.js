@@ -89,7 +89,8 @@
          */
         this.logActivity = function(message)
         {
-            $ui.activity.val($ui.activity.val() + message);
+            $ui.activity.val($ui.activity.val() + "\n" + message);
+            $ui.activity.scrollTop($ui.activity[0].scrollHeight - $ui.activity.height());
         };
 
         /**

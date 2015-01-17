@@ -3,5 +3,14 @@
     "section_vhosts": "Virtual hosts",
     "search_placeholder": "Search...",
     "modules_section": "Modules",
-    "activity_section": "Activity"
+    "activity_section": "Activity",
+    "sudo": "Sudo request: %s",
+    "apache": {
+        "stop": "Stopping server...",
+        "start": "Starting server...",
+        "restart": "Restarting server...",
+        "enable_module": "Enabling module %s...",
+        "disable_module": "Disabling module %s...",
+        "watch": "Starts watching %s"
+    }
 }
