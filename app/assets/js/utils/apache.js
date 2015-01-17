@@ -13,6 +13,7 @@
     var modulesPath = '/usr/libexec/apache2/';
     var relativeModulesPath = 'libexec/apache2/';
     var tempPath = '/private/tmp/';
+    var pendingModules = {};
 
     /**
      * Attaches an event
@@ -37,6 +38,7 @@
 
     /**
      * Toggles the state of a module
+     * @todo backup httpd.conf
      * @param module
      * @param enable
      */
@@ -60,6 +62,7 @@
         {
             // @todo handle errors
             // file change is handled by the main watcher
+            pendingModules[module] = true; // @todo find how to get loaded apache modules (currently running)
         });
     };
 
@@ -75,7 +78,6 @@
     /**
      * Gets the modules list
      * @todo refactor
-     * @todo get loaded modules
      */
     var _refreshModules = function()
     {
@@ -98,7 +100,8 @@
                 modules.push({
                     name: match[1],
                     filename: filename,
-                    enabled: enabled_modules.indexOf(match[1]) !== -1
+                    enabled: enabled_modules.indexOf(match[1]) !== -1,
+                    pending: typeof pendingModules[match[1]] !== false && pendingModules[match[1]]
                 });
             }
         }

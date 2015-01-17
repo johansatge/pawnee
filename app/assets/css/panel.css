@@ -345,7 +345,7 @@ body
     background : #f3f6fb;
 }
 
-.panel .section .list .entry span
+.panel .section .list .entry .name
 {
     position    : relative;
     display     : block;
@@ -358,7 +358,7 @@ body
     color       : #4a4a4a;
 }
 
-.panel .section .list .entry span:after
+.panel .section .list .entry .name:after
 {
     display    : block;
     position   : absolute;
@@ -370,7 +370,7 @@ body
     background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 80%);
 }
 
-.panel .section .list .entry:nth-child(odd) span:after
+.panel .section .list .entry:nth-child(odd) .name:after
 {
     background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(243, 246, 251, 1) 80%);
 }
@@ -389,6 +389,16 @@ body
 .panel .section .list .entry a:hover
 {
     opacity : 1;
+}
+
+.panel .section .list .entry .status
+{
+    display    : block;
+    float      : right;
+    padding    : 6px 0 0 0;
+    margin     : 0 5px 0 0;
+    color      : #868686;
+    font-style : italic;
 }
 
 .panel .section .list .entry input

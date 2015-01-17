@@ -49,6 +49,7 @@
                 var $html = $(app.utils.template.render(row_template, modules[index]));
                 $html.appendTo($ui.list);
                 $html.find('.js-checkbox').attr('checked', modules[index].enabled ? 'checked' : false).on('change', $.proxy(_onToggleModule, this));
+                $html.find('.js-status').toggle(modules[index].pending);
             }
         };
 

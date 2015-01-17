@@ -60,7 +60,6 @@
         var _onApacheWorking = function()
         {
             view.togglePendingState(true);
-            // @todo add "pending" state to the view
         };
 
         /**
