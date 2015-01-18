@@ -6,11 +6,15 @@
     "activity_section": "Activity",
     "sudo": "Sudo request: %s",
     "apache": {
+        "check": "Checking configuration...",
         "stop": "Stopping server...",
         "start": "Starting server...",
         "restart": "Restarting server...",
+        "running": "Server is running.",
+        "stopped": "Server is stopped.",
         "enable_module": "Enabling module %s...",
         "disable_module": "Disabling module %s...",
-        "watch": "Starts watching %s"
+        "watch": "Starts watching %s.",
+        "filechange": "Filechange detected."
     }
 }

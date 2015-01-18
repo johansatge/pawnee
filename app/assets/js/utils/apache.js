@@ -26,6 +26,7 @@
 
     /**
      * Starts or stops the server depending on its current state
+     * @todo refactor
      */
     module.startstop = function()
     {
@@ -38,7 +39,6 @@
                 app.logActivity(app.locale.apache.stop);
                 app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
                 {
-                    app.logActivity(stdout + stderr);
                     _refreshConfiguration();
                 });
             }
@@ -47,7 +47,6 @@
                 app.logActivity(app.locale.apache.start);
                 app.node.exec('sudo apachectl start', function(error, stdout, stderr)
                 {
-                    app.logActivity(stdout + stderr);
                     _refreshConfiguration();
                 });
             }
@@ -63,7 +62,6 @@
         app.logActivity(app.locale.apache.restart);
         app.node.exec('sudo apachectl restart', function(error, stdout, stderr)
         {
-            app.logActivity(stdout + stderr);
             _refreshConfiguration();
         });
     };
@@ -77,8 +75,8 @@
      */
     module.toggleModule = function(module, enable)
     {
-        app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
         events.emit('working');
+        app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
         var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
         if (enable)
         {
@@ -149,6 +147,7 @@
     var _onFileChange = function()
     {
         events.emit('working');
+        app.logActivity(app.locale.apache.filechange);
         app.node.exec('ps aux', function(error, stdout, stderr)
         {
             var std = stdout + stderr;
@@ -166,15 +165,22 @@
     /**
      * Asynchronously refreshes the configuration when a request has bee done (filechange, restart, etc)
      * This will check if Apache is running, get the config files, and send an event when everything is done
+     * @todo when adding a syntax error to the httpd.conf file, it still displays "running" - check an alternative to "ps aux"
      */
     var _refreshConfiguration = function()
     {
         app.node.exec('ps aux', function(error, stdout, stderr)
         {
-            var std = stdout + stderr;
-            var is_running = std.search(/\/httpd/) !== -1;
+            var is_running = stdout.search(/\/httpd/) !== -1;
             var modules = _getModules();
-            events.emit('idle', is_running, modules);
+            app.logActivity(app.locale.apache.check);
+            app.node.exec('apachectl -t', function(error, stdout, stderr)
+            {
+                app.logActivity(stdout);
+                app.logActivity(stderr);
+                app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
+                events.emit('idle', is_running, modules);
+            });
         });
     };
 
