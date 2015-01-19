@@ -26,12 +26,11 @@
 
     /**
      * Starts or stops the server depending on its current state
-     * @todo refactor
      */
     module.startstop = function()
     {
         events.emit('working');
-        _doOnApacheStatus(_stopServer, _startServer);
+        app.utils.shell.execIfProcessRunning('httpd', _stopServer, _startServer);
     };
 
     /**
@@ -40,8 +39,7 @@
     module.restart = function()
     {
         events.emit('working');
-        app.logActivity(app.locale.apache.restart);
-        app.node.exec('sudo apachectl restart', _requestConfigurationRefresh);
+        app.utils.shell.exec('sudo apachectl restart', $.proxy(_requestConfigurationRefresh, this), app.locale.apache.restart);
     };
 
     /**
@@ -67,10 +65,7 @@
         }
         var updated_httpd_path = tempPath + new Date().getTime() + '.httpd.conf';
         app.node.fs.writeFileSync(updated_httpd_path, updated_httpd);
-        app.node.exec('sudo rm ' + confPath + ' && sudo mv ' + updated_httpd_path + ' ' + confPath, function(error, stdout, stderr)
-        {
-            app.logActivity(stdout + stderr);
-        });
+        app.utils.shell.exec('sudo rm ' + confPath + ' && sudo mv ' + updated_httpd_path + ' ' + confPath);
     };
 
     /**
@@ -88,7 +83,6 @@
 
     /**
      * Gets the modules list
-     * @todo refactor & log activity
      */
     var _getModules = function()
     {
@@ -101,11 +95,7 @@
             var match = new RegExp(/^mod_([^.]*)\.so$/).exec(filename);
             if (match !== null && typeof match[1] !== 'undefined')
             {
-                modules.push({
-                    name: match[1],
-                    filename: filename,
-                    enabled: enabled_modules.indexOf(match[1]) !== -1
-                });
+                modules.push({name: match[1], filename: filename, enabled: enabled_modules.indexOf(match[1]) !== -1});
             }
         }
         return modules;
@@ -134,45 +124,30 @@
     var _onFileChange = function()
     {
         events.emit('working');
-        app.logActivity(app.locale.apache.filechange);
-        _doOnApacheStatus(module.restart, _requestConfigurationRefresh);
-    };
-
-    /**
-     * Checks the status of apache and calls the needed function
-     * @todo when adding a syntax error to the httpd.conf file, it still displays "running" - check an alternative to "ps aux"
-     * @param is_running_callback
-     * @param is_stopped_callback
-     */
-    var _doOnApacheStatus = function(is_running_callback, is_stopped_callback)
-    {
-        app.node.exec('ps aux', function(error, stdout, stderr)
-        {
-            var std = stdout + stderr;
-            std.search(/\/httpd/) !== -1 ? is_running_callback(true) : is_stopped_callback(false);
-        });
+        app.utils.shell.execIfProcessRunning('httpd', module.restart, _requestConfigurationRefresh, app.locale.apache.filechange);
     };
 
     /**
      * Asynchronously refreshes the configuration when a request has bee done (filechange, restart, etc)
      * This will check if Apache is running, get the config files, and send an event when everything is done
      */
-    var _requestConfigurationRefresh = function(error, stout, stderr)
+    var _requestConfigurationRefresh = function()
     {
-        _doOnApacheStatus(_refreshConfiguration, _refreshConfiguration);
+        app.utils.shell.execIfProcessRunning('httpd', _refreshConfiguration, _refreshConfiguration);
     };
 
+    /**
+     * Sends an event containing the up-to-date server informations
+     * @param is_running
+     */
     var _refreshConfiguration = function(is_running)
     {
         var modules = _getModules();
-        app.logActivity(app.locale.apache.check);
-        app.node.exec('apachectl -t', function(error, stdout, stderr)
+        app.utils.shell.exec('apachectl -t', function()
         {
-            app.logActivity(stdout);
-            app.logActivity(stderr);
             app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
             events.emit('idle', is_running, modules);
-        });
+        }, app.locale.apache.check);
     };
 
     /**
@@ -180,8 +155,7 @@
      */
     var _startServer = function()
     {
-        app.logActivity(app.locale.apache.start);
-        app.node.exec('sudo apachectl start', _requestConfigurationRefresh);
+        app.utils.shell.exec('sudo apachectl start', $.proxy(_requestConfigurationRefresh, this), app.locale.apache.start);
     };
 
     /**
@@ -189,8 +163,7 @@
      */
     var _stopServer = function()
     {
-        app.logActivity(app.locale.apache.stop);
-        app.node.exec('sudo apachectl stop', _requestConfigurationRefresh);
+        app.utils.shell.exec('sudo apachectl stop', $.proxy(_requestConfigurationRefresh, this), app.locale.apache.stop);
     };
 
     app.utils.apache = module;
