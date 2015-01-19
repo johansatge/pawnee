@@ -13,6 +13,7 @@
     var modulesPath = '/usr/libexec/apache2/';
     var relativeModulesPath = 'libexec/apache2/';
     var tempPath = '/private/tmp/';
+    var apacheStatusCommand = 'ps aux'; //@todo when adding a syntax error to the httpd.conf file, it still displays "running" - check an alternative to "ps aux"
 
     /**
      * Attaches an event
@@ -31,7 +32,7 @@
     module.startstop = function()
     {
         events.emit('working');
-        app.node.exec('ps aux', function(error, stdout, stderr)
+        app.node.exec(apacheStatusCommand, function(error, stdout, stderr)
         {
             var std = stdout + stderr;
             if (std.search(/\/httpd/) !== -1)
@@ -148,7 +149,7 @@
     {
         events.emit('working');
         app.logActivity(app.locale.apache.filechange);
-        app.node.exec('ps aux', function(error, stdout, stderr)
+        app.node.exec(apacheStatusCommand, function(error, stdout, stderr)
         {
             var std = stdout + stderr;
             if (std.search(/\/httpd/) !== -1)
@@ -165,11 +166,10 @@
     /**
      * Asynchronously refreshes the configuration when a request has bee done (filechange, restart, etc)
      * This will check if Apache is running, get the config files, and send an event when everything is done
-     * @todo when adding a syntax error to the httpd.conf file, it still displays "running" - check an alternative to "ps aux"
      */
     var _refreshConfiguration = function()
     {
-        app.node.exec('ps aux', function(error, stdout, stderr)
+        app.node.exec(apacheStatusCommand, function(error, stdout, stderr)
         {
             var is_running = stdout.search(/\/httpd/) !== -1;
             var modules = _getModules();
