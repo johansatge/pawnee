@@ -13,7 +13,6 @@
     var modulesPath = '/usr/libexec/apache2/';
     var relativeModulesPath = 'libexec/apache2/';
     var tempPath = '/private/tmp/';
-    var apacheStatusCommand = 'ps aux'; //@todo when adding a syntax error to the httpd.conf file, it still displays "running" - check an alternative to "ps aux"
 
     /**
      * Attaches an event
@@ -32,26 +31,7 @@
     module.startstop = function()
     {
         events.emit('working');
-        app.node.exec(apacheStatusCommand, function(error, stdout, stderr)
-        {
-            var std = stdout + stderr;
-            if (std.search(/\/httpd/) !== -1)
-            {
-                app.logActivity(app.locale.apache.stop);
-                app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
-                {
-                    _refreshConfiguration();
-                });
-            }
-            else
-            {
-                app.logActivity(app.locale.apache.start);
-                app.node.exec('sudo apachectl start', function(error, stdout, stderr)
-                {
-                    _refreshConfiguration();
-                });
-            }
-        });
+        _doOnApacheStatus(_stopServer, _startServer);
     };
 
     /**
@@ -61,16 +41,13 @@
     {
         events.emit('working');
         app.logActivity(app.locale.apache.restart);
-        app.node.exec('sudo apachectl restart', function(error, stdout, stderr)
-        {
-            _refreshConfiguration();
-        });
+        app.node.exec('sudo apachectl restart', _requestConfigurationRefresh);
     };
 
     /**
      * Toggles the state of a module
      * The watcher will automatically restart the server on file change
-     * @todo backup httpd.conf
+     * @todo backup httpd.conf & refactor
      * @param module
      * @param enable
      */
@@ -79,15 +56,14 @@
         events.emit('working');
         app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
         var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
+        var updated_httpd;
         if (enable)
         {
-            var newline = 'LoadModule ' + module + '_module ' + relativeModulesPath + 'mod_' + module + '.so' + "\n";
-            var updated_httpd = newline + httpd;
+            updated_httpd = 'LoadModule ' + module + '_module ' + relativeModulesPath + 'mod_' + module + '.so' + "\n" + httpd;
         }
         else
         {
-            var regexp = new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi');
-            var updated_httpd = httpd.replace(regexp, '');
+            updated_httpd = httpd.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
         }
         var updated_httpd_path = tempPath + new Date().getTime() + '.httpd.conf';
         app.node.fs.writeFileSync(updated_httpd_path, updated_httpd);
@@ -116,14 +92,7 @@
      */
     var _getModules = function()
     {
-        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
-        var regexp = /[^#]?LoadModule\s(.*)_module.*\.so/gi;
-        var enabled_modules = [];
-        var match;
-        while (match = regexp.exec(httpd))
-        {
-            enabled_modules.push(match[1]);
-        }
+        var enabled_modules = _getEnabledModules();
         var files = app.node.fs.readdirSync(modulesPath);
         var modules = [];
         for (var index = 0; index < files.length; index += 1)
@@ -143,23 +112,44 @@
     };
 
     /**
+     * Gets the enabled modules (by reading the httpd.conf file)
+     * @return array
+     */
+    var _getEnabledModules = function()
+    {
+        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
+        var regexp = /[^#]?LoadModule\s(.*)_module.*\.so/gi;
+        var enabled_modules = [];
+        var match;
+        while (match = regexp.exec(httpd))
+        {
+            enabled_modules.push(match[1]);
+        }
+        return enabled_modules;
+    };
+
+    /**
      * Restarts the server when a config file changes (if already running)
      */
     var _onFileChange = function()
     {
         events.emit('working');
         app.logActivity(app.locale.apache.filechange);
-        app.node.exec(apacheStatusCommand, function(error, stdout, stderr)
+        _doOnApacheStatus(module.restart, _requestConfigurationRefresh);
+    };
+
+    /**
+     * Checks the status of apache and calls the needed function
+     * @todo when adding a syntax error to the httpd.conf file, it still displays "running" - check an alternative to "ps aux"
+     * @param is_running_callback
+     * @param is_stopped_callback
+     */
+    var _doOnApacheStatus = function(is_running_callback, is_stopped_callback)
+    {
+        app.node.exec('ps aux', function(error, stdout, stderr)
         {
             var std = stdout + stderr;
-            if (std.search(/\/httpd/) !== -1)
-            {
-                module.restart();
-            }
-            else
-            {
-                _refreshConfiguration();
-            }
+            std.search(/\/httpd/) !== -1 ? is_running_callback(true) : is_stopped_callback(false);
         });
     };
 
@@ -167,21 +157,40 @@
      * Asynchronously refreshes the configuration when a request has bee done (filechange, restart, etc)
      * This will check if Apache is running, get the config files, and send an event when everything is done
      */
-    var _refreshConfiguration = function()
+    var _requestConfigurationRefresh = function(error, stout, stderr)
     {
-        app.node.exec(apacheStatusCommand, function(error, stdout, stderr)
+        _doOnApacheStatus(_refreshConfiguration, _refreshConfiguration);
+    };
+
+    var _refreshConfiguration = function(is_running)
+    {
+        var modules = _getModules();
+        app.logActivity(app.locale.apache.check);
+        app.node.exec('apachectl -t', function(error, stdout, stderr)
         {
-            var is_running = stdout.search(/\/httpd/) !== -1;
-            var modules = _getModules();
-            app.logActivity(app.locale.apache.check);
-            app.node.exec('apachectl -t', function(error, stdout, stderr)
-            {
-                app.logActivity(stdout);
-                app.logActivity(stderr);
-                app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-                events.emit('idle', is_running, modules);
-            });
+            app.logActivity(stdout);
+            app.logActivity(stderr);
+            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
+            events.emit('idle', is_running, modules);
         });
+    };
+
+    /**
+     * Starts the server
+     */
+    var _startServer = function()
+    {
+        app.logActivity(app.locale.apache.start);
+        app.node.exec('sudo apachectl start', _requestConfigurationRefresh);
+    };
+
+    /**
+     * Stops the server
+     */
+    var _stopServer = function()
+    {
+        app.logActivity(app.locale.apache.stop);
+        app.node.exec('sudo apachectl stop', _requestConfigurationRefresh);
     };
 
     app.utils.apache = module;
