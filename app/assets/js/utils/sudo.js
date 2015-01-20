@@ -25,6 +25,7 @@
      */
     module.ask = function()
     {
+        // @todo move script here
         var command = 'sudo -K && osascript templates/sudo.scpt | sudo -S echo "is_sudo"';
         app.node.exec(command, $.proxy(_onAsked, this));
     };

@@ -49,7 +49,7 @@
     /**
      * Toggles the state of a module
      * The watcher will automatically restart the server on file change
-     * @todo backup httpd.conf & refactor
+     * @todo backup httpd.conf & refactor & handle errors / output
      * @param module
      * @param enable
      */
@@ -57,19 +57,23 @@
     {
         events.emit('working');
         app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
-        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'}); // @todo check if file exists
-        var updated_httpd;
-        if (enable)
+        app.utils.shell.exec('cat ' + confPath, function(stdout, stderr)
         {
-            updated_httpd = 'LoadModule ' + module + '_module ' + relativeModulesPath + 'mod_' + module + '.so' + "\n" + httpd;
-        }
-        else
-        {
-            updated_httpd = httpd.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
-        }
-        var updated_httpd_path = tempPath + new Date().getTime() + '.httpd.conf';
-        app.node.fs.writeFileSync(updated_httpd_path, updated_httpd);
-        app.utils.shell.exec('sudo rm ' + confPath + ' && sudo mv ' + updated_httpd_path + ' ' + confPath);
+            var httpd = stdout;
+            var updated_httpd;
+            if (enable)
+            {
+                updated_httpd = 'LoadModule ' + module + '_module ' + relativeModulesPath + 'mod_' + module + '.so' + "\n" + httpd;
+            }
+            else
+            {
+                updated_httpd = httpd.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
+            }
+            app.utils.shell.exec('sudo cat << "EOF" > ' + confPath + "\n" + updated_httpd + 'EOF', function(stdout, stderr)
+            {
+
+            });
+        });
     };
 
     /**
@@ -95,11 +99,10 @@
         var modules = [];
         for (var index = 0; index < files.length; index += 1)
         {
-            var filename = files[index];
-            var match = new RegExp(/^mod_([^.]*)\.so$/).exec(filename);
+            var match = new RegExp(/^mod_([^.]*)\.so$/).exec(files[index]);
             if (match !== null && typeof match[1] !== 'undefined')
             {
-                modules.push({name: match[1], filename: filename, enabled: enabled_modules.indexOf(match[1]) !== -1});
+                modules.push({name: match[1], filename: files[index], enabled: enabled_modules.indexOf(match[1]) !== -1});
             }
         }
         return modules;
