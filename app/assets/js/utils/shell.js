@@ -34,9 +34,11 @@
         {
             app.logActivity(message);
         }
+        app.logActivity(command);
         app.node.exec(command, function(error, stdout, stderr)
         {
-            // @todo log activity
+            app.logActivity(stdout);
+            app.logActivity(stderr);
             if (typeof callback !== 'undefined')
             {
                 callback();

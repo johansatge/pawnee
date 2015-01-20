@@ -46,6 +46,7 @@
 
     /**
      * Logs activity
+     * @todo log in a HTML wrapper to add styles and highlight difference between console output, messages, ...
      * @param message
      */
     app.logActivity = function(message)
