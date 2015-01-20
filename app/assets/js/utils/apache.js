@@ -115,10 +115,15 @@
         var regexp = /[^#]?LoadModule\s(.*)_module.*\.so/gi;
         var enabled_modules = [];
         var match;
-        while (match = regexp.exec(httpd))
+        do
         {
-            enabled_modules.push(match[1]);
+            match = regexp.exec(httpd);
+            if (match !== null)
+            {
+                enabled_modules.push(match[1]);
+            }
         }
+        while (match);
         return enabled_modules;
     };
 
