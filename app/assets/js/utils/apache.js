@@ -39,8 +39,7 @@
     module.restart = function()
     {
         events.emit('working');
-        app.logActivity(app.locale.apache.restart);
-        app.utils.shell.exec('sudo apachectl restart', $.proxy(_requestConfigurationRefresh, this));
+        _restartServer();
     };
 
     /**
@@ -54,7 +53,7 @@
     {
         events.emit('working');
         app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
-        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
+        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'}); // @todo check if file exists
         var updated_httpd;
         if (enable)
         {
@@ -88,7 +87,7 @@
     var _getModules = function()
     {
         var enabled_modules = _getEnabledModules();
-        var files = app.node.fs.readdirSync(modulesPath);
+        var files = app.node.fs.readdirSync(modulesPath); // @todo check if dir exists
         var modules = [];
         for (var index = 0; index < files.length; index += 1)
         {
@@ -108,7 +107,7 @@
      */
     var _getEnabledModules = function()
     {
-        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'});
+        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'}); // @todo check if dir exists & refactor (multiple calls)
         var regexp = /[^#]?LoadModule\s(.*)_module.*\.so/gi;
         var enabled_modules = [];
         var match;
@@ -170,6 +169,15 @@
         app.logActivity(app.locale.apache.stop);
         app.utils.shell.exec('sudo apachectl stop', $.proxy(_requestConfigurationRefresh, this));
     };
+
+    /**
+     * Restarts the server
+     */
+    var _restartServer = function()
+    {
+        app.logActivity(app.locale.apache.restart);
+        app.utils.shell.exec('sudo apachectl restart', $.proxy(_requestConfigurationRefresh, this));
+    }
 
     app.utils.apache = module;
 
