@@ -26,14 +26,9 @@
      * Calls the given function when the process is done if needed
      * @param command
      * @param callback
-     * @param message
      */
-    module.exec = function(command, callback, message)
+    module.exec = function(command, callback)
     {
-        if (typeof message !== 'undefined')
-        {
-            app.logActivity(message);
-        }
         app.logActivity(command);
         app.node.exec(command, function(error, stdout, stderr)
         {
@@ -52,12 +47,8 @@
      * @param running_callback
      * @param idle_callback
      */
-    module.execIfProcessRunning = function(process, running_callback, idle_callback, message)
+    module.execIfProcessRunning = function(process, running_callback, idle_callback)
     {
-        if (typeof message !== 'undefined')
-        {
-            app.logActivity(message);
-        }
         app.node.exec('ps aux', function(error, stdout, stderr)
         {
             var std = stdout + stderr;

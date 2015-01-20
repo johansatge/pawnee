@@ -39,7 +39,8 @@
     module.restart = function()
     {
         events.emit('working');
-        app.utils.shell.exec('sudo apachectl restart', $.proxy(_requestConfigurationRefresh, this), app.locale.apache.restart);
+        app.logActivity(app.locale.apache.restart);
+        app.utils.shell.exec('sudo apachectl restart', $.proxy(_requestConfigurationRefresh, this));
     };
 
     /**
@@ -124,7 +125,8 @@
     var _onFileChange = function()
     {
         events.emit('working');
-        app.utils.shell.execIfProcessRunning('httpd', module.restart, _requestConfigurationRefresh, app.locale.apache.filechange);
+        app.logActivity(app.locale.apache.filechange);
+        app.utils.shell.execIfProcessRunning('httpd', module.restart, _requestConfigurationRefresh);
     };
 
     /**
@@ -143,11 +145,12 @@
     var _refreshConfiguration = function(is_running)
     {
         var modules = _getModules();
+        app.logActivity(app.locale.apache.check);
         app.utils.shell.exec('apachectl -t', function()
         {
             app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
             events.emit('idle', is_running, modules);
-        }, app.locale.apache.check);
+        });
     };
 
     /**
@@ -155,7 +158,8 @@
      */
     var _startServer = function()
     {
-        app.utils.shell.exec('sudo apachectl start', $.proxy(_requestConfigurationRefresh, this), app.locale.apache.start);
+        app.logActivity(app.locale.apache.start);
+        app.utils.shell.exec('sudo apachectl start', $.proxy(_requestConfigurationRefresh, this));
     };
 
     /**
@@ -163,7 +167,8 @@
      */
     var _stopServer = function()
     {
-        app.utils.shell.exec('sudo apachectl stop', $.proxy(_requestConfigurationRefresh, this), app.locale.apache.stop);
+        app.logActivity(app.locale.apache.stop);
+        app.utils.shell.exec('sudo apachectl stop', $.proxy(_requestConfigurationRefresh, this));
     };
 
     app.utils.apache = module;
