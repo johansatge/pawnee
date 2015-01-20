@@ -1,5 +1,6 @@
 /**
  * Apache utils
+ * @todo handle errors when doing shell scripts
  */
 (function(app, $)
 {
@@ -30,7 +31,10 @@
     module.startstop = function()
     {
         events.emit('working');
-        app.utils.shell.execIfProcessRunning('httpd', _stopServer, _startServer);
+        app.utils.shell.isProcessRunning('httpd', function(is_running)
+        {
+            (is_running ? _stopServer : _startServer)();
+        });
     };
 
     /**
@@ -125,7 +129,10 @@
     {
         events.emit('working');
         app.logActivity(app.locale.apache.filechange);
-        app.utils.shell.execIfProcessRunning('httpd', module.restart, _requestConfigurationRefresh);
+        app.utils.shell.isProcessRunning('httpd', function(is_running)
+        {
+            (is_running ? module.restart : _requestConfigurationRefresh)();
+        });
     };
 
     /**
@@ -134,21 +141,14 @@
      */
     var _requestConfigurationRefresh = function()
     {
-        app.utils.shell.execIfProcessRunning('httpd', _refreshConfiguration, _refreshConfiguration);
-    };
-
-    /**
-     * Sends an event containing the up-to-date server informations
-     * @param is_running
-     */
-    var _refreshConfiguration = function(is_running)
-    {
-        var modules = _getModules();
-        app.logActivity(app.locale.apache.check);
-        app.utils.shell.exec('apachectl -t', function()
+        app.utils.shell.isProcessRunning('httpd', function(is_running)
         {
-            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-            events.emit('idle', is_running, modules);
+            app.logActivity(app.locale.apache.check);
+            app.utils.shell.exec('apachectl -t', function()
+            {
+                app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
+                events.emit('idle', is_running, _getModules());
+            });
         });
     };
 

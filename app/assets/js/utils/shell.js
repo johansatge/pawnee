@@ -29,30 +29,25 @@
      */
     module.exec = function(command, callback)
     {
-        app.logActivity(command);
         app.node.exec(command, function(error, stdout, stderr)
         {
-            app.logActivity(stdout);
-            app.logActivity(stderr);
             if (typeof callback !== 'undefined')
             {
-                callback();
+                callback(stdout, stderr);
             }
         });
     };
 
     /**
-     * Checks if the given process is running and triggers the callback accordingly
+     * Tells if the given process is running
      * @param process
-     * @param running_callback
-     * @param idle_callback
+     * @param callback
      */
-    module.execIfProcessRunning = function(process, running_callback, idle_callback)
+    module.isProcessRunning = function(process, callback)
     {
         app.node.exec('ps aux', function(error, stdout, stderr)
         {
-            var std = stdout + stderr;
-            std.search(process) !== -1 ? running_callback(true) : idle_callback(false);
+            callback(stdout.search(process) !== -1, stdout, stderr);
         });
     };
 
