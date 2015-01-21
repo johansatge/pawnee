@@ -1,7 +1,7 @@
 /**
  * Shell utils
  */
-(function(app)
+(function(app, Promise)
 {
 
     'use strict';
@@ -27,14 +27,14 @@
      * @param command
      * @param callback
      */
-    module.exec = function(command, callback)
+    module.exec = function(command)
     {
-        app.node.exec(command, function(error, stdout, stderr)
+        return new Promise(function(resolve, reject)
         {
-            if (typeof callback !== 'undefined')
+            app.node.exec(command, function(error, stdout, stderr)
             {
-                callback(stdout, stderr);
-            }
+                resolve(stdout);
+            });
         });
     };
 
@@ -53,4 +53,4 @@
 
     app.utils.shell = module;
 
-})(window.App);
+})(window.App, Promise);

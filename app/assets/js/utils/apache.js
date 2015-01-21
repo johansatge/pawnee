@@ -13,7 +13,6 @@
     var confPath = '/etc/apache2/httpd.conf';
     var modulesPath = '/usr/libexec/apache2/';
     var relativeModulesPath = 'libexec/apache2/';
-    var tempPath = '/private/tmp/';
 
     /**
      * Attaches an event
@@ -49,7 +48,6 @@
     /**
      * Toggles the state of a module
      * The watcher will automatically restart the server on file change
-     * @todo backup httpd.conf & refactor & handle errors / output
      * @param module
      * @param enable
      */
@@ -57,19 +55,11 @@
     {
         events.emit('working');
         app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
-        app.utils.shell.exec('cat ' + confPath, function(stdout, stderr)
+        app.utils.shell.exec('cat ' + confPath).then(function(stdout, stderr) // @todo backup httpd.conf & handle errors
         {
-            var httpd = stdout;
-            var updated_httpd;
-            if (enable)
-            {
-                updated_httpd = 'LoadModule ' + module + '_module ' + relativeModulesPath + 'mod_' + module + '.so' + "\n" + httpd;
-            }
-            else
-            {
-                updated_httpd = httpd.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
-            }
-            app.utils.shell.exec('sudo cat << "EOF" > ' + confPath + "\n" + updated_httpd + 'EOF', function(stdout, stderr)
+            var added_httpd = 'LoadModule ' + module + '_module ' + relativeModulesPath + 'mod_' + module + '.so' + "\n" + stdout;
+            var removed_httpd = stdout.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
+            app.utils.shell.exec('sudo cat << "EOF" > ' + confPath + "\n" + (enable ? added_httpd : removed_httpd) + 'EOF').then(function(stdout, stderr) // @todo handle errors
             {
 
             });
@@ -87,47 +77,6 @@
         watcher.on('ready', _onFileChange);
         app.logActivity(app.locale.apache.watch.replace('%s', confPath));
         app.logActivity(app.locale.apache.watch.replace('%s', modulesPath));
-    };
-
-    /**
-     * Gets the modules list
-     */
-    var _getModules = function()
-    {
-        var enabled_modules = _getEnabledModules();
-        var files = app.node.fs.readdirSync(modulesPath); // @todo check if dir exists
-        var modules = [];
-        for (var index = 0; index < files.length; index += 1)
-        {
-            var match = new RegExp(/^mod_([^.]*)\.so$/).exec(files[index]);
-            if (match !== null && typeof match[1] !== 'undefined')
-            {
-                modules.push({name: match[1], filename: files[index], enabled: enabled_modules.indexOf(match[1]) !== -1});
-            }
-        }
-        return modules;
-    };
-
-    /**
-     * Gets the enabled modules (by reading the httpd.conf file)
-     * @return array
-     */
-    var _getEnabledModules = function()
-    {
-        var httpd = app.node.fs.readFileSync(confPath, {encoding: 'utf8'}); // @todo check if dir exists & refactor (multiple calls)
-        var regexp = /[^#]?LoadModule\s(.*)_module.*\.so/gi;
-        var enabled_modules = [];
-        var match;
-        do
-        {
-            match = regexp.exec(httpd);
-            if (match !== null)
-            {
-                enabled_modules.push(match[1]);
-            }
-        }
-        while (match);
-        return enabled_modules;
     };
 
     /**
@@ -152,10 +101,28 @@
         app.utils.shell.isProcessRunning('httpd', function(is_running)
         {
             app.logActivity(app.locale.apache.check);
-            app.utils.shell.exec('apachectl -t', function()
+            app.utils.shell.exec('apachectl -t').then(function(stdout, stderr) // @todo handle errors
             {
                 app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-                events.emit('idle', is_running, _getModules());
+                app.utils.shell.exec('ls ' + modulesPath).then(function(stdout, stderr) // @todo handle errors & refactors (promises ?)
+                {
+                    var list = stdout;
+                    app.utils.shell.exec('cat ' + confPath).then(function(stdout, stderr) // @todo handle errors & refactors
+                    {
+                        var httpd = stdout;
+                        var enabled_modules = [];
+                        app.utils.regexp.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, httpd, function(match)
+                        {
+                            enabled_modules.push(match);
+                        });
+                        var modules = [];
+                        app.utils.regexp.search(/mod_([^.]*)\.so/g, list, function(match)
+                        {
+                            modules.push({name: match, filename: match + '.so', enabled: enabled_modules.indexOf(match) !== -1});
+                        });
+                        events.emit('idle', is_running, modules);
+                    });
+                });
             });
         });
     };
@@ -166,7 +133,7 @@
     var _startServer = function()
     {
         app.logActivity(app.locale.apache.start);
-        app.utils.shell.exec('sudo apachectl start', $.proxy(_requestConfigurationRefresh, this));
+        app.utils.shell.exec('sudo apachectl start').then(_requestConfigurationRefresh);
     };
 
     /**
@@ -175,7 +142,7 @@
     var _stopServer = function()
     {
         app.logActivity(app.locale.apache.stop);
-        app.utils.shell.exec('sudo apachectl stop', $.proxy(_requestConfigurationRefresh, this));
+        app.utils.shell.exec('sudo apachectl stop').then(_requestConfigurationRefresh);
     };
 
     /**
@@ -184,7 +151,7 @@
     var _restartServer = function()
     {
         app.logActivity(app.locale.apache.restart);
-        app.utils.shell.exec('sudo apachectl restart', $.proxy(_requestConfigurationRefresh, this));
+        app.utils.shell.exec('sudo apachectl restart').then(_requestConfigurationRefresh);
     }
 
     app.utils.apache = module;
