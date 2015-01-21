@@ -27,6 +27,7 @@
      * @param command
      * @param callback
      */
+    /*
     module.exec = function(command)
     {
         return new Promise(function(resolve, reject)
@@ -37,6 +38,7 @@
             });
         });
     };
+    */
 
     /**
      * Tells if the given process is running
