@@ -25,36 +25,14 @@
     };
 
     /**
-     * Starts or stops the server depending on its current state
+     * Toggles the server status (start, stop, restart)
+     * @param state
      */
-    module.start = function()
+    module.toggle = function(state)
     {
         events.emit('working');
-        app.logActivity(app.locale.apache.start);
-        app.node.exec('sudo apachectl start', function(error, stdout, stderr)
-        {
-            _requestConfigurationRefresh();
-        });
-    };
-
-    module.stop = function()
-    {
-        events.emit('working');
-        app.logActivity(app.locale.apache.stop);
-        app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
-        {
-            _requestConfigurationRefresh();
-        });
-    };
-
-    /**
-     * Restarts the server
-     */
-    module.restart = function()
-    {
-        events.emit('working');
-        app.logActivity(app.locale.apache.restart);
-        app.node.exec('sudo apachectl restart', function()
+        app.logActivity(app.locale.apache[state]);
+        app.node.exec('sudo apachectl ' + state, function(error, stdout, stderr)
         {
             _requestConfigurationRefresh();
         });
@@ -103,7 +81,7 @@
         app.logActivity(app.locale.apache.filechange);
         app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
         {
-            (is_running ? module.restart : _requestConfigurationRefresh)();
+            (is_running ? module.toggle : _requestConfigurationRefresh)('restart');
         });
     };
 

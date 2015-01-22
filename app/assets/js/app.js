@@ -123,17 +123,9 @@
      */
     var _onPanelAction = function(action, data)
     {
-        if (action === 'start_server')
+        if (action === 'start_server' || action === 'stop_server' || action === 'restart_server')
         {
-            app.utils.apache.start();
-        }
-        if (action === 'stop_server')
-        {
-            app.utils.apache.stop();
-        }
-        if (action === 'restart_server')
-        {
-            app.utils.apache.restart();
+            app.utils.apache.toggle(action.split('_')[0]);
         }
         if (action === 'toggle_module')
         {
