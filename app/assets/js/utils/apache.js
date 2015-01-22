@@ -1,8 +1,8 @@
 /**
  * Apache utils
- * @todo handle errors when doing shell scripts
+ * @todo handle errors and output when doing shell scripts
  */
-(function(app, Promise)
+(function(app)
 {
 
     'use strict';
@@ -30,7 +30,7 @@
     module.startstop = function()
     {
         events.emit('working');
-        app.utils.shell.isProcessRunning('httpd', function(is_running)
+        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
         {
             (is_running ? _stopServer : _startServer)();
         });
@@ -86,7 +86,7 @@
     {
         events.emit('working');
         app.logActivity(app.locale.apache.filechange);
-        app.utils.shell.isProcessRunning('httpd', function(is_running)
+        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
         {
             (is_running ? module.restart : _requestConfigurationRefresh)();
         });
@@ -98,7 +98,7 @@
      */
     var _requestConfigurationRefresh = function()
     {
-        app.utils.shell.isProcessRunning('httpd', function(is_running)
+        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
         {
             app.logActivity(app.locale.apache.check);
             _checkConfigurationSyntax(is_running);
@@ -155,7 +155,7 @@
     var _startServer = function()
     {
         app.logActivity(app.locale.apache.start);
-        app.node.exec('sudo apachectl start', function()
+        app.node.exec('sudo apachectl start', function(error, stdout, stderr)
         {
             _requestConfigurationRefresh();
         });
@@ -167,7 +167,7 @@
     var _stopServer = function()
     {
         app.logActivity(app.locale.apache.stop);
-        app.node.exec('sudo apachectl stop', function()
+        app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
         {
             _requestConfigurationRefresh();
         });
@@ -187,4 +187,4 @@
 
     app.utils.apache = module;
 
-})(window.App, Promise);
+})(window.App);
