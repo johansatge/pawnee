@@ -27,12 +27,23 @@
     /**
      * Starts or stops the server depending on its current state
      */
-    module.startstop = function()
+    module.start = function()
     {
         events.emit('working');
-        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
+        app.logActivity(app.locale.apache.start);
+        app.node.exec('sudo apachectl start', function(error, stdout, stderr)
         {
-            (is_running ? _stopServer : _startServer)();
+            _requestConfigurationRefresh();
+        });
+    };
+
+    module.stop = function()
+    {
+        events.emit('working');
+        app.logActivity(app.locale.apache.stop);
+        app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
+        {
+            _requestConfigurationRefresh();
         });
     };
 
@@ -42,7 +53,11 @@
     module.restart = function()
     {
         events.emit('working');
-        _restartServer();
+        app.logActivity(app.locale.apache.restart);
+        app.node.exec('sudo apachectl restart', function()
+        {
+            _requestConfigurationRefresh();
+        });
     };
 
     /**
@@ -148,42 +163,6 @@
         {
             app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
             events.emit('idle', is_running, modules);
-        });
-    };
-
-    /**
-     * Starts the server
-     */
-    var _startServer = function()
-    {
-        app.logActivity(app.locale.apache.start);
-        app.node.exec('sudo apachectl start', function(error, stdout, stderr)
-        {
-            _requestConfigurationRefresh();
-        });
-    };
-
-    /**
-     * Stops the server
-     */
-    var _stopServer = function()
-    {
-        app.logActivity(app.locale.apache.stop);
-        app.node.exec('sudo apachectl stop', function(error, stdout, stderr)
-        {
-            _requestConfigurationRefresh();
-        });
-    };
-
-    /**
-     * Restarts the server
-     */
-    var _restartServer = function()
-    {
-        app.logActivity(app.locale.apache.restart);
-        app.node.exec('sudo apachectl restart', function()
-        {
-            _requestConfigurationRefresh();
         });
     };
 

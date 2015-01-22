@@ -123,9 +123,13 @@
      */
     var _onPanelAction = function(action, data)
     {
-        if (action === 'toggle_server')
+        if (action === 'start_server')
         {
-            app.utils.apache.startstop();
+            app.utils.apache.start();
+        }
+        if (action === 'stop_server')
+        {
+            app.utils.apache.stop();
         }
         if (action === 'restart_server')
         {

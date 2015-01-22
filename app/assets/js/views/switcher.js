@@ -68,7 +68,7 @@
             evt.preventDefault();
             if (enabled)
             {
-                events.emit('action', 'toggle_server');
+                events.emit('action', $ui.switch.hasClass('js-off') ? 'start_server' : 'stop_server');
             }
         };
 
