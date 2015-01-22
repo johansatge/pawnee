@@ -101,55 +101,46 @@
         app.utils.shell.isProcessRunning('httpd', function(is_running)
         {
             app.logActivity(app.locale.apache.check);
-            _checkConfigurationSyntax(is_running).then(_checkAvailableModules).then(_checkEnabledModules).then(_emitConfiguration);
+            _checkConfigurationSyntax(is_running);
         });
     };
 
     var _checkConfigurationSyntax = function(is_running)
     {
-        return new Promise(function(resolve, reject)
+        app.node.exec('apachectl -t', function(error, stdout, stderr)
         {
-            app.node.exec('apachectl -t', function(error, stdout, stderr)
-            {
-                app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-                resolve({is_running: is_running});
-            });
+            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
+            _checkAvailableModules({is_running: is_running});
         });
     };
 
     var _checkAvailableModules = function(server)
     {
-        return new Promise(function(resolve, reject)
+        app.node.exec('ls ' + modulesPath, function(error, stdout, stderr) // @todo handle errors & refactors (promises ?)
         {
-            app.node.exec('ls ' + modulesPath, function(error, stdout, stderr) // @todo handle errors & refactors (promises ?)
-            {
-                server.stdout = stdout;
-                resolve(server);
-            });
+            server.stdout = stdout;
+            _checkEnabledModules(server);
         });
     };
 
     var _checkEnabledModules = function(server)
     {
-        return new Promise(function(resolve, reject)
+        var list = server.stdout;
+        app.node.exec('cat ' + confPath, function(error, stdout, stderr) // @todo handle errors & refactors
         {
-            var list = server.stdout;
-            app.node.exec('cat ' + confPath, function(error, stdout, stderr) // @todo handle errors & refactors
+            var httpd = stdout;
+            var enabled_modules = [];
+            app.utils.regexp.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, httpd, function(match)
             {
-                var httpd = stdout;
-                var enabled_modules = [];
-                app.utils.regexp.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, httpd, function(match)
-                {
-                    enabled_modules.push(match);
-                });
-                var modules = [];
-                app.utils.regexp.search(/mod_([^.]*)\.so/g, list, function(match)
-                {
-                    modules.push({name: match, filename: match + '.so', enabled: enabled_modules.indexOf(match) !== -1});
-                });
-                server.modules = modules;
-                resolve(server);
+                enabled_modules.push(match);
             });
+            var modules = [];
+            app.utils.regexp.search(/mod_([^.]*)\.so/g, list, function(match)
+            {
+                modules.push({name: match, filename: match + '.so', enabled: enabled_modules.indexOf(match) !== -1});
+            });
+            server.modules = modules;
+            _emitConfiguration(server);
         });
     };
 
