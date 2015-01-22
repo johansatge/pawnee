@@ -98,50 +98,34 @@
      */
     var _requestConfigurationRefresh = function()
     {
-        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
-        {
-            app.logActivity(app.locale.apache.check);
-            _checkConfigurationSyntax(is_running);
-        });
-    };
-
-    /**
-     * Checks the syntax of the configuration file
-     * @param is_running
-     */
-    var _checkConfigurationSyntax = function(is_running)
-    {
+        app.logActivity(app.locale.apache.check);
         app.node.exec('apachectl -t', function(error, stdout, stderr)
         {
-            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-            _checkAvailableModules(is_running);
+            _checkAvailableModules();
         });
     };
 
     /**
      * Gets the list of available modules
-     * @param is_running
      */
-    var _checkAvailableModules = function(is_running)
+    var _checkAvailableModules = function()
     {
         app.node.exec('ls ' + modulesPath, function(error, stdout, stderr) // @todo handle errors & refactors (promises ?)
         {
-            _checkEnabledModules(is_running, stdout);
+            _checkEnabledModules(stdout);
         });
     };
 
     /**
      * Gets the list of enabled modules
-     * @param is_running
      * @param available_modules
      */
-    var _checkEnabledModules = function(is_running, available_modules)
+    var _checkEnabledModules = function(available_modules)
     {
         app.node.exec('cat ' + confPath, function(error, stdout, stderr) // @todo handle errors & refactors
         {
-            var httpd = stdout;
             var enabled_modules = [];
-            app.utils.regexp.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, httpd, function(match)
+            app.utils.regexp.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
             {
                 enabled_modules.push(match);
             });
@@ -150,18 +134,21 @@
             {
                 modules.push({name: match, filename: match + '.so', enabled: enabled_modules.indexOf(match) !== -1});
             });
-            _emitConfiguration(is_running, modules);
+            _emitConfiguration(modules);
         });
     };
 
     /**
-     * Emits the server configuration to the app
-     * @param is_running
+     * Checks the status and emits the server configuration to the app
      * @param modules
      */
-    var _emitConfiguration = function(is_running, modules)
+    var _emitConfiguration = function(modules)
     {
-        events.emit('idle', is_running, modules);
+        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
+        {
+            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
+            events.emit('idle', is_running, modules);
+        });
     };
 
     /**
