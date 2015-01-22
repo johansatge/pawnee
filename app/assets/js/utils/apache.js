@@ -105,27 +105,38 @@
         });
     };
 
+    /**
+     * Checks the syntax of the configuration file
+     * @param is_running
+     */
     var _checkConfigurationSyntax = function(is_running)
     {
         app.node.exec('apachectl -t', function(error, stdout, stderr)
         {
             app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-            _checkAvailableModules({is_running: is_running});
+            _checkAvailableModules(is_running);
         });
     };
 
-    var _checkAvailableModules = function(server)
+    /**
+     * Gets the list of available modules
+     * @param is_running
+     */
+    var _checkAvailableModules = function(is_running)
     {
         app.node.exec('ls ' + modulesPath, function(error, stdout, stderr) // @todo handle errors & refactors (promises ?)
         {
-            server.stdout = stdout;
-            _checkEnabledModules(server);
+            _checkEnabledModules(is_running, stdout);
         });
     };
 
-    var _checkEnabledModules = function(server)
+    /**
+     * Gets the list of enabled modules
+     * @param is_running
+     * @param available_modules
+     */
+    var _checkEnabledModules = function(is_running, available_modules)
     {
-        var list = server.stdout;
         app.node.exec('cat ' + confPath, function(error, stdout, stderr) // @todo handle errors & refactors
         {
             var httpd = stdout;
@@ -135,18 +146,22 @@
                 enabled_modules.push(match);
             });
             var modules = [];
-            app.utils.regexp.search(/mod_([^.]*)\.so/g, list, function(match)
+            app.utils.regexp.search(/mod_([^.]*)\.so/g, available_modules, function(match)
             {
                 modules.push({name: match, filename: match + '.so', enabled: enabled_modules.indexOf(match) !== -1});
             });
-            server.modules = modules;
-            _emitConfiguration(server);
+            _emitConfiguration(is_running, modules);
         });
     };
 
-    var _emitConfiguration = function(server)
+    /**
+     * Emits the server configuration to the app
+     * @param is_running
+     * @param modules
+     */
+    var _emitConfiguration = function(is_running, modules)
     {
-        events.emit('idle', server.is_running, server.modules);
+        events.emit('idle', is_running, modules);
     };
 
     /**
