@@ -64,8 +64,7 @@
      */
     app.quit = function()
     {
-        // @todo kill windows
-        // @todo close apache watchers
+        app.models.apache.unwatchFiles();
         app.node.gui.App.quit();
     };
 
