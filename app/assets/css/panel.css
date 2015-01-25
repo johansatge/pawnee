@@ -91,10 +91,10 @@ body
 
 .panel .top .switcher.js-disabled
 {
-    opacity: 0.3;
+    opacity : 0.3;
 }
 
-.panel .top .switch
+.panel .top .switcher .switch
 {
     z-index       : 4;
     position      : absolute;
@@ -127,6 +127,35 @@ body
     color       : #747474;
 }
 
+.panel .top .settings
+{
+    display       : block;
+    position      : absolute;
+    top           : 15px;
+    right         : 15px;
+    background    : linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%);
+    width         : 26px;
+    height        : 26px;
+    border        : 1px solid #6b6b6b;
+    border-radius : 50%;
+    box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7);
+}
+
+.panel .top .settings:active
+{
+    background : linear-gradient(to top, #fdfdfd 0%, #e8e8e8 100%);
+    box-shadow : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2)
+}
+
+.panel .top .settings i
+{
+    position  : absolute;
+    font-size : 14px;
+    top       : 6px;
+    left      : 7px;
+    color     : #747474;
+}
+
 .panel .top .restart
 {
     display       : block;
@@ -143,7 +172,7 @@ body
 
 .panel .top .restart.js-disabled
 {
-    opacity: 0.3;
+    opacity : 0.3;
 }
 
 .panel .top .restart:active
