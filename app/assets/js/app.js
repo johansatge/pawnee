@@ -88,7 +88,7 @@
     var _onSudoAnswer = function(answer)
     {
         var callbacks = {'cancel': app.quit, 'fail': app.utils.sudo.ask, 'default': _initPanel};
-        (callbacks[answer] ? callbacks[anwser] : callbacks['default'])();
+        (callbacks[answer] ? callbacks[answer] : callbacks['default'])();
     };
 
     /**

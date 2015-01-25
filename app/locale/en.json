@@ -4,7 +4,7 @@
     "search_placeholder": "Search...",
     "modules_section": "Modules",
     "activity_section": "Activity",
-    "sudo": "Sudo request: %s",
+    "sudo": "Please fill your sudo password.\n\nThe application needs it to gain access to the server state, and to edit configuration files.",
     "apache": {
         "check": "Checking configuration...",
         "stop": "Stopping server...",

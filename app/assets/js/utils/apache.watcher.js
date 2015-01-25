@@ -40,7 +40,7 @@
      */
     module.unwatch = function()
     {
-        watcher.close();
+        //watcher.close();
     };
 
     /**

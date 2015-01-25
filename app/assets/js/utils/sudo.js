@@ -1,6 +1,6 @@
 /**
  * Sudo utils
- * @todo keep alive & make class
+ * @todo keep alive
  */
 (function(app, $)
 {
@@ -9,6 +9,7 @@
 
     var module = {};
     var events = new app.node.events.EventEmitter();
+    var keepAliveDelay = 60000;
 
     /**
      * Attaches an event
@@ -25,8 +26,9 @@
      */
     module.ask = function()
     {
-        // @todo move script here
-        var command = 'sudo -K && osascript templates/sudo.scpt | sudo -S echo "is_sudo"';
+        var prompt_script = 'tell Application \\"System Events\\" to display dialog \\"%s\\" with icon caution with hidden answer default answer \\"\\"';
+        var return_script = 'text returned of result';
+        var command = 'sudo -K && osascript -e "' + prompt_script.replace('%s', app.locale.sudo) + '" -e "' + return_script + '" | sudo -S echo "is_sudo"';
         app.node.exec(command, $.proxy(_onAsked, this));
     };
 
@@ -35,13 +37,27 @@
      * @param error
      * @param stdout
      * @param stderr
-     * @private
      */
     var _onAsked = function(error, stdout, stderr)
     {
         var std = stdout + stderr;
-        var event = std.search(/is_sudo/gi) !== -1 ? 'success' : ((std.search(/-128/g) !== -1 ? 'cancel' : 'fail'));
-        events.emit('answer', event);
+        var answer = std.search(/is_sudo/gi) !== -1 ? 'success' : ((std.search(/-128/g) !== -1 ? 'cancel' : 'fail'));
+        events.emit('answer', answer);
+        if (answer === 'success')
+        {
+            _keepAlive();
+        }
+    };
+
+    /**
+     * Keeps sudo alive
+     */
+    var _keepAlive = function()
+    {
+        app.node.exec('sudo -v', function(error, stdout, stderr)
+        {
+            setTimeout(_keepAlive, keepAliveDelay);
+        });
     };
 
     app.utils.sudo = module;
