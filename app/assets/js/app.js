@@ -1,8 +1,5 @@
 /**
  * App bootstrap
- * @todo check if:
- *  * config files exist
- *  * cli commands exist
  */
 (function(window, $, require, process)
 {
