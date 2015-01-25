@@ -1,5 +1,6 @@
 /**
  * Apache modules
+ * @todo backup httpd.conf before editing
  */
 (function(app)
 {
@@ -17,13 +18,14 @@
     module.toggleState = function(module, enable)
     {
         app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr) // @todo backup httpd.conf & handle errors
+        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
         {
+            app.logActivity(stderr);
             var added_httpd = 'LoadModule ' + module + '_module ' + app.models.apache.relativeModulesPath + 'mod_' + module + '.so' + "\n" + stdout;
             var removed_httpd = stdout.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
             app.node.exec('sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + (enable ? added_httpd : removed_httpd) + 'EOF', function(error, stdout, stderr)
             {
-                // @todo handle errors
+                app.logActivity(stderr);
             });
         });
     };
@@ -34,8 +36,9 @@
      */
     module.get = function(callback)
     {
-        app.node.exec('ls ' + app.models.apache.modulesPath, function(error, stdout, stderr) // @todo handle errors & refactors (promises ?)
+        app.node.exec('ls ' + app.models.apache.modulesPath, function(error, stdout, stderr)
         {
+            app.logActivity(stderr);
             _checkEnabledModules(stdout, callback);
         });
     };
@@ -47,8 +50,9 @@
      */
     var _checkEnabledModules = function(available_modules, callback)
     {
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr) // @todo handle errors & refactors
+        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
         {
+            app.logActivity(stderr);
             var enabled_modules = [];
             app.utils.regexp.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
             {

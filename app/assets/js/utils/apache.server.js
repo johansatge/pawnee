@@ -1,6 +1,5 @@
 /**
  * Apache server
- * @todo handle errors and output when doing shell scripts
  */
 (function(app)
 {
@@ -12,6 +11,7 @@
     /**
      * Toggles the server status (start, stop, restart)
      * @param state
+     * @param callback
      */
     module.toggleState = function(state, callback)
     {
@@ -28,8 +28,9 @@
      */
     module.isRunning = function(callback)
     {
-        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
+        _isProcessRunning('/usr/sbin/httpd', function(is_running)
         {
+            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
             callback(is_running);
         });
     };
@@ -40,9 +41,25 @@
      */
     module.checkConfiguration = function(callback)
     {
+        app.logActivity(app.locale.apache.check);
         app.node.exec('apachectl -t', function(error, stdout, stderr)
         {
+            app.logActivity(stderr);
             callback();
+        });
+    };
+
+    /**
+     * Tells if the given process is running
+     * @param process
+     * @param callback
+     */
+    var _isProcessRunning = function(process, callback)
+    {
+        app.node.exec('ps aux', function(error, stdout, stderr)
+        {
+            app.logActivity(stderr);
+            callback(stdout.search(process) !== -1, stdout, stderr);
         });
     };
 

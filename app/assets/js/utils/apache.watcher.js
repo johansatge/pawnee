@@ -1,5 +1,6 @@
 /**
  * Apache watcher
+ * @todo check if target files exist
  */
 (function(app)
 {

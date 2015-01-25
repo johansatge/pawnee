@@ -80,7 +80,6 @@
      */
     var _refreshConfiguration = function()
     {
-        app.logActivity(app.locale.apache.check);
         app.utils.apache.server.checkConfiguration(function()
         {
             app.utils.apache.module.get(_emitConfiguration);
@@ -95,7 +94,6 @@
     {
         app.utils.apache.server.isRunning(function(is_running)
         {
-            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
             events.emit('idle', is_running, modules);
         });
     };
