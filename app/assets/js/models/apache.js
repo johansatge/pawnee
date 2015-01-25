@@ -8,7 +8,6 @@
 
     var module = {};
     var events = new app.node.events.EventEmitter();
-    var watcher;
     module.confPath = '/etc/apache2/httpd.conf';
     module.modulesPath = '/usr/libexec/apache2/';
     module.relativeModulesPath = 'libexec/apache2/';
@@ -28,9 +27,8 @@
      */
     module.watchFiles = function()
     {
-        watcher = new app.utils.apache.watcher();
-        watcher.on('change', _onWatcherUpdate);
-        watcher.watch();
+        app.utils.apache.watcher.on('change', _onWatcherUpdate);
+        app.utils.apache.watcher.watch();
     };
 
     /**
@@ -38,7 +36,7 @@
      */
     module.unwatchFiles = function()
     {
-        watcher.unwatch();
+        app.utils.apache.watcher.unwatch();
     };
 
     /**
