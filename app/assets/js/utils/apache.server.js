@@ -144,6 +144,6 @@
         });
     };
 
-    app.utils.apache = module;
+    app.utils.apache.server = module;
 
 })(window.App);

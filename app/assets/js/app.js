@@ -21,10 +21,12 @@
     app.views = {};
     app.controllers = {};
     app.utils = {};
+    app.utils.apache = {};
     app.devMode = app.node.fs.existsSync('.dev') && app.node.fs.readFileSync('.dev', {encoding: 'utf8'}) === '1';
     app.locale = eval('(' + app.node.fs.readFileSync('locale/en.json') + ')');
 
     var panel;
+    var tray;
 
     /**
      * Inits
@@ -125,11 +127,11 @@
     {
         if (action === 'start_server' || action === 'stop_server' || action === 'restart_server')
         {
-            app.utils.apache.toggle(action.split('_')[0]);
+            app.utils.apache.server.toggle(action.split('_')[0]);
         }
         if (action === 'toggle_module')
         {
-            app.utils.apache.toggleModule(data.module, data.enable);
+            app.utils.apache.server.toggleModule(data.module, data.enable);
         }
     };
 
@@ -138,9 +140,9 @@
      */
     var _initWatcher = function()
     {
-        app.utils.apache.on('working', $.proxy(_onApacheWorking, this));
-        app.utils.apache.on('idle', $.proxy(_onApacheIdle, this));
-        app.utils.apache.watch();
+        app.utils.apache.server.on('working', $.proxy(_onApacheWorking, this));
+        app.utils.apache.server.on('idle', $.proxy(_onApacheIdle, this));
+        app.utils.apache.server.watch();
     };
 
     /**
@@ -166,10 +168,11 @@
      */
     var _initTray = function()
     {
-        var tray = new app.node.gui.Tray({
+        tray = new app.node.gui.Tray({
             title: '',
             icon: 'assets/css/images/menu_icon.png',
-            alticon: 'assets/css/images/menu_alticon.png'
+            alticon: 'assets/css/images/menu_alticon.png',
+            iconsAreTemplates: false
         });
         tray.on('click', $.proxy(_onTrayClick, this));
     };
