@@ -40,7 +40,7 @@
     var _onAsked = function(error, stdout, stderr)
     {
         var std = stdout + stderr;
-        var event = std.search(/is_sudo/gi) !== -1 ? 'success' : (std.search(/-128/g) !== -1 ? 'cancel' : 'fail');
+        var event = std.search(/is_sudo/gi) !== -1 ? 'success' : ((std.search(/-128/g) !== -1 ? 'cancel' : 'fail'));
         events.emit('answer', event);
     };
 

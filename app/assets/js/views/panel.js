@@ -178,6 +178,7 @@
         var _initSections = function()
         {
             $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
+            $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
         };
 
         /**
@@ -209,6 +210,19 @@
             _fitWindowToContent.apply(this, [maxHeight]);
             var $section = $(evt.currentTarget).closest('.js-section');
             $section.toggleClass('js-closed').find('.js-content').slideToggle({duration: 200, complete: $.proxy(_fitWindowToContent, this)});
+        };
+
+        /**
+         * Clears a section
+         * @param evt
+         * @private
+         */
+        var _onClearSection = function(evt)
+        {
+            evt.preventDefault();
+            evt.stopPropagation();
+            var $section = $(evt.currentTarget).closest('.js-section');
+            $section.find('.js-clearable').val('');
         };
 
         /**

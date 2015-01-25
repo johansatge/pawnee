@@ -228,6 +228,7 @@ body
 
 .panel .section .heading .action
 {
+    cursor          : default;
     display         : block;
     float           : right;
     color           : #757678;
