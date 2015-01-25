@@ -27,12 +27,14 @@
 
     var panel;
     var tray;
+    var settings;
 
     /**
      * Inits
      */
     app.init = function()
     {
+        app.node.gui.Window.get().moveTo(0, 0);
         _askSudo();
     };
 
@@ -108,6 +110,7 @@
         _initTray();
         _initMenu();
         _initWatcher();
+        _initSettings();
     };
 
     /**
@@ -125,6 +128,10 @@
         {
             app.models.apache.toggleModuleState(data.module, data.enable);
         }
+        if (action === 'toggle_settings')
+        {
+            settings.popup(data.x, data.y);
+        }
     };
 
     /**
@@ -135,6 +142,15 @@
         app.models.apache.on('working', $.proxy(_onApacheWorking, this));
         app.models.apache.on('idle', $.proxy(_onApacheIdle, this));
         app.models.apache.watchFiles();
+    };
+
+    /**
+     * Inits settings
+     */
+    var _initSettings = function()
+    {
+        settings = new app.controllers.settings();
+        settings.init();
     };
 
     /**

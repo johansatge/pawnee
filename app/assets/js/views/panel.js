@@ -139,6 +139,7 @@
             _initModules();
             _initSwitcher();
             _initSections();
+            _initSettings();
 
             events.emit('loaded');
         };
@@ -161,6 +162,14 @@
             switcherView = new app.views.switcher();
             switcherView.on('action', $.proxy(_onSwitcherAction, this));
             switcherView.init($ui.panel);
+        };
+
+        /**
+         * Inits settings
+         */
+        var _initSettings = function()
+        {
+            $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
         };
 
         /**
@@ -200,6 +209,17 @@
             _fitWindowToContent.apply(this, [maxHeight]);
             var $section = $(evt.currentTarget).closest('.js-section');
             $section.toggleClass('js-closed').find('.js-content').slideToggle({duration: 200, complete: $.proxy(_fitWindowToContent, this)});
+        };
+
+        /**
+         * Toggle settings
+         * @param evt
+         */
+        var _onToggleSettings = function(evt)
+        {
+            evt.preventDefault();
+            var $button = $(evt.currentTarget);
+            events.emit('action', 'toggle_settings', {x: window.x + $button.offset().left + ($button.width() / 2), y: $button.offset().top});
         };
 
         /**

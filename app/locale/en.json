@@ -16,5 +16,10 @@
         "disable_module": "Disabling module %s...",
         "watch": "Starts watching %s.",
         "filechange": "Filechange detected."
+    },
+    "settings":
+    {
+        "about": "About...",
+        "quit": "Quit"
     }
 }

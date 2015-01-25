@@ -38,7 +38,7 @@
      */
     module.unwatchFiles = function()
     {
-        watcher.close();
+        watcher.unwatch();
     };
 
     /**
