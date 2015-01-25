@@ -10,8 +10,6 @@
     {
 
         var events = new app.node.events.EventEmitter();
-        var confPath = '/etc/apache2/httpd.conf';
-        var modulesPath = '/usr/libexec/apache2/';
 
         /**
          * Attaches an event
@@ -28,12 +26,12 @@
          */
         this.watch = function()
         {
-            var watcher = app.node.watcher.watch(confPath, {persistent: true});
-            watcher.add(modulesPath);
+            var watcher = app.node.watcher.watch(app.models.apache.confPath, {persistent: true});
+            watcher.add(app.models.apache.modulesPath);
             watcher.on('change', _onFileChange);
             watcher.on('ready', _onFileChange);
-            app.logActivity(app.locale.apache.watch.replace('%s', confPath));
-            app.logActivity(app.locale.apache.watch.replace('%s', modulesPath));
+            app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.confPath));
+            app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.modulesPath));
         };
 
         /**

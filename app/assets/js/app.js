@@ -127,11 +127,11 @@
     {
         if (action === 'start_server' || action === 'stop_server' || action === 'restart_server')
         {
-            app.utils.apache.server.toggle(action.split('_')[0]);
+            app.models.apache.toggleServerState(action.split('_')[0]);
         }
         if (action === 'toggle_module')
         {
-            app.utils.apache.server.toggleModule(data.module, data.enable);
+            app.models.apache.toggleModuleState(data.module, data.enable);
         }
     };
 
@@ -140,9 +140,9 @@
      */
     var _initWatcher = function()
     {
-        app.utils.apache.server.on('working', $.proxy(_onApacheWorking, this));
-        app.utils.apache.server.on('idle', $.proxy(_onApacheIdle, this));
-        app.utils.apache.server.watch();
+        app.models.apache.on('working', $.proxy(_onApacheWorking, this));
+        app.models.apache.on('idle', $.proxy(_onApacheIdle, this));
+        app.models.apache.watchFiles();
     };
 
     /**

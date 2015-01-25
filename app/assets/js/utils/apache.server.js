@@ -9,89 +9,40 @@
 
     var module = {};
 
-    var events = new app.node.events.EventEmitter();
-
-    /**
-     * Attaches an event
-     * @param event
-     * @param callback
-     */
-    module.on = function(event, callback)
-    {
-        events.on(event, callback);
-    };
-
     /**
      * Toggles the server status (start, stop, restart)
      * @param state
      */
-    module.toggle = function(state)
+    module.toggleState = function(state, callback)
     {
-        events.emit('working');
         app.logActivity(app.locale.apache[state]);
         app.node.exec('sudo apachectl ' + state, function(error, stdout, stderr)
         {
-            _requestConfigurationRefresh();
+            callback();
         });
     };
 
     /**
-     * Toggles the state of a module
-     * The watcher will automatically restart the server on file change
-     * @param module
-     * @param enable
+     * Checks if the server is running
+     * @param callback
      */
-    module.toggleModule = function(module, enable)
+    module.isRunning = function(callback)
     {
-        events.emit('working');
-        app.utils.apache.module.toggle(module, enable);
-    };
-
-    /**
-     * Starts watching files
-     */
-    module.watch = function()
-    {
-        var watcher = new app.utils.apache.watcher();
-        watcher.on('change', _onFileChange);
-        watcher.watch();
-    };
-
-    /**
-     * Restarts the server when a config file changes (if already running)
-     */
-    var _onFileChange = function()
-    {
-        events.emit('working');
         app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
         {
-            (is_running ? module.toggle : _requestConfigurationRefresh)('restart');
+            callback(is_running);
         });
     };
 
     /**
-     * Asynchronously refreshes the configuration when a request has bee done (filechange, restart, etc)
-     * This will check if Apache is running, get the config files, and send an event when everything is done
+     * Checks Apache configuration
+     * @param callback
      */
-    var _requestConfigurationRefresh = function()
+    module.checkConfiguration = function(callback)
     {
-        app.logActivity(app.locale.apache.check);
         app.node.exec('apachectl -t', function(error, stdout, stderr)
         {
-            app.utils.apache.module.get(_emitConfiguration);
-        });
-    };
-
-    /**
-     * Checks the status and emits the server configuration to the app
-     * @param modules
-     */
-    var _emitConfiguration = function(modules)
-    {
-        app.utils.shell.isProcessRunning('/usr/sbin/httpd', function(is_running)
-        {
-            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-            events.emit('idle', is_running, modules);
+            callback();
         });
     };
 
