@@ -39,16 +39,17 @@
 
         /**
          * Populates the list of vhosts
-         * @param modules
+         * @param virtual_hosts
          */
-        this.setHosts = function(modules)
+        this.setHosts = function(virtual_hosts)
         {
             $ui.list.children().remove();
-            for (var index = 0; index < modules.length; index += 1)
+            for (var index = 0; index < virtual_hosts.length; index += 1)
             {
-                var $html = $(app.utils.template.render(row_template, modules[index]));
+                var $html = $(app.utils.template.render(row_template, virtual_hosts[index]));
                 $html.appendTo($ui.list);
                 $html.find('.js-edit').on('click', $.proxy(_onEditVirtualHost, this));
+                $html.get(0).vhost = virtual_hosts[index];
             }
         };
 
@@ -85,6 +86,7 @@
         var _onEditVirtualHost = function(evt)
         {
             evt.preventDefault();
+            events.emit('action', 'edit_vhost', $(evt.currentTarget).closest('.js-vhost').get(0).vhost);
             app.log('@todo edit vhost');
         };
 

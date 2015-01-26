@@ -35,7 +35,10 @@
         {
             var params = {toolbar: app.devMode, frame: false, transparent: true, resizable: false, show: false};
             window = app.node.gui.Window.open('templates/panel.html', params);
-            window.on('document-end', $.proxy(_onWindowInited, this));
+            window.on('document-end', function()
+            {
+                window.window.onload = $.proxy(_onWindowLoaded, this);
+            });
         };
 
         /**
@@ -122,111 +125,60 @@
         };
 
         /**
-         * Triggered when the window has been constructed (the DOM is ready, but the page is still loading)
-         * @private
-         */
-        var _onWindowInited = function()
-        {
-            window.window.onload = $.proxy(_onWindowLoaded, this);
-        };
-
-        /**
          * Triggered when the window content has been loaded (DOM and assets)
          * @todo refactor
          */
         var _onWindowLoaded = function()
         {
             var $body = $(window.window.document.body);
-
             $body.html(app.utils.template.render($body.html(), app.locale));
 
             $ui.panel = $(window.window.document.body).find('.js-panel');
             $ui.activity = $ui.panel.find('.js-activity');
 
-            _fitWindowToContent.apply(this);
             app.utils.window.disableDragDrop(window.window.document);
 
-            _initModules();
-            _initVirtualHosts();
-            _initSwitcher();
-            _initSections();
-            _initSettings();
+            _initSubviews();
+            _initSectionsAndSettings();
+            _fitWindowToContent.apply(this);
 
             events.emit('loaded');
         };
 
         /**
-         * Inits the modules subview
+         * Inits the subviews
          */
-        var _initModules = function()
+        var _initSubviews = function()
         {
             modulesView = new app.views.module();
-            modulesView.on('action', $.proxy(_onModulesAction, this));
+            modulesView.on('action', $.proxy(_onSubviewAction, this));
             modulesView.init($ui.panel.find('.js-modules-list'));
-        };
 
-        /**
-         * Inits the vhosts subview
-         */
-        var _initVirtualHosts = function()
-        {
             virtualHostsView = new app.views.virtualhost();
-            virtualHostsView.on('action', $.proxy(_onVirtualHostsAction, this));
+            virtualHostsView.on('action', $.proxy(_onSubviewAction, this));
             virtualHostsView.init($ui.panel.find('.js-vhosts'));
-        };
 
-        /**
-         * Inits the switcher subview
-         */
-        var _initSwitcher = function()
-        {
             switcherView = new app.views.switcher();
-            switcherView.on('action', $.proxy(_onSwitcherAction, this));
+            switcherView.on('action', $.proxy(_onSubviewAction, this));
             switcherView.init($ui.panel);
         };
 
         /**
-         * Inits settings
+         * Inits sections and settings
          */
-        var _initSettings = function()
+        var _initSectionsAndSettings = function()
         {
+            $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
+            $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
         };
 
         /**
-         * Inits section events
-         */
-        var _initSections = function()
-        {
-            $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
-            $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
-        };
-
-        /**
-         * Switcher action (restarts or toggles the server status)
-         * @param action
-         */
-        var _onSwitcherAction = function(action)
-        {
-            events.emit('action', action);
-        };
-
-        /**
-         * Toggles a module from the child view
+         * Handles an action in a subview and sends it to the controller
          * @param action
          * @param data
          */
-        var _onModulesAction = function(action, data)
-        {
-            events.emit('action', action, data);
-        };
-
-        /**
-         * Triggers vhost action from the child view
-         * @param action
-         * @param data
-         */
-        var _onVirtualHostsAction = function(action ,data)
+        var _onSubviewAction = function(action, data)
         {
             events.emit('action', action, data);
         };
@@ -252,8 +204,7 @@
         {
             evt.preventDefault();
             evt.stopPropagation();
-            var $section = $(evt.currentTarget).closest('.js-section');
-            $section.find('.js-clearable').val('');
+            $(evt.currentTarget).closest('.js-section').find('.js-clearable').val('');
         };
 
         /**

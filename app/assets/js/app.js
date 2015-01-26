@@ -47,7 +47,6 @@
 
     /**
      * Logs activity
-     * @todo log in a HTML wrapper to add styles and highlight difference between console output, messages, ...
      * @param message
      */
     app.logActivity = function(message)
@@ -129,8 +128,11 @@
         {
             settings.popup(data.x, data.y);
         }
-        app.log(action);
-        app.log(data);
+        if (action === 'edit_vhost')
+        {
+            // @todo edit vhost
+            app.log(data);
+        }
     };
 
     /**
