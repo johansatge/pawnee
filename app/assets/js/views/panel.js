@@ -16,6 +16,7 @@
         var maxHeight = 0;
         var modulesView;
         var switcherView;
+        var virtualHostsView;
 
         /**
          * Attaches an event
@@ -64,6 +65,15 @@
         this.setModules = function(modules)
         {
             modulesView.setModules(modules);
+        };
+
+        /**
+         * Populates the list of virtual hosts in the child view
+         * @param virtual_hosts
+         */
+        this.setVirtualHosts = function(virtual_hosts)
+        {
+            virtualHostsView.setHosts(virtual_hosts);
         };
 
         /**
@@ -137,6 +147,7 @@
             app.utils.window.disableDragDrop(window.window.document);
 
             _initModules();
+            _initVirtualHosts();
             _initSwitcher();
             _initSections();
             _initSettings();
@@ -149,9 +160,19 @@
          */
         var _initModules = function()
         {
-            modulesView = new app.views.modules();
+            modulesView = new app.views.module();
             modulesView.on('action', $.proxy(_onModulesAction, this));
             modulesView.init($ui.panel.find('.js-modules-list'));
+        };
+
+        /**
+         * Inits the vhosts subview
+         */
+        var _initVirtualHosts = function()
+        {
+            virtualHostsView = new app.views.virtualhost();
+            virtualHostsView.on('action', $.proxy(_onVirtualHostsAction, this));
+            virtualHostsView.init($ui.panel.find('.js-vhosts'));
         };
 
         /**
@@ -196,6 +217,16 @@
          * @param data
          */
         var _onModulesAction = function(action, data)
+        {
+            events.emit('action', action, data);
+        };
+
+        /**
+         * Triggers vhost action from the child view
+         * @param action
+         * @param data
+         */
+        var _onVirtualHostsAction = function(action ,data)
         {
             events.emit('action', action, data);
         };

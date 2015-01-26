@@ -65,11 +65,12 @@
          * Stops doing Apache CLI stuff
          * @param is_running
          * @param modules
+         * @param virtual_hosts
          */
-        this.setIdle = function(is_running, modules)
+        this.setIdle = function(is_running, modules, virtual_hosts)
         {
-            // @todo update vhost list
             view.setModules(modules);
+            view.setVirtualHosts(virtual_hosts);
             view.togglePendingState(false);
             view.enableSwitcher(is_running);
         };

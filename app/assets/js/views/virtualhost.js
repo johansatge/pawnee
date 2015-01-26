@@ -1,5 +1,5 @@
 /**
- * Modules view
+ * Virtual hosts view
  */
 (function(app, $)
 {
@@ -29,26 +29,26 @@
          */
         this.init = function($dom)
         {
-            row_template = $dom.find('.js-module-template').html();
+            row_template = $dom.find('.js-vhost-template').html();
             $dom.find('.js-search').on('keyup', $.proxy(_onSearchList, this));
+            $dom.find('.js-add').on('click', $.proxy(_onAddHost, this));
             $ui.list = $dom.find('.js-list');
             $ui.loader = $dom.find('.js-load');
             $ui.loader.hide();
         };
 
         /**
-         * Populates the list of modules
-         * @todo tell which ones need a server restart
+         * Populates the list of vhosts
          * @param modules
          */
-        this.setModules = function(modules)
+        this.setHosts = function(modules)
         {
             $ui.list.children().remove();
             for (var index = 0; index < modules.length; index += 1)
             {
                 var $html = $(app.utils.template.render(row_template, modules[index]));
                 $html.appendTo($ui.list);
-                $html.find('.js-checkbox').attr('checked', modules[index].enabled ? 'checked' : false).on('change', $.proxy(_onToggleModule, this));
+                $html.find('.js-edit').on('click', $.proxy(_onEditVirtualHost, this));
             }
         };
 
@@ -59,16 +59,6 @@
         this.togglePendingState = function(visible)
         {
             $ui.loader.toggle(visible);
-        };
-
-        /**
-         * Toggles a module
-         * @param evt
-         */
-        var _onToggleModule = function(evt)
-        {
-            var $checkbox = $(evt.currentTarget);
-            events.emit('action', 'toggle_module', {module: $checkbox.val(), enable: $checkbox.is(':checked')});
         };
 
         /**
@@ -88,8 +78,29 @@
             }
         };
 
+        /**
+         * Edits a vhost
+         * @param evt
+         */
+        var _onEditVirtualHost = function(evt)
+        {
+            evt.preventDefault();
+            app.log('@todo edit vhost');
+        };
+
+        /**
+         * Adds a host
+         * @param evt
+         */
+        var _onAddHost = function(evt)
+        {
+            evt.preventDefault();
+            evt.stopPropagation();
+            app.log('@todo add vhost');
+        };
+
     };
 
-    app.views.modules = module;
+    app.views.virtualhost = module;
 
 })(window.App, jQuery);

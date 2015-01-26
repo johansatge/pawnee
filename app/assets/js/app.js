@@ -129,6 +129,8 @@
         {
             settings.popup(data.x, data.y);
         }
+        app.log(action);
+        app.log(data);
     };
 
     /**
@@ -162,10 +164,11 @@
      * Stops doing Apache CLI stuff
      * @param is_running
      * @param modules
+     * @param virtual_hosts
      */
-    var _onApacheIdle = function(is_running, modules)
+    var _onApacheIdle = function(is_running, modules, virtual_hosts)
     {
-        panel.setIdle(is_running, modules);
+        panel.setIdle(is_running, modules, virtual_hosts);
     };
 
     /**

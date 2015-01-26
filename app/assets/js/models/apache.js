@@ -89,19 +89,40 @@
     {
         app.utils.apache.server.checkConfiguration(function()
         {
-            app.utils.apache.module.get(_emitConfiguration);
+            _getModules();
+        });
+    };
+
+    /**
+     * Gets the modules list
+     */
+    var _getModules = function()
+    {
+        app.utils.apache.module.get(_getVirtualHosts);
+    };
+
+    /**
+     * Gets the virtual hosts list
+     * @param modules
+     */
+    var _getVirtualHosts = function(modules)
+    {
+        app.utils.apache.virtualhost.get(function(virtual_hosts)
+        {
+            _emitConfiguration(modules, virtual_hosts);
         });
     };
 
     /**
      * Checks the status and emits the server configuration to the app
      * @param modules
+     * @param virtual_hosts
      */
-    var _emitConfiguration = function(modules)
+    var _emitConfiguration = function(modules, virtual_hosts)
     {
         app.utils.apache.server.isRunning(function(is_running)
         {
-            events.emit('idle', is_running, modules);
+            events.emit('idle', is_running, modules, virtual_hosts);
         });
     };
 

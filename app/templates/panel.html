@@ -34,46 +34,24 @@
                     </select>
                 </div>
             </div>
-            <div class="js-section section">
+            <div class="js-section section js-vhosts">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
                     {{section_vhosts}}
-                    <a class="action" href="#">Add @todo</a>
+                    <a class="action js-add" href="#">{{add}}</a>
                 </div>
-                <div class="js-content js-vhosts-list content">
+                <div class="js-content content">
                     <div class="search">
                         <i class="fa fa-search"></i>
                         <input type="text" class="js-search" placeholder="{{search_placeholder}}">
                     </div>
-                    <ul class="list">
-                        <li class="entry js-search-item">
-                            <span class="name js-search-value">www.domain1.org</span>
-                            <a href="#"><i class="fa fa-pencil"></i></a>
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="name js-search-value">www.domain2.org with a very, very, very, very long domain name</span>
-                            <a href="#"><i class="fa fa-pencil"></i></a>
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="name js-search-value">www.domain3.org</span>
-                            <a href="#"><i class="fa fa-pencil"></i></a>
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="name js-search-value">www.domain4.org</span>
-                            <a href="#"><i class="fa fa-pencil"></i></a>
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="name js-search-value">www.domain5.org</span>
-                            <a href="#"><i class="fa fa-pencil"></i></a>
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="name js-search-value">www.domain6.org</span>
-                            <a href="#"><i class="fa fa-pencil"></i></a>
-                        </li>
-                        <li class="entry js-search-item">
-                            <span class="name js-search-value">www.domain7.org</span>
-                            <a href="#"><i class="fa fa-pencil"></i></a>
-                        </li>
+                    <ul class="list js-list">
+                        <script type="text/template" class="js-vhost-template">
+                            <li class="entry js-search-item">
+                                <span class="name js-search-value">{{name}}</span>
+                                <a href="#" class="js-edit"><i class="fa fa-pencil"></i></a>
+                            </li>
+                        </script>
                     </ul>
                 </div>
             </div>
