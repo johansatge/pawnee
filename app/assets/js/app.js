@@ -24,10 +24,9 @@
 
     var panel;
     var tray;
-    var settings;
 
     /**
-     * Inits
+     * Inits (moves the default window to 0 - 0 for later UI positionning, and asks for sudo privileges)
      */
     app.init = function()
     {
@@ -94,7 +93,6 @@
     {
         panel = new app.controllers.panel();
         panel.on('loaded', $.proxy(_onPanelReady, this));
-        panel.on('action', $.proxy(_onPanelAction, this));
         panel.load();
     };
 
@@ -105,72 +103,6 @@
     {
         _initTray();
         _initMenu();
-        _initWatcher();
-        _initSettings();
-    };
-
-    /**
-     * Triggers an action from the panel
-     * @param action
-     * @param data
-     */
-    var _onPanelAction = function(action, data)
-    {
-        if (action === 'start_server' || action === 'stop_server' || action === 'restart_server')
-        {
-            app.models.apache.toggleServerState(action.split('_')[0]);
-        }
-        if (action === 'toggle_module')
-        {
-            app.models.apache.toggleModuleState(data.module, data.enable);
-        }
-        if (action === 'toggle_settings')
-        {
-            settings.popup(data.x, data.y);
-        }
-        if (action === 'edit_vhost')
-        {
-            // @todo edit vhost
-            app.log(data);
-        }
-    };
-
-    /**
-     * Inits the main Apache watcher
-     */
-    var _initWatcher = function()
-    {
-        app.models.apache.on('working', $.proxy(_onApacheWorking, this));
-        app.models.apache.on('idle', $.proxy(_onApacheIdle, this));
-        app.models.apache.watchFiles();
-    };
-
-    /**
-     * Inits settings
-     */
-    var _initSettings = function()
-    {
-        settings = new app.controllers.settings();
-        settings.init();
-    };
-
-    /**
-     * Starts doing Apache CLI stuff (when a file changes, or if the user asked to do something)
-     */
-    var _onApacheWorking = function()
-    {
-        panel.setWorking();
-    };
-
-    /**
-     * Stops doing Apache CLI stuff
-     * @param is_running
-     * @param modules
-     * @param virtual_hosts
-     */
-    var _onApacheIdle = function(is_running, modules, virtual_hosts)
-    {
-        panel.setIdle(is_running, modules, virtual_hosts);
     };
 
     /**
