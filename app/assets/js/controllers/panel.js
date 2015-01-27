@@ -137,7 +137,7 @@
             }
             if (action === 'delete')
             {
-                // @todo
+                app.models.apache.deleteVirtualHost(virtual_host);
             }
         };
 

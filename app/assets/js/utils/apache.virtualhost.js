@@ -48,9 +48,17 @@
      */
     module.delete = function(virtual_host, callback)
     {
-        app.log('@todo delete vhost');
-
-        callback();
+        app.logActivity(app.locale.apache.delete_vhost);
+        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        {
+            app.logActivity(stderr);
+            var deleted_httpd = stdout.replace(virtual_host.raw, '\n');
+            app.node.exec('sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + deleted_httpd + 'EOF', function(error, stdout, stderr)
+            {
+                app.logActivity(stderr);
+                callback();
+            });
+        });
     };
 
     /**
