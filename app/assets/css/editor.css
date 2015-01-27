@@ -50,3 +50,16 @@ form button.right
 {
     float: right;
 }
+
+input[type=text]
+{
+    height: 28px;
+    font-size: 12px;
+    color: #4a4a4a;
+    border: 1px solid #aaaaaa;
+    font-family: 'Helvetica Neue';
+    border-radius: 5px;
+    padding: 0 8px 0 8px;
+    width: 100%;
+    box-sizing: border-box;
+}

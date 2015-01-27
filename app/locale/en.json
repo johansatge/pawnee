@@ -18,15 +18,17 @@
         "watch": "Starts watching %s.",
         "filechange": "Filechange detected."
     },
-    "settings":
-    {
+    "settings": {
         "about": "About...",
         "quit": "Quit"
     },
-    "editor":
-    {
+    "editor": {
         "save": "Save",
         "cancel": "Cancel",
-        "delete": "Delete"
+        "delete": "Delete",
+        "document_root_label": "Document root",
+        "server_name_label": "Server name",
+        "ip_label": "IP address",
+        "port_label": "Port number"
     }
 }

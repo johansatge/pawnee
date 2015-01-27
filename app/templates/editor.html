@@ -8,7 +8,20 @@
     <body>
         <form>
             <p>
-                @todo fields
+                {{document_root_label}}
+                <input type="text" value="{{document_root}}">
+            </p>
+            <p>
+                {{server_name_label}}
+                <input type="text" value="{{server_name}}">
+            </p>
+            <p>
+                {{ip_label}}
+                <input type="text" value="{{ip}}">
+            </p>
+            <p>
+                {{port_label}}
+                <input type="text" value="{{port}}">
             </p>
             <button>{{save}}</button>
             <button>{{cancel}}</button>
