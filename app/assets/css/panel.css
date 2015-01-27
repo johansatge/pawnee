@@ -194,7 +194,7 @@ body
 {
     z-index    : 2;
     position   : relative;
-    background : #fbfbfb;
+    background : #ffffff;
 }
 
 .panel .section .heading
@@ -370,9 +370,9 @@ body
     padding    : 0 0 0 8px;
 }
 
-.panel .section .list .entry:nth-child(odd)
+.panel .section .list .entry:nth-child(even)
 {
-    background : #ffffff;
+    background : #f5f5f5;
 }
 
 .panel .section .list .entry .name
@@ -397,12 +397,12 @@ body
     content    : '';
     width      : 30px;
     height     : 25px;
-    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fbfbfb)
+    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff)
 }
 
-.panel .section .list .entry:nth-child(odd) .name:after
+.panel .section .list .entry:nth-child(even) .name:after
 {
-    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff);
+    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #f5f5f5);
 }
 
 .panel .section .list .entry .moreinfo
@@ -447,7 +447,6 @@ body
     font-size   : 11px;
     color       : #252525;
     background  : transparent;
-    text-shadow : 0 1px 0 #ffffff;
 }
 
 .panel .bottom
