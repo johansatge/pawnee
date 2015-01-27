@@ -194,7 +194,7 @@ body
 {
     z-index    : 2;
     position   : relative;
-    background : #ffffff;
+    background : #fbfbfb;
 }
 
 .panel .section .heading
@@ -205,9 +205,9 @@ body
     font-size     : 11px;
     line-height   : 11px;
     font-weight   : bold;
-    background    : #f2f3f6;
-    border-top    : 1px solid rgba(163, 163, 163, 1);
-    border-bottom : 1px solid rgba(163, 163, 163, 1);
+    background    : #ececec;
+    border-top    : 1px solid #c0c0c0;
+    border-bottom : 1px solid #c0c0c0;
 }
 
 .panel .section.js-closed .heading
@@ -327,6 +327,7 @@ body
     z-index  : 3;
     position : relative;
     padding  : 5px;
+    display  : none;
 }
 
 .panel .section .search i
@@ -371,7 +372,7 @@ body
 
 .panel .section .list .entry:nth-child(odd)
 {
-    background : #f3f6fb;
+    background : #ffffff;
 }
 
 .panel .section .list .entry .name
@@ -396,12 +397,12 @@ body
     content    : '';
     width      : 30px;
     height     : 25px;
-    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 80%);
+    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #fbfbfb)
 }
 
 .panel .section .list .entry:nth-child(odd) .name:after
 {
-    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(243, 246, 251, 1) 80%);
+    background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff);
 }
 
 .panel .section .list .entry .moreinfo
@@ -439,13 +440,14 @@ body
     display     : block;
     width       : 100%;
     height      : 150px;
-    background  : #ffffff;
     overflow-y  : scroll;
     box-sizing  : border-box;
     padding     : 10px;
     font-family : Courier;
     font-size   : 11px;
     color       : #252525;
+    background  : transparent;
+    text-shadow : 0 1px 0 #ffffff;
 }
 
 .panel .bottom
