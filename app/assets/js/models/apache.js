@@ -64,6 +64,27 @@
     };
 
     /**
+     * Edits a virtual host
+     * @param virtual_host
+     * @param data
+     */
+    module.editVirtualHost = function(virtual_host, data)
+    {
+        events.emit('working');
+        app.utils.apache.virtualhost.edit(virtual_host, data, _refreshConfiguration);
+    };
+
+    /**
+     * Deletes a virtual host
+     * @param virtual_host
+     */
+    module.deleteVirtualHost = function(virtual_host)
+    {
+        events.emit('working');
+        app.utils.apache.virtualhost.delete(virtual_host, _refreshConfiguration);
+    };
+
+    /**
      * Restarts the server when a config file changes (if already running)
      */
     var _onWatcherUpdate = function()

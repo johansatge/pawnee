@@ -29,6 +29,31 @@
     };
 
     /**
+     * Edits a virtual host
+     * @param virtual_host
+     * @param data
+     * @param callback
+     */
+    module.edit = function(virtual_host, data, callback)
+    {
+        app.log('@todo edit vhost');
+
+        callback();
+    };
+
+    /**
+     * Deletes a virtual host
+     * @param virtual_host
+     * @param callback
+     */
+    module.delete = function(virtual_host, callback)
+    {
+        app.log('@todo delete vhost');
+
+        callback();
+    };
+
+    /**
      * Parses the given virtual host
      * @param raw_vhost
      * @returns object

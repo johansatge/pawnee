@@ -97,7 +97,7 @@
         {
             evt.preventDefault();
             evt.stopPropagation();
-            app.log('@todo add vhost');
+            events.emit('action', 'add_vhost');
         };
 
     };

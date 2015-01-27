@@ -114,6 +114,10 @@
                 editor.on('action', $.proxy(_onEditorAction, this));
                 editor.load(data);
             }
+            if (action === 'add_vhost')
+            {
+                app.log('@todo add vhost');
+            }
         };
 
         /**
@@ -129,7 +133,7 @@
             editor.close();
             if (action === 'save')
             {
-                // @todo
+                app.models.apache.editVirtualHost(virtual_host, data);
             }
             if (action === 'delete')
             {
