@@ -37,7 +37,7 @@
          */
         this.load = function()
         {
-            view = new app.views.panel();
+            view = new app.views.panel.main();
             view.init();
             view.on('loaded', $.proxy(_onViewLoaded, this));
             view.on('action', $.proxy(_onViewAction, this));
@@ -110,8 +110,8 @@
             }
             if (action === 'edit_vhost')
             {
-                // @todo edit vhost
-                app.log(data);
+                var editor = new app.controllers.editor();
+                editor.load(data);
             }
         };
 

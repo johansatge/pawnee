@@ -87,6 +87,6 @@
 
     };
 
-    app.views.switcher = module;
+    app.views.panel.switcher = module;
 
 })(window.App, jQuery);

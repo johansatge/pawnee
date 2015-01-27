@@ -59,6 +59,7 @@
         this.togglePendingState = function(visible)
         {
             modulesView.togglePendingState(visible);
+            virtualHostsView.togglePendingState(visible);
         };
 
         /**
@@ -117,11 +118,11 @@
             window.moveTo(x - ($ui.panel.width() / 2) - 6, y);
             _fitWindowToContent.apply(this);
             window.show();
-            window.focus();
             if (app.devMode)
             {
                 window.showDevTools();
             }
+            window.focus();
         };
 
         /**
@@ -131,7 +132,7 @@
         var _onWindowLoaded = function()
         {
             var $body = $(window.window.document.body);
-            $body.html(app.utils.template.render($body.html(), app.locale));
+            $body.html(app.utils.template.render($body.html(), [app.locale]));
 
             $ui.panel = $(window.window.document.body).find('.js-panel');
             $ui.activity = $ui.panel.find('.js-activity');
@@ -150,15 +151,15 @@
          */
         var _initSubviews = function()
         {
-            modulesView = new app.views.module();
+            modulesView = new app.views.panel.module();
             modulesView.on('action', $.proxy(_onSubviewAction, this));
             modulesView.init($ui.panel.find('.js-modules-list'));
 
-            virtualHostsView = new app.views.virtualhost();
+            virtualHostsView = new app.views.panel.virtualhost();
             virtualHostsView.on('action', $.proxy(_onSubviewAction, this));
             virtualHostsView.init($ui.panel.find('.js-vhosts'));
 
-            switcherView = new app.views.switcher();
+            switcherView = new app.views.panel.switcher();
             switcherView.on('action', $.proxy(_onSubviewAction, this));
             switcherView.init($ui.panel);
         };
@@ -231,6 +232,6 @@
 
     };
 
-    app.views.panel = module;
+    app.views.panel.main = module;
 
 })(window.App, jQuery);

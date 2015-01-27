@@ -16,10 +16,13 @@
      */
     module.render = function(template, data)
     {
-        for(var property in data)
+        for(var index = 0; index < data.length; index += 1)
         {
-            var regexp = new RegExp('{{' + property + '}}', 'g');
-            template = template.replace(regexp, data[property]);
+            for(var property in data[index])
+            {
+                var regexp = new RegExp('{{' + property + '}}', 'g');
+                template = template.replace(regexp, data[index][property]);
+            }
         }
         return template;
     };

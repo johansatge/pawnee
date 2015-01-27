@@ -1,4 +1,4 @@
-html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label, ul, li
+html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label, ul, li, button
 {
     margin  : 0;
     padding : 0;
@@ -6,7 +6,7 @@ html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbod
     cursor  : default;
 }
 
-select, input, textarea
+select, input, textarea, button
 {
     outline : 0;
 }

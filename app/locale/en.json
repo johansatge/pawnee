@@ -22,5 +22,11 @@
     {
         "about": "About...",
         "quit": "Quit"
+    },
+    "editor":
+    {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete"
     }
 }

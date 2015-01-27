@@ -1,5 +1,5 @@
 /**
- * Virtual hosts view
+ * Modules view
  */
 (function(app, $)
 {
@@ -29,27 +29,26 @@
          */
         this.init = function($dom)
         {
-            row_template = $dom.find('.js-vhost-template').html();
+            row_template = $dom.find('.js-module-template').html();
             $dom.find('.js-search').on('keyup', $.proxy(_onSearchList, this));
-            $dom.find('.js-add').on('click', $.proxy(_onAddHost, this));
             $ui.list = $dom.find('.js-list');
             $ui.loader = $dom.find('.js-load');
             $ui.loader.hide();
         };
 
         /**
-         * Populates the list of vhosts
-         * @param virtual_hosts
+         * Populates the list of modules
+         * @todo tell which ones need a server restart
+         * @param modules
          */
-        this.setHosts = function(virtual_hosts)
+        this.setModules = function(modules)
         {
             $ui.list.children().remove();
-            for (var index = 0; index < virtual_hosts.length; index += 1)
+            for (var index = 0; index < modules.length; index += 1)
             {
-                var $html = $(app.utils.template.render(row_template, virtual_hosts[index]));
+                var $html = $(app.utils.template.render(row_template, [modules[index]]));
                 $html.appendTo($ui.list);
-                $html.find('.js-edit').on('click', $.proxy(_onEditVirtualHost, this));
-                $html.get(0).vhost = virtual_hosts[index];
+                $html.find('.js-checkbox').attr('checked', modules[index].enabled ? 'checked' : false).on('change', $.proxy(_onToggleModule, this));
             }
         };
 
@@ -60,6 +59,16 @@
         this.togglePendingState = function(visible)
         {
             $ui.loader.toggle(visible);
+        };
+
+        /**
+         * Toggles a module
+         * @param evt
+         */
+        var _onToggleModule = function(evt)
+        {
+            var $checkbox = $(evt.currentTarget);
+            events.emit('action', 'toggle_module', {module: $checkbox.val(), enable: $checkbox.is(':checked')});
         };
 
         /**
@@ -79,30 +88,8 @@
             }
         };
 
-        /**
-         * Edits a vhost
-         * @param evt
-         */
-        var _onEditVirtualHost = function(evt)
-        {
-            evt.preventDefault();
-            events.emit('action', 'edit_vhost', $(evt.currentTarget).closest('.js-vhost').get(0).vhost);
-            app.log('@todo edit vhost');
-        };
-
-        /**
-         * Adds a host
-         * @param evt
-         */
-        var _onAddHost = function(evt)
-        {
-            evt.preventDefault();
-            evt.stopPropagation();
-            app.log('@todo add vhost');
-        };
-
     };
 
-    app.views.virtualhost = module;
+    app.views.panel.module = module;
 
 })(window.App, jQuery);

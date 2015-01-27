@@ -16,6 +16,7 @@
     app.node.exec = require('child_process').exec;
     app.models = {};
     app.views = {};
+    app.views.panel = {};
     app.controllers = {};
     app.utils = {};
     app.utils.apache = {};
