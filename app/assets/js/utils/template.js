@@ -12,19 +12,23 @@
      * Parses and returns a template
      * @param template
      * @param data
+     * @param clean_markers
      * @return string
      */
-    module.render = function(template, data)
+    module.render = function(template, data, clean_markers)
     {
-        for(var index = 0; index < data.length; index += 1)
+        for (var index = 0; index < data.length; index += 1)
         {
-            for(var property in data[index])
+            if (typeof data[index] === 'object')
             {
-                var regexp = new RegExp('{{' + property + '}}', 'g');
-                template = template.replace(regexp, data[index][property]);
+                for (var property in data[index])
+                {
+                    var regex = new RegExp('\{\{' + property + '\}\}', 'g');
+                    template = template.replace(regex, data[index][property]);
+                }
             }
         }
-        return template;
+        return clean_markers ? template.replace(/\{\{[\w_]+\}\}/g, '') : template;
     };
 
     app.utils.template = module;

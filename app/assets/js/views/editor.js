@@ -60,8 +60,12 @@
             }
             window.focus();
             $body = $(window.window.document.body);
-            $body.html(app.utils.template.render($body.html(), [app.locale.editor, virtual_host]));
+            $body.html(app.utils.template.render($body.html(), [app.locale.editor, virtual_host], true));
             $body.find('.js-action').on('click', $.proxy(_onAction, this));
+            if (virtual_host === false)
+            {
+                $body.find('[data-action="delete"]').hide();
+            }
         };
 
         /**

@@ -116,7 +116,9 @@
             }
             if (action === 'add_vhost')
             {
-                app.log('@todo add vhost');
+                var editor = new app.controllers.editor();
+                editor.on('action', $.proxy(_onEditorAction, this));
+                editor.load(false);
             }
         };
 
@@ -133,7 +135,7 @@
             editor.close();
             if (action === 'save')
             {
-                app.models.apache.editVirtualHost(virtual_host, data);
+                app.models.apache.setVirtualHost(virtual_host, data);
             }
             if (action === 'delete')
             {

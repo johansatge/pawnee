@@ -64,14 +64,14 @@
     };
 
     /**
-     * Edits a virtual host
+     * Sets a virtual host (adds or edits)
      * @param virtual_host
      * @param data
      */
-    module.editVirtualHost = function(virtual_host, data)
+    module.setVirtualHost = function(virtual_host, data)
     {
         events.emit('working');
-        app.utils.apache.virtualhost.edit(virtual_host, data, _refreshConfiguration);
+        app.utils.apache.virtualhost.set(virtual_host, data, _refreshConfiguration);
     };
 
     /**

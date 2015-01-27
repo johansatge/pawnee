@@ -29,14 +29,14 @@
     };
 
     /**
-     * Edits a virtual host
+     * Sets a virtual host (adds or edits)
      * @param virtual_host
      * @param data
      * @param callback
      */
-    module.edit = function(virtual_host, data, callback)
+    module.set = function(virtual_host, data, callback)
     {
-        app.logActivity(app.locale.apache.edit_vhost);
+        app.logActivity(app.locale.apache.set_vhost);
         app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
         {
             app.logActivity(stderr);
@@ -45,7 +45,15 @@
             new_virtual_host += '    DocumentRoot ' + data.document_root + '\n';
             new_virtual_host += '    ServerName ' + data.server_name + '\n';
             new_virtual_host += '</VirtualHost>' + '\n';
-            var edited_httpd = stdout.replace(virtual_host.raw, new_virtual_host);
+            var edited_httpd;
+            if (virtual_host !== false)
+            {
+                edited_httpd = stdout.replace(virtual_host.raw, new_virtual_host);
+            }
+            else
+            {
+                edited_httpd = stdout + '\n' + new_virtual_host;
+            }
             app.node.exec('sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + edited_httpd + 'EOF', function(error, stdout, stderr)
             {
                 app.logActivity(stderr);
