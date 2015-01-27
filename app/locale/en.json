@@ -24,7 +24,6 @@
     },
     "editor": {
         "save": "Save",
-        "cancel": "Cancel",
         "delete": "Delete",
         "document_root_label": "Document root",
         "server_name_label": "Server name",

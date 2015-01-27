@@ -7,25 +7,26 @@
     </head>
     <body>
         <form>
-            <p>
+            <div class="heading">
                 {{document_root_label}}
-                <input type="text" value="{{document_root}}">
-            </p>
-            <p>
+            </div>
+            <input type="text" value="{{document_root}}">
+            <div class="heading">
                 {{server_name_label}}
-                <input type="text" value="{{server_name}}">
-            </p>
-            <p>
+            </div>
+            <input type="text" value="{{server_name}}">
+            <div class="heading">
                 {{ip_label}}
-                <input type="text" value="{{ip}}">
-            </p>
-            <p>
+            </div>
+            <input type="text" value="{{ip}}">
+            <div class="heading">
                 {{port_label}}
-                <input type="text" value="{{port}}">
-            </p>
-            <button>{{save}}</button>
-            <button>{{cancel}}</button>
-            <button class="right">{{delete}}</button>
+            </div>
+            <input type="text" value="{{port}}">
         </form>
+        <div class="bottom">
+            <button>{{save}}</button>
+            <button class="right">{{delete}}</button>
+        </div>
     </body>
 </html>

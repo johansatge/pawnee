@@ -190,17 +190,6 @@ body
     color     : #747474;
 }
 
-.panel .top .status
-{
-    float       : right;
-    height      : 58px;
-    line-height : 58px;
-    font-size   : 12px;
-    color       : #6b6b6b;
-    text-shadow : 0 1px 0 rgba(256, 256, 256, 0.6);
-    margin      : 0 15px 0 0;
-}
-
 .panel .section
 {
     z-index    : 2;
@@ -218,7 +207,7 @@ body
     font-weight   : bold;
     background    : #f2f3f6;
     border-top    : 1px solid rgba(163, 163, 163, 1);
-    border-bottom : 1px solid rgba(163, 163, 163, 0.5);
+    border-bottom : 1px solid rgba(163, 163, 163, 1);
 }
 
 .panel .section.js-closed .heading
