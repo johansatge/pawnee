@@ -140,8 +140,8 @@
             app.utils.window.disableDragDrop(window.window.document);
 
             _initSubviews();
-            _initSectionsAndSettings();
             _fitWindowToContent.apply(this);
+            _initSectionsAndSettings();
 
             events.emit('loaded');
         };
@@ -172,6 +172,7 @@
             $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
             $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
+            $ui.panel.find('.js-closed .js-content').slideUp(0);
         };
 
         /**
