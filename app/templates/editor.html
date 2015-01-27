@@ -10,23 +10,23 @@
             <div class="heading">
                 {{document_root_label}}
             </div>
-            <input type="text" value="{{document_root}}">
+            <input type="text" value="{{document_root}}" data-value="document_root">
             <div class="heading">
                 {{server_name_label}}
             </div>
-            <input type="text" value="{{server_name}}">
+            <input type="text" value="{{server_name}}" data-value="server_name">
             <div class="heading">
                 {{ip_label}}
             </div>
-            <input type="text" value="{{ip}}">
+            <input type="text" value="{{ip}}" data-value="ip">
             <div class="heading">
                 {{port_label}}
             </div>
-            <input type="text" value="{{port}}">
+            <input type="text" value="{{port}}" data-value="port">
         </form>
         <div class="bottom">
-            <button>{{save}}</button>
-            <button class="right">{{delete}}</button>
+            <button data-action="save" class="js-action">{{save}}</button>
+            <button data-action="delete" class="js-action right">{{delete}}</button>
         </div>
     </body>
 </html>

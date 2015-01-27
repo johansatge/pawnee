@@ -90,7 +90,7 @@
         };
 
         /**
-         * Fired when an action is called from the view
+         * Handles view actions
          * @param action
          * @param data
          */
@@ -111,7 +111,29 @@
             if (action === 'edit_vhost')
             {
                 var editor = new app.controllers.editor();
+                editor.on('action', $.proxy(_onEditorAction, this));
                 editor.load(data);
+            }
+        };
+
+        /**
+         * Handles editor actions
+         * @todo block actions if apache is already working
+         * @param editor
+         * @param action
+         * @param virtual_host
+         * @param data
+         */
+        var _onEditorAction = function(editor, action, virtual_host, data)
+        {
+            editor.close();
+            if (action === 'save')
+            {
+                // @todo
+            }
+            if (action === 'delete')
+            {
+                // @todo
             }
         };
 

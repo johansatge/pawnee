@@ -10,9 +10,9 @@
     {
 
         var window = null;
-        var $ui = {};
         var events = new app.node.events.EventEmitter();
         var virtual_host;
+        var $body;
 
         /**
          * Attaches an event
@@ -40,6 +40,14 @@
         };
 
         /**
+         * Closes the view
+         */
+        this.close = function()
+        {
+            window.close();
+        };
+
+        /**
          * Triggered when the window content has been loaded (DOM and assets)
          * @todo refactor
          */
@@ -51,8 +59,25 @@
                 window.showDevTools();
             }
             window.focus();
-            var $body = $(window.window.document.body);
+            $body = $(window.window.document.body);
             $body.html(app.utils.template.render($body.html(), [app.locale.editor, virtual_host]));
+            $body.find('.js-action').on('click', $.proxy(_onAction, this));
+        };
+
+        /**
+         * Handles buttons click
+         * @param evt
+         */
+        var _onAction = function(evt)
+        {
+            evt.preventDefault();
+            var form_data = {};
+            $body.find('input[type="text"]').each(function()
+            {
+                var $input = $(this);
+                form_data[$input.data('value')] = $input.val();
+            });
+            events.emit('action', $(evt.currentTarget).data('action'), form_data);
         };
 
     };

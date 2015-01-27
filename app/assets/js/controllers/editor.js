@@ -11,6 +11,7 @@
 
         var events = new app.node.events.EventEmitter();
         var view;
+        var virtual_host;
 
         /**
          * Attaches an event
@@ -24,13 +25,22 @@
 
         /**
          * Inits the controller
-         * @param virtual_host
+         * @param vhost
          */
-        this.load = function(virtual_host)
+        this.load = function(vhost)
         {
+            virtual_host = vhost;
             view = new app.views.editor();
             view.on('action', $.proxy(_onViewAction, this));
             view.init(virtual_host);
+        };
+
+        /**
+         * Closes the view
+         */
+        this.close = function()
+        {
+            view.close();
         };
 
         /**
@@ -40,8 +50,7 @@
          */
         var _onViewAction = function(action, data)
         {
-            app.log(action);
-            app.log(data);
+            events.emit('action', this, action, virtual_host, data);
         };
 
     };
