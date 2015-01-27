@@ -17,7 +17,8 @@
         "disable_module": "Disabling module %s...",
         "watch": "Starts watching %s.",
         "filechange": "Filechange detected.",
-        "delete_vhost": "Deleting virtual host..."
+        "delete_vhost": "Deleting virtual host...",
+        "edit_vhost": "Editing virtual host..."
     },
     "settings": {
         "about": "About...",

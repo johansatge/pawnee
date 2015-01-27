@@ -36,9 +36,22 @@
      */
     module.edit = function(virtual_host, data, callback)
     {
-        app.log('@todo edit vhost');
-
-        callback();
+        app.logActivity(app.locale.apache.edit_vhost);
+        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        {
+            app.logActivity(stderr);
+            var new_virtual_host = '';
+            new_virtual_host += '<VirtualHost ' + data.ip + ':' + data.port + '>\n';
+            new_virtual_host += '    DocumentRoot ' + data.document_root + '\n';
+            new_virtual_host += '    ServerName ' + data.server_name + '\n';
+            new_virtual_host += '</VirtualHost>' + '\n';
+            var edited_httpd = stdout.replace(virtual_host.raw, new_virtual_host);
+            app.node.exec('sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + edited_httpd + 'EOF', function(error, stdout, stderr)
+            {
+                app.logActivity(stderr);
+                callback();
+            });
+        });
     };
 
     /**
