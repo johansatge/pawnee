@@ -37,6 +37,15 @@
             {
                 window.window.onload = $.proxy(_onWindowLoaded, this);
             });
+            window.on('close', $.proxy(_onCloseWindow, this));
+        };
+
+        /**
+         * Focuses the view
+         */
+        this.focus = function()
+        {
+            window.focus();
         };
 
         /**
@@ -44,7 +53,7 @@
          */
         this.close = function()
         {
-            window.close();
+            window.close(true);
         };
 
         /**
@@ -65,6 +74,14 @@
             {
                 $body.find('[data-action="delete"]').hide();
             }
+        };
+
+        /**
+         * Users closes the window
+         */
+        var _onCloseWindow = function()
+        {
+            events.emit('close');
         };
 
         /**

@@ -14,6 +14,7 @@
     app.node.watcher = require('chokidar');
     app.node.util = require('util');
     app.node.exec = require('child_process').exec;
+    app.node.crypto = require('crypto');
     app.models = {};
     app.views = {};
     app.views.panel = {};

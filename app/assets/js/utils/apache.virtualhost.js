@@ -81,6 +81,7 @@
     var _parseVirtualHost = function(raw_vhost)
     {
         var vhost = {};
+        vhost.id = app.node.crypto.createHash('md5').update(raw_vhost).digest('hex');
         vhost.raw = raw_vhost;
         var document_root = new RegExp(/DocumentRoot[ "]+([^";\n]+)/i).exec(raw_vhost);
         vhost.document_root = document_root !== null && typeof document_root[1] !== 'undefined' ? document_root[1] : '';

@@ -32,7 +32,16 @@
             virtual_host = vhost;
             view = new app.views.editor();
             view.on('action', $.proxy(_onViewAction, this));
+            view.on('close', $.proxy(_onViewClose, this));
             view.init(virtual_host);
+        };
+
+        /**
+         * Focuses the view
+         */
+        this.focus = function()
+        {
+            view.focus();
         };
 
         /**
@@ -41,6 +50,15 @@
         this.close = function()
         {
             view.close();
+        };
+
+        /**
+         * Triggered when the window is closed
+         * @private
+         */
+        var _onViewClose = function()
+        {
+            events.emit('action', this, 'close', virtual_host);
         };
 
         /**

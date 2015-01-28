@@ -12,6 +12,7 @@
         var events = new app.node.events.EventEmitter();
         var view;
         var settings;
+        var editors = {};
 
         /**
          * Attaches an event
@@ -110,9 +111,16 @@
             }
             if (action === 'edit_vhost')
             {
-                var editor = new app.controllers.editor();
-                editor.on('action', $.proxy(_onEditorAction, this));
-                editor.load(data);
+                if (typeof editors[data.id] === 'undefined')
+                {
+                    editors[data.id] = new app.controllers.editor();
+                    editors[data.id].on('action', $.proxy(_onEditorAction, this));
+                    editors[data.id].load(data);
+                }
+                else
+                {
+                    editors[data.id].focus();
+                }
             }
             if (action === 'add_vhost')
             {
@@ -132,7 +140,6 @@
          */
         var _onEditorAction = function(editor, action, virtual_host, data)
         {
-            editor.close();
             if (action === 'save')
             {
                 app.models.apache.setVirtualHost(virtual_host, data);
@@ -141,6 +148,8 @@
             {
                 app.models.apache.deleteVirtualHost(virtual_host);
             }
+            editor.close();
+            delete editors[virtual_host.id];
         };
 
     };
