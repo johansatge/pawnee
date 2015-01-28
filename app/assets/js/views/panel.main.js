@@ -121,7 +121,7 @@
         var _initSubviews = function()
         {
             this.module = new app.views.panel.module();
-            this.module.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-modules-list'));
+            this.module.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-modules'));
 
             this.virtualhost = new app.views.panel.virtualhost();
             this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-vhosts'));
@@ -139,6 +139,27 @@
             $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
             $ui.panel.find('.js-closed .js-content').slideUp(0);
+            $ui.panel.find('.js-search input').on('keyup', $.proxy(_onSearchList, this)).on('click', function(evt)
+            {
+                evt.stopPropagation();
+            });
+        };
+
+        /**
+         * Search
+         * @todo update when lists are modified
+         * @param evt
+         */
+        var _onSearchList = function(evt)
+        {
+            var $field = $(evt.currentTarget);
+            var items = $field.closest('.js-section').find('.js-search-item').get();
+            var search_term = $field.val();
+            for (var index = 0; index < items.length; index += 1)
+            {
+                var $item = $(items[index]);
+                $item.toggle($item.find('.js-search-value').text().search(search_term) !== -1);
+            }
         };
 
         /**
@@ -161,6 +182,8 @@
             _fitWindowToContent.apply(this, [maxHeight]);
             var $section = $(evt.currentTarget).closest('.js-section');
             $section.toggleClass('js-closed').find('.js-content').slideToggle({duration: 200, complete: $.proxy(_fitWindowToContent, this)});
+            $section.find('.js-search').fadeToggle(200);
+            $section.find('.js-action').fadeToggle(200);
         };
 
         /**

@@ -31,7 +31,6 @@
         this.init = function($dom)
         {
             row_template = $dom.find('.js-module-template').html();
-            $dom.find('.js-search').on('keyup', $.proxy(_onSearchList, this));
             $ui.list = $dom.find('.js-list');
             $ui.loader = $dom.find('.js-load');
             $ui.loader.hide();
@@ -60,22 +59,6 @@
         {
             var $checkbox = $(evt.currentTarget);
             events.emit('action', 'toggle_module', {module: $checkbox.val(), enable: $checkbox.is(':checked')});
-        };
-
-        /**
-         * Search
-         * @param evt
-         */
-        var _onSearchList = function(evt)
-        {
-            var $field = $(evt.currentTarget);
-            var items = $field.closest('.js-content').find('.js-search-item').get();
-            var search_term = $field.val();
-            for (var index = 0; index < items.length; index += 1)
-            {
-                var $item = $(items[index]);
-                $item.toggle($item.find('.js-search-value').text().search(search_term) !== -1);
-            }
         };
 
     };

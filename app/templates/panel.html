@@ -20,7 +20,7 @@
                     <i class="fa fa-repeat"></i>
                 </a>
             </div>
-            <div class="js-section section js-closed">
+            <div class="js-section section">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
                     {{section_php}}
@@ -34,19 +34,19 @@
                     </select>
                 </div>
             </div>
-            <div class="js-section section js-vhosts js-closed">
+            <div class="js-section section js-vhosts">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
                     {{section_vhosts}}
-                    <a class="action js-add" href="#">{{add}}</a>
+                    <a class="action js-add js-action" href="#">{{add}}</a>
+                    <div class="search js-search">
+                        <i class="fa fa-search"></i>
+                        <input type="text" placeholder="{{search_placeholder}}">
+                    </div>
                 </div>
                 <div class="js-content content">
                     <div class="js-load load">
                         <i class="fa fa-cog fa-spin"></i>
-                    </div>
-                    <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="js-search" placeholder="{{search_placeholder}}">
                     </div>
                     <ul class="list js-list">
                         <script type="text/template" class="js-vhost-template">
@@ -59,18 +59,18 @@
                     </ul>
                 </div>
             </div>
-            <div class="js-section section js-closed">
+            <div class="js-section section js-modules">
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
                     {{modules_section}}
+                    <div class="search js-search">
+                        <i class="fa fa-search"></i>
+                        <input type="text" placeholder="{{search_placeholder}}">
+                    </div>
                 </div>
-                <div class="js-content js-modules-list content">
+                <div class="js-content content">
                     <div class="js-load load">
                         <i class="fa fa-cog fa-spin"></i>
-                    </div>
-                    <div class="search">
-                        <i class="fa fa-search"></i>
-                        <input type="text" class="js-search" placeholder="{{search_placeholder}}">
                     </div>
                     <ul class="list js-list">
                         <script type="text/template" class="js-module-template">
@@ -86,7 +86,7 @@
                 <div class="js-heading heading">
                     <a class="js-toggle toggle" href="#"><i></i></a>
                     {{activity_section}}
-                    <a class="action js-clear" href="#">Clear</a>
+                    <a class="action js-clear js-action" href="#">Clear</a>
                 </div>
                 <textarea class="js-content js-clearable activity js-activity" disabled="disabled"></textarea>
             </div>

@@ -199,6 +199,7 @@ body
 
 .panel .section .heading
 {
+    z-index       : 3;
     position      : relative;
     padding       : 8px 8px 9px 24px;
     color         : #757678;
@@ -218,22 +219,15 @@ body
 .panel .section .heading .action
 {
     cursor          : default;
-    display         : block;
-    float           : right;
-    color           : #757678;
+    margin          : 0 0 0 5px;
+    color           : #bcbcbc;
     text-decoration : none;
-    opacity         : 0.4;
-    transition      : opacity 150ms;
+    transition      : color 150ms;
 }
 
 .panel .section .heading .action:hover
 {
-    opacity : 1;
-}
-
-.panel .section.js-closed .heading .action
-{
-    display : none;
+    color : #757678;
 }
 
 .panel .section .heading .toggle
@@ -271,6 +265,7 @@ body
 .panel .section .content
 {
     position : relative;
+    z-index  : 2;
 }
 
 .panel .section .content.margin
@@ -327,14 +322,15 @@ body
     z-index  : 3;
     position : absolute;
     width    : 150px;
-    margin   : -26px 0 0 270px;
+    top      : 5px;
+    right    : 8px;
 }
 
 .panel .section .search i
 {
     position  : absolute;
-    font-size : 10px;
-    top       : 6px;
+    font-size : 9px;
+    top       : 4px;
     left      : 6px;
     color     : #aeaeae;
 }

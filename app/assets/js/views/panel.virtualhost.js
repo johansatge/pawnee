@@ -31,7 +31,6 @@
         this.init = function($dom)
         {
             row_template = $dom.find('.js-vhost-template').html();
-            $dom.find('.js-search').on('keyup', $.proxy(_onSearchList, this));
             $dom.find('.js-add').on('click', $.proxy(_onAddHost, this));
             $ui.list = $dom.find('.js-list');
             $ui.loader = $dom.find('.js-load');
@@ -40,6 +39,7 @@
 
         /**
          * Populates the list of vhosts
+         * @todo update search
          * @param virtual_hosts
          */
         this.setHosts = function(virtual_hosts)
@@ -51,22 +51,6 @@
                 $html.appendTo($ui.list);
                 $html.find('.js-edit').on('click', $.proxy(_onEditVirtualHost, this));
                 $html.get(0).vhost = virtual_hosts[index];
-            }
-        };
-
-        /**
-         * Search
-         * @param evt
-         */
-        var _onSearchList = function(evt)
-        {
-            var $field = $(evt.currentTarget);
-            var items = $field.closest('.js-content').find('.js-search-item').get();
-            var search_term = $field.val();
-            for (var index = 0; index < items.length; index += 1)
-            {
-                var $item = $(items[index]);
-                $item.toggle($item.find('.js-search-value').text().search(search_term) !== -1);
             }
         };
 
