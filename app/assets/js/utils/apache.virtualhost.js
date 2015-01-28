@@ -41,8 +41,14 @@
             app.logActivity(stderr);
             var new_virtual_host = '';
             new_virtual_host += '<VirtualHost ' + data.ip + ':' + data.port + '>\n';
-            new_virtual_host += '    DocumentRoot ' + data.document_root + '\n';
-            new_virtual_host += '    ServerName ' + data.server_name + '\n';
+            if (data.document_root !== '')
+            {
+                new_virtual_host += '    DocumentRoot ' + data.document_root + '\n';
+            }
+            if (data.server_name !== '')
+            {
+                new_virtual_host += '    ServerName ' + data.server_name + '\n';
+            }
             new_virtual_host += '</VirtualHost>' + '\n';
             var updated_httpd;
             if (virtual_host !== false)
