@@ -96,6 +96,7 @@
             {
                 editors[index].togglePendingState(false);
             }
+            view.updateSearch();
         };
 
         /**

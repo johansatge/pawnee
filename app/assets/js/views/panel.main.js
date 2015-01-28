@@ -70,6 +70,14 @@
         };
 
         /**
+         * Updates the lists with the current search terms
+         */
+        this.updateSearch = function()
+        {
+            $ui.search.trigger('keyup');
+        };
+
+        /**
          * Shows the window
          * @todo hide on blur
          * @param x
@@ -112,6 +120,7 @@
             $ui.panel = $body.find('.js-panel');
             $ui.activity = $ui.panel.find('.js-activity');
             $ui.loader = $ui.panel.find('.js-load');
+            $ui.search = $ui.panel.find('.js-search input');
             app.utils.window.disableDragDrop(window.window.document);
         };
 
@@ -143,7 +152,7 @@
             $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
             $ui.panel.find('.js-closed .js-content').slideUp(0);
-            $ui.panel.find('.js-search input').on('keyup', $.proxy(_onSearchList, this)).on('click', function(evt)
+            $ui.search.on('keyup', $.proxy(_onSearchList, this)).on('click', function(evt)
             {
                 evt.stopPropagation();
             });
