@@ -99,3 +99,8 @@ input[type=text]
 {
     float : right;
 }
+
+.bottom button[disabled=disabled]
+{
+    opacity : 0.5;
+}

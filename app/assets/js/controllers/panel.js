@@ -74,6 +74,10 @@
         {
             view.togglePendingState(true);
             view.switcher.disable();
+            for (var index in editors)
+            {
+                editors[index].togglePendingState(true);
+            }
         };
 
         /**
@@ -88,6 +92,10 @@
             view.virtualhost.setHosts(virtual_hosts);
             view.togglePendingState(false);
             view.switcher.enable(is_running);
+            for (var index in editors)
+            {
+                editors[index].togglePendingState(false);
+            }
         };
 
         /**
@@ -132,7 +140,6 @@
 
         /**
          * Handles editor actions
-         * @todo block actions if apache is already working
          * @param editor
          * @param action
          * @param virtual_host

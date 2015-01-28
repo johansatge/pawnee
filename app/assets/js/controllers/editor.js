@@ -53,6 +53,15 @@
         };
 
         /**
+         * Toggles the pending state of the view
+         * @param is_pending
+         */
+        this.togglePendingState = function(is_pending)
+        {
+            view.togglePendingState(is_pending);
+        };
+
+        /**
          * Triggered when the window is closed
          * @private
          */

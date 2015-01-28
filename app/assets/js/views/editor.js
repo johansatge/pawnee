@@ -57,6 +57,15 @@
         };
 
         /**
+         * Toggles the pending state of the view
+         * @param is_pending
+         */
+        this.togglePendingState = function(is_pending)
+        {
+            $body.find('.js-action').attr('disabled', is_pending ? 'disabled' : false);
+        };
+
+        /**
          * Triggered when the window content has been loaded (DOM and assets)
          */
         var _onWindowLoaded = function()

@@ -51,12 +51,12 @@
         };
 
         /**
-         * Toggles the pending state of the view - mostly used when doing stuff in the system
-         * @param visible
+         * Toggles the pending state of the view
+         * @param is_pending
          */
-        this.togglePendingState = function(visible)
+        this.togglePendingState = function(is_pending)
         {
-            $ui.loader.toggle(visible);
+            $ui.loader.toggle(is_pending);
         };
 
         /**
