@@ -325,17 +325,17 @@ body
 .panel .section .search
 {
     z-index  : 3;
-    position : relative;
-    padding  : 5px;
-    display  : none;
+    position : absolute;
+    width    : 150px;
+    margin   : -26px 0 0 270px;
 }
 
 .panel .section .search i
 {
     position  : absolute;
-    font-size : 12px;
-    top       : 11px;
-    left      : 12px;
+    font-size : 10px;
+    top       : 6px;
+    left      : 6px;
     color     : #aeaeae;
 }
 
@@ -343,8 +343,7 @@ body
 {
     cursor        : text;
     width         : 100%;
-    border        : 2px solid rgba(117, 118, 120, 0.2);
-    height        : 25px;
+    height        : 18px;
     box-sizing    : border-box;
     border-radius : 15px;
     padding       : 0 8px 0 20px;
