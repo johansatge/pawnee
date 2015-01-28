@@ -11,6 +11,7 @@
 
         var events = new app.node.events.EventEmitter();
         var menu;
+        var about = false;
 
         /**
          * Attaches an event
@@ -28,9 +29,9 @@
         this.init = function()
         {
             menu = new app.node.gui.Menu();
-            menu.append(new app.node.gui.MenuItem({label: app.locale.settings.about, click: _onAbout}));
+            menu.append(new app.node.gui.MenuItem({label: app.locale.settings.about, click: $.proxy(_onAbout, this)}));
             menu.append(new app.node.gui.MenuItem({type: 'separator' }));
-            menu.append(new app.node.gui.MenuItem({label: app.locale.settings.quit, click: _onQuit}));
+            menu.append(new app.node.gui.MenuItem({label: app.locale.settings.quit, click: $.proxy(_onQuit, this)}));
         };
 
         /**
@@ -52,12 +53,29 @@
         };
 
         /**
-         * Displays "about" view
-         * @private
+         * Displays "About" view
          */
         var _onAbout = function()
         {
-            alert('@todo');
+            if (about === false)
+            {
+                about = new app.views.about();
+                about.init();
+                about.on('close', $.proxy(_onAboutClose, this));
+            }
+            else
+            {
+                about.focus();
+            }
+        };
+
+        /**
+         * Closes "About" view
+         */
+        var _onAboutClose = function()
+        {
+            about.close();
+            about = false;
         };
 
     };

@@ -31,5 +31,13 @@
         "server_name_label": "Server name",
         "ip_label": "IP address",
         "port_label": "Port number"
+    },
+    "about":
+    {
+        "name": "Pawnee",
+        "version": "Version 1.0.0",
+        "copyright": "© Johan Satgé 2015",
+        "website": "Website",
+        "website_url": "https://github.com/johansatge/pawnee"
     }
 }
