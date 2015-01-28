@@ -14,9 +14,6 @@
         var events = new app.node.events.EventEmitter();
         var isVisible = false;
         var maxHeight = 0;
-        var modulesView;
-        var switcherView;
-        var virtualHostsView;
 
         /**
          * Attaches an event
@@ -35,9 +32,10 @@
         {
             var params = {toolbar: app.devMode, frame: false, transparent: true, resizable: false, show: false};
             window = app.node.gui.Window.open('templates/panel.html', params);
+            var self = this;
             window.on('document-end', function()
             {
-                window.window.onload = $.proxy(_onWindowLoaded, this);
+                window.window.onload = $.proxy(_onWindowLoaded, self);
             });
         };
 
@@ -58,43 +56,7 @@
          */
         this.togglePendingState = function(visible)
         {
-            modulesView.togglePendingState(visible);
-            virtualHostsView.togglePendingState(visible);
-        };
-
-        /**
-         * Populates the list of modules in the child view
-         * @param modules
-         */
-        this.setModules = function(modules)
-        {
-            modulesView.setModules(modules);
-        };
-
-        /**
-         * Populates the list of virtual hosts in the child view
-         * @param virtual_hosts
-         */
-        this.setVirtualHosts = function(virtual_hosts)
-        {
-            virtualHostsView.setHosts(virtual_hosts);
-        };
-
-        /**
-         * Enables the main switcher
-         * @param is_running
-         */
-        this.enableSwitcher = function(is_running)
-        {
-            switcherView.enable(is_running);
-        };
-
-        /**
-         * Disables the main switcher
-         */
-        this.disableSwitcher = function()
-        {
-            switcherView.disable();
+            $ui.loader.toggle(visible);
         };
 
         /**
@@ -127,23 +89,30 @@
 
         /**
          * Triggered when the window content has been loaded (DOM and assets)
-         * @todo refactor
          */
         var _onWindowLoaded = function()
         {
             var $body = $(window.window.document.body);
             $body.html(app.utils.template.render($body.html(), [app.locale]));
 
-            $ui.panel = $(window.window.document.body).find('.js-panel');
-            $ui.activity = $ui.panel.find('.js-activity');
-
-            app.utils.window.disableDragDrop(window.window.document);
-
-            _initSubviews();
+            _initUI.apply(this, [$body]);
+            _initSubviews.apply(this);
             _fitWindowToContent.apply(this);
-            _initSectionsAndSettings();
+            _initSectionsAndSettings.apply(this);
 
             events.emit('loaded');
+        };
+
+        /**
+         * Inits ui
+         * @param $body
+         */
+        var _initUI = function($body)
+        {
+            $ui.panel = $body.find('.js-panel');
+            $ui.activity = $ui.panel.find('.js-activity');
+            $ui.loader = $ui.panel.find('.js-load');
+            app.utils.window.disableDragDrop(window.window.document);
         };
 
         /**
@@ -151,17 +120,14 @@
          */
         var _initSubviews = function()
         {
-            modulesView = new app.views.panel.module();
-            modulesView.on('action', $.proxy(_onSubviewAction, this));
-            modulesView.init($ui.panel.find('.js-modules-list'));
+            this.module = new app.views.panel.module();
+            this.module.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-modules-list'));
 
-            virtualHostsView = new app.views.panel.virtualhost();
-            virtualHostsView.on('action', $.proxy(_onSubviewAction, this));
-            virtualHostsView.init($ui.panel.find('.js-vhosts'));
+            this.virtualhost = new app.views.panel.virtualhost();
+            this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-vhosts'));
 
-            switcherView = new app.views.panel.switcher();
-            switcherView.on('action', $.proxy(_onSubviewAction, this));
-            switcherView.init($ui.panel);
+            this.switcher = new app.views.panel.switcher();
+            this.switcher.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel);
         };
 
         /**
@@ -210,7 +176,7 @@
         };
 
         /**
-         * Toggle settings
+         * Toggles settings
          * @param evt
          */
         var _onToggleSettings = function(evt)

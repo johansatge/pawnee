@@ -21,6 +21,7 @@
         this.on = function(event, callback)
         {
             events.on(event, callback);
+            return this;
         };
 
         /**
@@ -51,15 +52,6 @@
                 $html.find('.js-edit').on('click', $.proxy(_onEditVirtualHost, this));
                 $html.get(0).vhost = virtual_hosts[index];
             }
-        };
-
-        /**
-         * Toggles the pending state of the view
-         * @param visible
-         */
-        this.togglePendingState = function(visible)
-        {
-            $ui.loader.toggle(visible);
         };
 
         /**

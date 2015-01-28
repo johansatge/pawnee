@@ -49,7 +49,6 @@
 
         /**
          * Triggered when the window content has been loaded (DOM and assets)
-         * @todo refactor
          */
         var _onWindowLoaded = function()
         {

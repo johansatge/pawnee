@@ -72,7 +72,7 @@
         var _onApacheWorking = function()
         {
             view.togglePendingState(true);
-            view.disableSwitcher();
+            view.switcher.disable();
         };
 
         /**
@@ -83,10 +83,10 @@
          */
         var _onApacheIdle = function(is_running, modules, virtual_hosts)
         {
-            view.setModules(modules);
-            view.setVirtualHosts(virtual_hosts);
+            view.module.setModules(modules);
+            view.virtualhost.setHosts(virtual_hosts);
             view.togglePendingState(false);
-            view.enableSwitcher(is_running);
+            view.switcher.enable(is_running);
         };
 
         /**

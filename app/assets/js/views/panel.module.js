@@ -21,6 +21,7 @@
         this.on = function(event, callback)
         {
             events.on(event, callback);
+            return this;
         };
 
         /**
@@ -38,7 +39,6 @@
 
         /**
          * Populates the list of modules
-         * @todo tell which ones need a server restart
          * @param modules
          */
         this.setModules = function(modules)
@@ -50,15 +50,6 @@
                 $html.appendTo($ui.list);
                 $html.find('.js-checkbox').attr('checked', modules[index].enabled ? 'checked' : false).on('change', $.proxy(_onToggleModule, this));
             }
-        };
-
-        /**
-         * Toggles the pending state of the view
-         * @param visible
-         */
-        this.togglePendingState = function(visible)
-        {
-            $ui.loader.toggle(visible);
         };
 
         /**
