@@ -23,7 +23,7 @@
             {
                 for (var property in data[index])
                 {
-                    var regex = new RegExp('\{\{' + property + '\}\}', 'g');
+                    var regex = new RegExp('{{' + property + '}}', 'g');
                     template = template.replace(regex, data[index][property]);
                 }
             }
