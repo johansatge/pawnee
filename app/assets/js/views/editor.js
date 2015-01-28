@@ -12,7 +12,7 @@
         var window = null;
         var events = new app.node.events.EventEmitter();
         var virtual_host;
-        var $body;
+        var $ui = {};
 
         /**
          * Attaches an event
@@ -62,7 +62,7 @@
          */
         this.togglePendingState = function(is_pending)
         {
-            $body.find('.js-action').attr('disabled', is_pending ? 'disabled' : false);
+            $ui.body.find('.js-action').attr('disabled', is_pending ? 'disabled' : false);
         };
 
         /**
@@ -76,12 +76,12 @@
                 window.showDevTools();
             }
             window.focus();
-            $body = $(window.window.document.body);
-            $body.html(app.utils.template.render($body.html(), [app.locale.editor, virtual_host], true));
-            $body.find('.js-action').on('click', $.proxy(_onAction, this));
+            $ui.body = $(window.window.document.body);
+            $ui.body.html(app.utils.template.render($ui.body.html(), [app.locale.editor, virtual_host], true));
+            $ui.body.find('.js-action').on('click', $.proxy(_onAction, this));
             if (virtual_host === false)
             {
-                $body.find('[data-action="delete"]').hide();
+                $ui.body.find('[data-action="delete"]').hide();
             }
         };
 
@@ -101,7 +101,7 @@
         {
             evt.preventDefault();
             var form_data = {};
-            $body.find('input[type="text"]').each(function()
+            $ui.body.find('input[type="text"]').each(function()
             {
                 var $input = $(this);
                 form_data[$input.data('value')] = $input.val();
