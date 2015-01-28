@@ -37,7 +37,7 @@
             {
                 window.window.onload = $.proxy(_onWindowLoaded, self);
             });
-            window.on('blur', $.proxy(this.toggle, this));
+            window.on('blur', $.proxy(_onWindowBlur, this));
         };
 
         /**
@@ -103,6 +103,15 @@
             _initSectionsAndSettings.apply(this);
 
             events.emit('loaded');
+        };
+
+        /**
+         * Hides the panel on blur
+         */
+        var _onWindowBlur = function()
+        {
+            window.hide();
+            isVisible = false;
         };
 
         /**
