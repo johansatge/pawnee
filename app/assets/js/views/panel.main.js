@@ -37,6 +37,7 @@
             {
                 window.window.onload = $.proxy(_onWindowLoaded, self);
             });
+            window.on('blur', $.proxy(this.toggle, this));
         };
 
         /**
@@ -57,6 +58,7 @@
         this.togglePendingState = function(is_pending)
         {
             $ui.loader.toggle(is_pending);
+            $ui.search.trigger('keyup');
         };
 
         /**
@@ -67,14 +69,6 @@
         {
             $ui.activity.val($ui.activity.val() + "\n" + message);
             $ui.activity.scrollTop($ui.activity[0].scrollHeight - $ui.activity.height());
-        };
-
-        /**
-         * Updates the lists with the current search terms
-         */
-        this.updateSearch = function()
-        {
-            $ui.search.trigger('keyup');
         };
 
         /**
@@ -151,7 +145,6 @@
             $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
             $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
-            $ui.panel.find('.js-closed .js-content').slideUp(0);
             $ui.search.on('keyup', $.proxy(_onSearchList, this)).on('click', function(evt)
             {
                 evt.stopPropagation();
@@ -160,7 +153,6 @@
 
         /**
          * Search
-         * @todo update when lists are modified
          * @param evt
          */
         var _onSearchList = function(evt)
