@@ -1,6 +1,5 @@
 /**
  * Apache modules
- * @todo backup httpd.conf before editing
  */
 (function(app)
 {
@@ -30,11 +29,7 @@
             {
                 updated_httpd = stdout.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
             }
-            var update_command = 'sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + updated_httpd + 'EOF';
-            app.node.exec(update_command, function(error, stdout, stderr)
-            {
-                app.logActivity(stderr);
-            });
+            app.utils.apache.conf.updateConfiguration(updated_httpd);
         });
     };
 

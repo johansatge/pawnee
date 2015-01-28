@@ -1,6 +1,5 @@
 /**
  * Apache virtual hosts
- * @todo backup httpd.conf before editing
  */
 (function(app)
 {
@@ -45,20 +44,16 @@
             new_virtual_host += '    DocumentRoot ' + data.document_root + '\n';
             new_virtual_host += '    ServerName ' + data.server_name + '\n';
             new_virtual_host += '</VirtualHost>' + '\n';
-            var edited_httpd;
+            var updated_httpd;
             if (virtual_host !== false)
             {
-                edited_httpd = stdout.replace(virtual_host.raw, new_virtual_host);
+                updated_httpd = stdout.replace(virtual_host.raw, new_virtual_host);
             }
             else
             {
-                edited_httpd = stdout + '\n' + new_virtual_host;
+                updated_httpd = stdout + '\n' + new_virtual_host;
             }
-            app.node.exec('sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + edited_httpd + 'EOF', function(error, stdout, stderr)
-            {
-                app.logActivity(stderr);
-                callback();
-            });
+            app.utils.apache.conf.updateConfiguration(updated_httpd, callback);
         });
     };
 
@@ -73,12 +68,8 @@
         app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
         {
             app.logActivity(stderr);
-            var deleted_httpd = stdout.replace(virtual_host.raw, '\n');
-            app.node.exec('sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + deleted_httpd + 'EOF', function(error, stdout, stderr)
-            {
-                app.logActivity(stderr);
-                callback();
-            });
+            var updated_httpd = stdout.replace(virtual_host.raw, '\n');
+            app.utils.apache.conf.updateConfiguration(updated_httpd, callback);
         });
     };
 
