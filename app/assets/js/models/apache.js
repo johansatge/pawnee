@@ -12,6 +12,8 @@
     module.modulesPath = '/usr/libexec/apache2/';
     module.relativeModulesPath = 'libexec/apache2/';
 
+    var watcher;
+
     /**
      * Attaches an event
      * @param event
@@ -27,8 +29,12 @@
      */
     module.watchFiles = function()
     {
-        app.utils.apache.watcher.on('change', _onWatcherUpdate);
-        app.utils.apache.watcher.watch();
+        watcher = app.node.watcher.watch(app.models.apache.confPath, {persistent: true});
+        watcher.add(app.models.apache.modulesPath);
+        watcher.on('change', _onWatcherUpdate);
+        watcher.on('ready', _onWatcherUpdate);
+        app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.confPath));
+        app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.modulesPath));
     };
 
     /**
@@ -36,7 +42,7 @@
      */
     module.unwatchFiles = function()
     {
-        app.utils.apache.watcher.unwatch();
+        //watcher.close();
     };
 
     /**
@@ -90,6 +96,7 @@
     var _onWatcherUpdate = function()
     {
         events.emit('working');
+        app.logActivity(app.locale.apache.filechange);
         app.utils.apache.server.isRunning(function(is_running)
         {
             if (is_running)
