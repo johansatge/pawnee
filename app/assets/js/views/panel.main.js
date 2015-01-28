@@ -120,11 +120,15 @@
          */
         var _initSubviews = function()
         {
+            var $module = $ui.panel.find('.js-modules');
             this.module = new app.views.panel.module();
-            this.module.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-modules'));
+            this.module.on('action', $.proxy(_onSubviewAction, this)).init($module);
+            _toggleSection($module, 0);
 
+            var $vhost = $ui.panel.find('.js-vhosts');
             this.virtualhost = new app.views.panel.virtualhost();
-            this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-vhosts'));
+            this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($vhost);
+            _toggleSection($vhost, 0);
 
             this.switcher = new app.views.panel.switcher();
             this.switcher.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel);
@@ -173,17 +177,28 @@
         };
 
         /**
-         * Toggles a section
+         * Toggles a section when clicking on a heading area
          * @param evt
          */
         var _onToggleSection = function(evt)
         {
             evt.preventDefault();
             _fitWindowToContent.apply(this, [maxHeight]);
-            var $section = $(evt.currentTarget).closest('.js-section');
-            $section.toggleClass('js-closed').find('.js-content').slideToggle({duration: 200, complete: $.proxy(_fitWindowToContent, this)});
-            $section.find('.js-search').fadeToggle(200);
-            $section.find('.js-action').fadeToggle(200);
+            _toggleSection($(evt.currentTarget).closest('.js-section'));
+        };
+
+        /**
+         * Toggles a section
+         * @param $section
+         * @param speed
+         * @private
+         */
+        var _toggleSection = function($section, speed)
+        {
+            speed = speed || 200;
+            $section.toggleClass('js-closed').find('.js-content').slideToggle({duration: speed, complete: $.proxy(_fitWindowToContent, this)});
+            $section.find('.js-search').fadeToggle(speed);
+            $section.find('.js-action').fadeToggle(speed);
         };
 
         /**
