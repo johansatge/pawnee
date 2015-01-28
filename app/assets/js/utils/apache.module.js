@@ -21,9 +21,17 @@
         app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
         {
             app.logActivity(stderr);
-            var added_httpd = 'LoadModule ' + module + '_module ' + app.models.apache.relativeModulesPath + 'mod_' + module + '.so' + "\n" + stdout;
-            var removed_httpd = stdout.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
-            app.node.exec('sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + (enable ? added_httpd : removed_httpd) + 'EOF', function(error, stdout, stderr)
+            var updated_httpd;
+            if (enable)
+            {
+                updated_httpd = 'LoadModule ' + module + '_module ' + app.models.apache.relativeModulesPath + 'mod_' + module + '.so' + "\n" + stdout;
+            }
+            else
+            {
+                updated_httpd = stdout.replace(new RegExp('LoadModule\\s' + module + '_module\\s.*?\\.so\n', 'gi'), '');
+            }
+            var update_command = 'sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + updated_httpd + 'EOF';
+            app.node.exec(update_command, function(error, stdout, stderr)
             {
                 app.logActivity(stderr);
             });
