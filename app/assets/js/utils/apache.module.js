@@ -57,17 +57,38 @@
         {
             app.logActivity(stderr);
             var enabled_modules = [];
-            app.utils.regexp.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
+            _searchRegex(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
             {
                 enabled_modules.push(match);
             });
             var modules = [];
-            app.utils.regexp.search(/mod_([^.]*)\.so/g, available_modules, function(match)
+            _searchRegex(/mod_([^.]*)\.so/g, available_modules, function(match)
             {
                 modules.push({name: match, filename: match + '.so', enabled: enabled_modules.indexOf(match) !== -1});
             });
             callback(modules);
         });
+    };
+
+    /**
+     * Searches for the regex in the given subject
+     * Triggers the callback for each match and sends the first capturing group
+     * @param regexp
+     * @param subject
+     * @param callback
+     */
+    var _searchRegex = function(regexp, subject, callback)
+    {
+        var match;
+        do
+        {
+            match = regexp.exec(subject);
+            if (match !== null)
+            {
+                callback(match[1]);
+            }
+        }
+        while (match);
     };
 
     app.utils.apache.module = module;
