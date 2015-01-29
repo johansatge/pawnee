@@ -110,8 +110,11 @@
          */
         var _onWindowBlur = function()
         {
-            window.hide();
-            isVisible = false;
+            if (!app.devMode)
+            {
+                window.hide();
+                isVisible = false;
+            }
         };
 
         /**

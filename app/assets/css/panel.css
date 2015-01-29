@@ -239,6 +239,7 @@ body
     height     : 27px;
     opacity    : 0.4;
     transition : opacity 150ms;
+    cursor: default;
 }
 
 .panel .section .heading .toggle:hover
