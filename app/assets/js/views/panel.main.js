@@ -145,6 +145,11 @@
             this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($vhost);
             _toggleSection($vhost, 0);
 
+            var $php = $ui.panel.find('.js-php');
+            this.php = new app.views.panel.virtualhost();
+            this.php.on('action', $.proxy(_onSubviewAction, this)).init($php);
+            //_toggleSection($php, 0);
+
             this.switcher = new app.views.panel.switcher();
             this.switcher.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel);
         };
