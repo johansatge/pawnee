@@ -129,31 +129,35 @@
         };
 
         /**
-         * Inits the subviews
+         * Inits subviews
          */
         var _initSubviews = function()
         {
-            var $search = $ui.panel.find('.js-search input');
             this.search = new app.views.panel.search();
-            this.search.init($search);
+            this.search.init($ui.panel.find('.js-search input'));
 
-            var $module = $ui.panel.find('.js-modules');
             this.module = new app.views.panel.module();
-            this.module.on('action', $.proxy(_onSubviewAction, this)).init($module);
-            _toggleSection($module, 0);
+            this.module.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-modules'));
 
-            var $vhost = $ui.panel.find('.js-vhosts');
             this.virtualhost = new app.views.panel.virtualhost();
-            this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($vhost);
-            _toggleSection($vhost, 0);
+            this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-vhosts'));
 
-            var $php = $ui.panel.find('.js-php');
             this.php = new app.views.panel.virtualhost();
-            this.php.on('action', $.proxy(_onSubviewAction, this)).init($php);
-            //_toggleSection($php, 0);
+            this.php.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-php'));
+
+            this.section = new app.views.panel.section();
+            this.section.on('resize', $.proxy(_onResizeSection, this)).init($ui.panel.find('.js-section'));
 
             this.switcher = new app.views.panel.switcher();
             this.switcher.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel);
+        };
+
+        /**
+         * Resizes the window when a section is modified
+         */
+        var _onResizeSection = function()
+        {
+            _fitWindowToContent.apply(this, [maxHeight]);
         };
 
         /**
@@ -161,8 +165,6 @@
          */
         var _initSectionsAndSettings = function()
         {
-            $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
-            $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
         };
 
@@ -174,43 +176,6 @@
         var _onSubviewAction = function(action, data)
         {
             events.emit('action', action, data);
-        };
-
-        /**
-         * Toggles a section when clicking on a heading area
-         * @param evt
-         */
-        var _onToggleSection = function(evt)
-        {
-            evt.preventDefault();
-            _fitWindowToContent.apply(this, [maxHeight]);
-            _toggleSection($(evt.currentTarget).closest('.js-section'));
-        };
-
-        /**
-         * Toggles a section
-         * @param $section
-         * @param speed
-         * @private
-         */
-        var _toggleSection = function($section, speed)
-        {
-            speed = speed || 200;
-            $section.toggleClass('js-closed').find('.js-content').slideToggle({duration: speed, complete: $.proxy(_fitWindowToContent, this)});
-            $section.find('.js-search').fadeToggle(speed);
-            $section.find('.js-action').fadeToggle(speed);
-        };
-
-        /**
-         * Clears a section
-         * @param evt
-         * @private
-         */
-        var _onClearSection = function(evt)
-        {
-            evt.preventDefault();
-            evt.stopPropagation();
-            $(evt.currentTarget).closest('.js-section').find('.js-clearable').val('');
         };
 
         /**

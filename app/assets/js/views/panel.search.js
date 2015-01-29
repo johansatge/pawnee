@@ -9,7 +9,7 @@
     var module = function()
     {
 
-        var $input;
+        var $ui = {};
 
         /**
          * Inits a search input
@@ -17,8 +17,8 @@
          */
         this.init = function($dom)
         {
-            $input = $dom;
-            $input.on('keyup', $.proxy(_onSearchList, this)).on('click', function(evt)
+            $ui.input = $dom;
+            $ui.input.on('keyup', $.proxy(_onSearchList, this)).on('click', function(evt)
             {
                 evt.stopPropagation();
             });
@@ -29,7 +29,7 @@
          */
         this.refresh = function()
         {
-            $input.trigger('keyup');
+            $ui.input.trigger('keyup');
         };
 
         /**
