@@ -58,7 +58,6 @@
         this.togglePendingState = function(is_pending)
         {
             $ui.loader.toggle(is_pending);
-            $ui.search.trigger('keyup');
         };
 
         /**
@@ -126,7 +125,6 @@
             $ui.panel = $body.find('.js-panel');
             $ui.activity = $ui.panel.find('.js-activity');
             $ui.loader = $ui.panel.find('.js-load');
-            $ui.search = $ui.panel.find('.js-search input');
             app.utils.window.disableDragDrop(window.window.document);
         };
 
@@ -135,6 +133,10 @@
          */
         var _initSubviews = function()
         {
+            var $search = $ui.panel.find('.js-search input');
+            this.search = new app.views.panel.search();
+            this.search.init($search);
+
             var $module = $ui.panel.find('.js-modules');
             this.module = new app.views.panel.module();
             this.module.on('action', $.proxy(_onSubviewAction, this)).init($module);
@@ -162,26 +164,6 @@
             $ui.panel.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
             $ui.panel.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
-            $ui.search.on('keyup', $.proxy(_onSearchList, this)).on('click', function(evt)
-            {
-                evt.stopPropagation();
-            });
-        };
-
-        /**
-         * Search
-         * @param evt
-         */
-        var _onSearchList = function(evt)
-        {
-            var $field = $(evt.currentTarget);
-            var items = $field.closest('.js-section').find('.js-search-item').get();
-            var search_term = $field.val();
-            for (var index = 0; index < items.length; index += 1)
-            {
-                var $item = $(items[index]);
-                $item.toggle($item.find('.js-search-value').text().search(search_term) !== -1);
-            }
         };
 
         /**

@@ -92,6 +92,7 @@
             view.virtualhost.setHosts(virtual_hosts);
             view.togglePendingState(false);
             view.switcher.enable(is_running);
+            view.search.refresh();
             for (var index in editors)
             {
                 editors[index].togglePendingState(false);
