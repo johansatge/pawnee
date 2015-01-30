@@ -33,6 +33,15 @@
             $ui.loader.hide();
         };
 
+        /**
+         * Toggles the pending state of the view
+         * @param is_pending
+         */
+        this.togglePendingState = function(is_pending)
+        {
+            $ui.loader.toggle(is_pending);
+        };
+
     };
 
     app.views.panel.php = module;

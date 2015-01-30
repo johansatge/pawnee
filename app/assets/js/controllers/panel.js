@@ -30,7 +30,7 @@
          */
         this.logActivity = function(message)
         {
-            view.logActivity(message);
+            view.activity.logActivity(message);
         };
 
         /**
@@ -39,9 +39,7 @@
         this.load = function()
         {
             view = new app.views.panel.main();
-            view.init();
-            view.on('loaded', $.proxy(_onViewLoaded, this));
-            view.on('action', $.proxy(_onViewAction, this));
+            view.on('loaded', $.proxy(_onViewLoaded, this)).on('action', $.proxy(_onViewAction, this)).init();
             settings = new app.controllers.settings();
             settings.init();
         };
@@ -62,9 +60,7 @@
         var _onViewLoaded = function()
         {
             events.emit('loaded');
-            app.models.apache.on('working', $.proxy(_onApacheWorking, this));
-            app.models.apache.on('idle', $.proxy(_onApacheIdle, this));
-            app.models.apache.watchFiles();
+            app.models.apache.on('working', $.proxy(_onApacheWorking, this)).on('idle', $.proxy(_onApacheIdle, this)).watchFiles();
         };
 
         /**
@@ -72,7 +68,9 @@
          */
         var _onApacheWorking = function()
         {
-            view.togglePendingState(true);
+            view.php.togglePendingState(true);
+            view.module.togglePendingState(true);
+            view.virtualhost.togglePendingState(true);
             view.switcher.disable();
             for (var index in editors)
             {
@@ -88,9 +86,11 @@
          */
         var _onApacheIdle = function(is_running, modules, virtual_hosts)
         {
+            view.php.togglePendingState(false);
+            view.module.togglePendingState(false);
+            view.virtualhost.togglePendingState(false);
             view.module.setModules(modules);
             view.virtualhost.setHosts(virtual_hosts);
-            view.togglePendingState(false);
             view.switcher.enable(is_running);
             view.search.refresh();
             for (var index in editors)

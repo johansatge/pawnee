@@ -23,6 +23,7 @@
         this.on = function(event, callback)
         {
             events.on(event, callback);
+            return this;
         };
 
         /**
@@ -52,25 +53,6 @@
         };
 
         /**
-         * Toggles the pending state of the view
-         * @param is_pending
-         */
-        this.togglePendingState = function(is_pending)
-        {
-            $ui.loader.toggle(is_pending);
-        };
-
-        /**
-         * Logs activity
-         * @param message
-         */
-        this.logActivity = function(message)
-        {
-            $ui.activity.val($ui.activity.val() + "\n" + message);
-            $ui.activity.scrollTop($ui.activity[0].scrollHeight - $ui.activity.height());
-        };
-
-        /**
          * Shows the window
          * @todo hide on blur
          * @param x
@@ -95,44 +77,11 @@
         {
             var $body = $(window.window.document.body);
             $body.html(app.utils.template.render($body.html(), [app.locale]));
-
-            _initUI.apply(this, [$body]);
-            _initSubviews.apply(this);
-            _fitWindowToContent.apply(this);
-            _initSectionsAndSettings.apply(this);
-
-            events.emit('loaded');
-        };
-
-        /**
-         * Hides the panel on blur
-         */
-        var _onWindowBlur = function()
-        {
-            if (!app.devMode)
-            {
-                window.hide();
-                isVisible = false;
-            }
-        };
-
-        /**
-         * Inits ui
-         * @param $body
-         */
-        var _initUI = function($body)
-        {
             $ui.panel = $body.find('.js-panel');
-            $ui.activity = $ui.panel.find('.js-activity');
-            $ui.loader = $ui.panel.find('.js-load');
-            app.utils.window.disableDragDrop(window.window.document);
-        };
 
-        /**
-         * Inits subviews
-         */
-        var _initSubviews = function()
-        {
+            app.utils.window.disableDragDrop(window.window.document);
+            _fitWindowToContent.apply(this);
+
             this.search = new app.views.panel.search();
             this.search.init($ui.panel.find('.js-search input'));
 
@@ -150,6 +99,26 @@
 
             this.switcher = new app.views.panel.switcher();
             this.switcher.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel);
+
+            this.settings = new app.views.panel.settings();
+            this.settings.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-settings'), window);
+
+            this.activity = new app.views.panel.activity();
+            this.activity.init($ui.panel.find('.js-activity'));
+
+            events.emit('loaded');
+        };
+
+        /**
+         * Hides the panel on blur
+         */
+        var _onWindowBlur = function()
+        {
+            if (!app.devMode)
+            {
+                window.hide();
+                isVisible = false;
+            }
         };
 
         /**
@@ -161,14 +130,6 @@
         };
 
         /**
-         * Inits sections and settings
-         */
-        var _initSectionsAndSettings = function()
-        {
-            $ui.panel.find('.js-settings').on('click', $.proxy(_onToggleSettings, this));
-        };
-
-        /**
          * Handles an action in a subview and sends it to the controller
          * @param action
          * @param data
@@ -176,17 +137,6 @@
         var _onSubviewAction = function(action, data)
         {
             events.emit('action', action, data);
-        };
-
-        /**
-         * Toggles settings
-         * @param evt
-         */
-        var _onToggleSettings = function(evt)
-        {
-            evt.preventDefault();
-            var $button = $(evt.currentTarget);
-            events.emit('action', 'toggle_settings', {x: window.x + $button.offset().left + ($button.width() / 2), y: $button.offset().top});
         };
 
         /**

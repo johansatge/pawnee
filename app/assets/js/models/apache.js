@@ -22,6 +22,7 @@
     module.on = function(event, callback)
     {
         events.on(event, callback);
+        return this;
     };
 
     /**

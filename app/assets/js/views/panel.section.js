@@ -29,7 +29,6 @@
         this.init = function($sections)
         {
             $sections.find('.js-heading').on('click', $.proxy(_onToggleSection, this));
-            $sections.find('.js-clear').on('click', $.proxy(_onClearSection, this));
             var sections = $sections.get();
             for(var index = 0; index < sections.length; index += 1)
             {
@@ -65,18 +64,6 @@
             }});
             $section.find('.js-search').fadeToggle(speed);
             $section.find('.js-action').fadeToggle(speed);
-        };
-
-        /**
-         * Clears a section
-         * @param evt
-         * @private
-         */
-        var _onClearSection = function(evt)
-        {
-            evt.preventDefault();
-            evt.stopPropagation();
-            $(evt.currentTarget).closest('.js-section').find('.js-section-clearable').val('');
         };
 
     };
