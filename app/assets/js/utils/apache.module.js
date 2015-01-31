@@ -17,9 +17,8 @@
     module.toggleState = function(module, enable)
     {
         app.logActivity(app.locale.apache[enable ? 'enable_module' : 'disable_module'].replace('%s', module));
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
         {
-            app.logActivity(stderr);
             var updated_httpd;
             if (enable)
             {
@@ -53,9 +52,8 @@
      */
     var _checkEnabledModules = function(available_modules, callback)
     {
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
         {
-            app.logActivity(stderr);
             var enabled_modules = [];
             _searchRegex(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
             {

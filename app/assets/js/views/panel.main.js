@@ -54,7 +54,6 @@
 
         /**
          * Shows the window
-         * @todo hide on blur
          * @param x
          * @param y
          */

@@ -39,7 +39,6 @@
 
         /**
          * Populates the list of vhosts
-         * @todo update search
          * @param virtual_hosts
          */
         this.setHosts = function(virtual_hosts)

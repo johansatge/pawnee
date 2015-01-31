@@ -10,6 +10,19 @@
     var module = {};
 
     /**
+     * Gets httpd.conf
+     * @param callback
+     */
+    module.getConfiguration = function(callback)
+    {
+        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        {
+            app.logActivity(stderr);
+            callback(error, stdout, stderr);
+        });
+    };
+
+    /**
      * Updates httpd.conf
      * @param conf
      * @param callback

@@ -14,9 +14,8 @@
      */
     module.get = function(callback)
     {
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
         {
-            app.logActivity(stderr);
             var raw_vhosts = _parseConfigurationFile(stdout);
             var vhosts = [];
             for (var index = 0; index < raw_vhosts.length; index += 1)
@@ -36,9 +35,8 @@
     module.set = function(virtual_host, data, callback)
     {
         app.logActivity(app.locale.apache.set_vhost);
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
         {
-            app.logActivity(stderr);
             var new_virtual_host = '';
             new_virtual_host += '<VirtualHost ' + data.ip + ':' + data.port + '>\n';
             if (data.document_root !== '')
@@ -71,9 +69,8 @@
     module.delete = function(virtual_host, callback)
     {
         app.logActivity(app.locale.apache.delete_vhost);
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
         {
-            app.logActivity(stderr);
             var updated_httpd = stdout.replace(virtual_host.raw, '\n');
             app.utils.apache.conf.updateConfiguration(updated_httpd, callback);
         });
