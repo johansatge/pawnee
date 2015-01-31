@@ -83,10 +83,14 @@
          * @param is_running
          * @param modules
          * @param virtual_hosts
+         * @param php_versions
+         * @param php_packages
          */
-        var _onApacheIdle = function(is_running, modules, virtual_hosts)
+        var _onApacheIdle = function(is_running, modules, virtual_hosts, php_versions, php_packages)
         {
             view.php.togglePendingState(false);
+            view.php.setVersions(php_versions);
+            view.php.setPackages(php_packages);
             view.module.togglePendingState(false);
             view.virtualhost.togglePendingState(false);
             view.module.setModules(modules);

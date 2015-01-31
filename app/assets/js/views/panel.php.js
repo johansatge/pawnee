@@ -34,6 +34,26 @@
         };
 
         /**
+         * Sets available versions
+         * @param versions
+         */
+        this.setVersions = function(versions)
+        {
+            app.log('@todo set php versions');
+            app.log(versions);
+        };
+
+        /**
+         * Sets available packages
+         * @param packages
+         */
+        this.setPackages = function(packages)
+        {
+            app.log('@todo set php packages');
+            app.log(packages);
+        };
+
+        /**
          * Toggles the pending state of the view
          * @param is_pending
          */

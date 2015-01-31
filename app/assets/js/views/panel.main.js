@@ -90,7 +90,7 @@
             this.virtualhost = new app.views.panel.virtualhost();
             this.virtualhost.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-vhosts'));
 
-            this.php = new app.views.panel.virtualhost();
+            this.php = new app.views.panel.php();
             this.php.on('action', $.proxy(_onSubviewAction, this)).init($ui.panel.find('.js-php'));
 
             this.section = new app.views.panel.section();

@@ -138,7 +138,34 @@
     {
         app.utils.apache.virtualhost.get(function(virtual_hosts)
         {
-            _emitConfiguration(modules, virtual_hosts);
+            _getPHPVersions(modules, virtual_hosts);
+        });
+    };
+
+    /**
+     * Gets PHP versions
+     * @param modules
+     * @param virtual_hosts
+     */
+    var _getPHPVersions = function(modules, virtual_hosts)
+    {
+        app.utils.apache.php.getVersions(function(php_versions)
+        {
+            _getPHPPackages(modules, virtual_hosts, php_versions);
+        });
+    };
+
+    /**
+     * Gets PHP packages
+     * @param modules
+     * @param virtual_hosts
+     * @param php_versions
+     */
+    var _getPHPPackages = function(modules, virtual_hosts, php_versions)
+    {
+        app.utils.apache.php.getPackages(function(php_packages)
+        {
+            _emitConfiguration(modules, virtual_hosts, php_versions, php_packages);
         });
     };
 
@@ -146,12 +173,13 @@
      * Checks the status and emits the server configuration to the app
      * @param modules
      * @param virtual_hosts
+     * @param php_versions
      */
-    var _emitConfiguration = function(modules, virtual_hosts)
+    var _emitConfiguration = function(modules, virtual_hosts, php_versions, php_packages)
     {
         app.utils.apache.server.isRunning(function(is_running)
         {
-            events.emit('idle', is_running, modules, virtual_hosts);
+            events.emit('idle', is_running, modules, virtual_hosts, php_versions, php_packages);
         });
     };
 
