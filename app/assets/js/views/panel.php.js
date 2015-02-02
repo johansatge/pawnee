@@ -45,7 +45,9 @@
             $ui.versionSelect.html('');
             for (var index = 0; index < versions.length; index += 1)
             {
-                $ui.versionSelect.append('<option value="' + versions[index].value + '">' + versions[index].name + '</option>');
+                var selected = versions[index].current ? 'selected="selected" ' : '';
+                var option = '<option ' + selected + 'value="' + versions[index].value + '">' + versions[index].name + '</option>';
+                $ui.versionSelect.append(option);
             }
         };
 
