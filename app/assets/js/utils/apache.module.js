@@ -55,38 +55,17 @@
         app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
         {
             var enabled_modules = [];
-            _searchRegex(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
+            app.utils.regex.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
             {
-                enabled_modules.push(match);
+                enabled_modules.push(match[1]);
             });
             var modules = [];
-            _searchRegex(/mod_([^.]*)\.so/g, available_modules, function(match)
+            app.utils.regex.search(/mod_([^.]*)\.so/g, available_modules, function(match)
             {
-                modules.push({name: match, filename: match + '.so', enabled: enabled_modules.indexOf(match) !== -1});
+                modules.push({name: match[1], filename: match[1] + '.so', enabled: enabled_modules.indexOf(match[1]) !== -1});
             });
             callback(modules);
         });
-    };
-
-    /**
-     * Searches for the regex in the given subject
-     * Triggers the callback for each match and sends the first capturing group
-     * @param regexp
-     * @param subject
-     * @param callback
-     */
-    var _searchRegex = function(regexp, subject, callback)
-    {
-        var match;
-        do
-        {
-            match = regexp.exec(subject);
-            if (match !== null)
-            {
-                callback(match[1]);
-            }
-        }
-        while (match);
     };
 
     app.utils.apache.module = module;

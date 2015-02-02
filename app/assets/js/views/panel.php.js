@@ -31,7 +31,8 @@
         {
             $ui.loader = $dom.find('.js-load');
             $ui.loader.hide();
-            $dom.find('.js-php-version').on('change', $.proxy(_onChangeVersion, this));
+            $ui.versionSelect = $dom.find('.js-php-version');
+            $ui.versionSelect.on('change', $.proxy(_onChangeVersion, this));
             $dom.find('.js-php-package').on('change', $.proxy(_onSelectPackage, this));
         };
 
@@ -41,8 +42,11 @@
          */
         this.setVersions = function(versions)
         {
-            app.log('@todo set php versions');
-            app.log(versions);
+            $ui.versionSelect.html('');
+            for (var index = 0; index < versions.length; index += 1)
+            {
+                $ui.versionSelect.append('<option value="' + versions[index].value + '">' + versions[index].name + '</option>');
+            }
         };
 
         /**

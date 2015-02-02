@@ -238,7 +238,7 @@ body
     height     : 27px;
     opacity    : 0.4;
     transition : opacity 150ms;
-    cursor: default;
+    cursor     : default;
 }
 
 .panel .section .heading .toggle:hover
@@ -279,8 +279,8 @@ body
     position : absolute;
     width    : 100%;
     height   : 100%;
-    top: 0;
-    left: 0;
+    top      : 0;
+    left     : 0;
 }
 
 .panel .section .content .load:before
