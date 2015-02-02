@@ -31,6 +31,8 @@
         {
             $ui.loader = $dom.find('.js-load');
             $ui.loader.hide();
+            $dom.find('.js-php-version').on('change', $.proxy(_onChangeVersion, this));
+            $dom.find('.js-php-package').on('change', $.proxy(_onSelectPackage, this));
         };
 
         /**
@@ -60,6 +62,24 @@
         this.togglePendingState = function(is_pending)
         {
             $ui.loader.toggle(is_pending);
+        };
+
+        /**
+         * Changes the current PHP version
+         * @param evt
+         */
+        var _onChangeVersion = function(evt)
+        {
+            events.emit('action', 'php_version', $(evt.currentTarget).val());
+        };
+
+        /**
+         * Selecting a PHP package
+         * @param evt
+         */
+        var _onSelectPackage = function(evt)
+        {
+            events.emit('action', 'php_package', $(evt.currentTarget).val());
         };
 
     };

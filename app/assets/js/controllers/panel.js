@@ -141,6 +141,14 @@
                 editor.on('action', $.proxy(_onEditorAction, this));
                 editor.load(false);
             }
+            if (action === 'php_version')
+            {
+                app.log('@todo php version: ' + data);
+            }
+            if (action === 'php_package')
+            {
+                app.log('@todo php package: ' + data);
+            }
         };
 
         /**
