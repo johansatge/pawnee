@@ -80,22 +80,18 @@
 
         /**
          * Stops doing Apache CLI stuff
-         * @param is_running
-         * @param modules
-         * @param virtual_hosts
-         * @param php_versions
-         * @param php_packages
+         * @param data
          */
-        var _onApacheIdle = function(is_running, modules, virtual_hosts, php_versions, php_packages)
+        var _onApacheIdle = function(data)
         {
             view.php.togglePendingState(false);
-            view.php.setVersions(php_versions);
-            view.php.setPackages(php_packages);
+            view.php.setVersions(data.php_versions);
+            view.php.setPackages(data.php_packages);
             view.module.togglePendingState(false);
             view.virtualhost.togglePendingState(false);
-            view.module.setModules(modules);
-            view.virtualhost.setHosts(virtual_hosts);
-            view.switcher.enable(is_running);
+            view.module.setModules(data.modules);
+            view.virtualhost.setHosts(data.virtual_hosts);
+            view.switcher.enable(data.is_running);
             view.search.refresh();
             for (var index in editors)
             {

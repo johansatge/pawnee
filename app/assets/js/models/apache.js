@@ -13,6 +13,7 @@
     module.relativeModulesPath = 'libexec/apache2/';
 
     var watcher;
+    var refreshData;
 
     /**
      * Attaches an event
@@ -123,68 +124,36 @@
      */
     var _refreshConfiguration = function()
     {
-        app.utils.apache.server.checkConfiguration(_getModules);
+        refreshData = {};
+        app.utils.apache.server.checkConfiguration(_handleRefreshProcess);
+        app.utils.apache.module.get(_handleRefreshProcess);
+        app.utils.apache.virtualhost.get(_handleRefreshProcess);
+        app.utils.apache.php.getVersions(_handleRefreshProcess);
+        app.utils.apache.php.getPackages(_handleRefreshProcess);
+        app.utils.apache.server.isRunning(_handleRefreshProcess);
     };
 
     /**
-     * Gets the modules list
+     * Handles the end of a process
+     * @param data
      */
-    var _getModules = function()
+    var _handleRefreshProcess = function(data)
     {
-        app.utils.apache.module.get(_getVirtualHosts);
-    };
-
-    /**
-     * Gets the virtual hosts list
-     * @param modules
-     */
-    var _getVirtualHosts = function(modules)
-    {
-        app.utils.apache.virtualhost.get(function(virtual_hosts)
+        $.extend(refreshData, data);
+        var missing_data = false;
+        var required_data = ['is_running', 'modules', 'virtual_hosts', 'php_versions', 'php_packages'];
+        for (var index = 0; index < required_data.length; index += 1)
         {
-            _getPHPVersions(modules.modules, virtual_hosts.virtual_hosts);
-        });
-    };
-
-    /**
-     * Gets PHP versions
-     * @param modules
-     * @param virtual_hosts
-     */
-    var _getPHPVersions = function(modules, virtual_hosts)
-    {
-        app.utils.apache.php.getVersions(function(php_versions)
+            if (typeof refreshData[required_data[index]] === 'undefined')
+            {
+                missing_data = true;
+                break;
+            }
+        }
+        if (!missing_data)
         {
-            _getPHPPackages(modules, virtual_hosts, php_versions);
-        });
-    };
-
-    /**
-     * Gets PHP packages
-     * @param modules
-     * @param virtual_hosts
-     * @param php_versions
-     */
-    var _getPHPPackages = function(modules, virtual_hosts, php_versions)
-    {
-        app.utils.apache.php.getPackages(function(php_packages)
-        {
-            _emitConfiguration(modules, virtual_hosts, php_versions.php_versions, php_packages.php_packages);
-        });
-    };
-
-    /**
-     * Checks the status and emits the server configuration to the app
-     * @param modules
-     * @param virtual_hosts
-     * @param php_versions
-     */
-    var _emitConfiguration = function(modules, virtual_hosts, php_versions, php_packages)
-    {
-        app.utils.apache.server.isRunning(function(is_running)
-        {
-            events.emit('idle', is_running.is_running, modules, virtual_hosts, php_versions, php_packages);
-        });
+            events.emit('idle', refreshData);
+        }
     };
 
     app.models.apache = module;
