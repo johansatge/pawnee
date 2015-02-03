@@ -142,7 +142,7 @@
     {
         app.utils.apache.virtualhost.get(function(virtual_hosts)
         {
-            _getPHPVersions(modules, virtual_hosts);
+            _getPHPVersions(modules.modules, virtual_hosts.virtual_hosts);
         });
     };
 
@@ -169,7 +169,7 @@
     {
         app.utils.apache.php.getPackages(function(php_packages)
         {
-            _emitConfiguration(modules, virtual_hosts, php_versions, php_packages);
+            _emitConfiguration(modules, virtual_hosts, php_versions.php_versions, php_packages.php_packages);
         });
     };
 
@@ -183,15 +183,9 @@
     {
         app.utils.apache.server.isRunning(function(is_running)
         {
-            events.emit('idle', is_running, modules, virtual_hosts, php_versions, php_packages);
+            events.emit('idle', is_running.is_running, modules, virtual_hosts, php_versions, php_packages);
         });
     };
-
-
-
-
-
-
 
     app.models.apache = module;
 

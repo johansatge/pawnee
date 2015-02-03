@@ -33,7 +33,7 @@
             app.logActivity(stderr);
             var is_running = stdout.search('/usr/sbin/httpd') !== -1;
             app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-            callback(is_running);
+            callback({is_running: is_running});
         });
     };
 

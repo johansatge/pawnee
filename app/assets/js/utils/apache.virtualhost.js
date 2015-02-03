@@ -22,7 +22,7 @@
             {
                 vhosts.push(_parseVirtualHost(raw_vhosts[index]));
             }
-            callback(vhosts);
+            callback({virtual_hosts: vhosts});
         });
     };
 

@@ -53,7 +53,7 @@
                 {
                     modules.push({name: match[1], filename: match[1] + '.so', enabled: enabled_modules.indexOf(match[1]) !== -1});
                 });
-                callback(modules);
+                callback({modules: modules});
             });
         });
     };

@@ -39,7 +39,7 @@
                 {
                     versions.push({name: match[1] + '.' + match[2], value: match[0], current: curr_version === match[0]});
                 });
-                callback(versions);
+                callback({php_versions: versions});
             });
         });
     };
@@ -62,7 +62,7 @@
                 {
                     packages.push({name: match[0], value: match[0], installed: installed_packages.indexOf(match[0]) !== -1});
                 });
-                callback(packages);
+                callback({php_packages: packages});
             });
         });
     };
