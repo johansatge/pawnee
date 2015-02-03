@@ -67,15 +67,6 @@
         });
     };
 
-    var _getLinkedPackages = function()
-    {
-        app.node.exec('ls -l /usr/local/Library/LinkedKegs | awk -F\\  "{print $9}"', function(error, stdout, stderr)
-        {
-            //app.log(stderr);
-            //app.log(stdout);
-        });
-    };
-
     app.utils.apache.php = module;
 
 })(window.App);
