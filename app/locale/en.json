@@ -18,7 +18,9 @@
         "watch": "Starts watching %s.",
         "filechange": "Filechange detected.",
         "delete_vhost": "Deleting virtual host...",
-        "set_vhost": "Setting virtual host..."
+        "set_vhost": "Setting virtual host...",
+        "php_packages": "Available packages",
+        "php_installed_package": "(Installed)"
     },
     "settings": {
         "about": "About...",

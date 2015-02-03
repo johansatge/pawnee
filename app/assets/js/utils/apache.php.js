@@ -38,8 +38,30 @@
      */
     module.getPackages = function(callback)
     {
-        // @todo
-        callback([]);
+        app.node.exec('brew search | grep php', function(error, availabe_packages, stderr)
+        {
+            app.logActivity(stderr);
+            app.node.exec('brew list | grep php', function(error, stdout, stderr)
+            {
+                app.logActivity(stderr);
+                var installed_packages = stdout.split('\n');
+                var packages = [];
+                app.utils.regex.search(/^php.*/gm, availabe_packages, function(match)
+                {
+                    packages.push({name: match[0], value: match[0], installed: installed_packages.indexOf(match[0]) !== -1});
+                });
+                callback(packages);
+            });
+        });
+    };
+
+    var _getLinkedPackages = function()
+    {
+        app.node.exec('ls -l /usr/local/Library/LinkedKegs | awk -F\\  "{print $9}"', function(error, stdout, stderr)
+        {
+            //app.log(stderr);
+            //app.log(stdout);
+        });
     };
 
     app.utils.apache.php = module;

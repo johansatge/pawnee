@@ -33,7 +33,8 @@
             $ui.loader.hide();
             $ui.versionSelect = $dom.find('.js-php-version');
             $ui.versionSelect.on('change', $.proxy(_onChangeVersion, this));
-            $dom.find('.js-php-package').on('change', $.proxy(_onSelectPackage, this));
+            $ui.packageSelect = $dom.find('.js-php-package');
+            $ui.packageSelect.on('change', $.proxy(_onSelectPackage, this));
         };
 
         /**
@@ -57,8 +58,14 @@
          */
         this.setPackages = function(packages)
         {
-            app.log('@todo set php packages');
-            app.log(packages);
+            $ui.packageSelect.html('<option value="">' + app.locale.apache.php_packages + '</option>');
+            for (var index = 0; index < packages.length; index += 1)
+            {
+                var disabled = packages[index].installed ? 'disabled="disabled" ' : '';
+                var name = packages[index].name + (packages[index].installed ? ' ' + app.locale.apache.php_installed_package : '');
+                var option = '<option ' + disabled + 'value="' + packages[index].value + '">' + name + '</option>';
+                $ui.packageSelect.append(option);
+            }
         };
 
         /**
