@@ -143,7 +143,7 @@
             }
             if (action === 'php_version')
             {
-                app.log('@todo php version: ' + data);
+                app.models.apache.setPHPVersion(data);
             }
             if (action === 'php_package')
             {

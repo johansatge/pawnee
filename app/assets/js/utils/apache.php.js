@@ -9,6 +9,18 @@
     var module = {};
 
     /**
+     * Sets the current PHP version
+     * @param version
+     * @param callback
+     */
+    module.setVersion = function(version, callback)
+    {
+        app.log('@todo php version: ' + version);
+        callback(version);
+        // @todo read httpd, remove existing module if needed, adds new one, unlinks brew packages, link right one, triggers the callback
+    };
+
+    /**
      * Gets available PHP versions
      * @param callback
      */

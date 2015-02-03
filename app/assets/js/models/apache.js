@@ -92,6 +92,16 @@
     };
 
     /**
+     * Sets the current PHP verison
+     * @param version
+     */
+    module.setPHPVersion = function(version)
+    {
+        events.emit('working');
+        app.utils.apache.php.setVersion(version, _refreshConfiguration);
+    };
+
+    /**
      * Restarts the server when a config file changes (if already running)
      */
     var _onWatcherUpdate = function()
