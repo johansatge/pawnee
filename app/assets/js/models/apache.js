@@ -53,10 +53,7 @@
     module.toggleServerState = function(state)
     {
         events.emit('working');
-        app.utils.apache.server.toggleState(state, function()
-        {
-            _refreshConfiguration();
-        });
+        app.utils.apache.server.toggleState(state, _refreshConfiguration);
     };
 
     /**
@@ -126,10 +123,7 @@
      */
     var _refreshConfiguration = function()
     {
-        app.utils.apache.server.checkConfiguration(function()
-        {
-            _getModules();
-        });
+        app.utils.apache.server.checkConfiguration(_getModules);
     };
 
     /**
