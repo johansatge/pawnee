@@ -14,7 +14,7 @@
      */
     module.get = function(callback)
     {
-        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(stdout)
         {
             var raw_vhosts = _parseConfigurationFile(stdout);
             var vhosts = [];
@@ -35,7 +35,7 @@
     module.set = function(virtual_host, data, callback)
     {
         app.logActivity(app.locale.apache.set_vhost);
-        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(stdout)
         {
             var new_virtual_host = '';
             new_virtual_host += '<VirtualHost ' + data.ip + ':' + data.port + '>\n';
@@ -55,7 +55,7 @@
     module.delete = function(virtual_host, callback)
     {
         app.logActivity(app.locale.apache.delete_vhost);
-        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
+        app.utils.apache.conf.getConfiguration(function(stdout)
         {
             var updated_httpd = stdout.replace(virtual_host.raw, '\n');
             app.utils.apache.conf.updateConfiguration(updated_httpd, callback);

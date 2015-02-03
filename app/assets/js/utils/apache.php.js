@@ -29,7 +29,7 @@
         app.node.exec('brew list', function(error, stdout, stderr)
         {
             app.logActivity(stderr);
-            app.utils.apache.conf.getConfiguration(function(error, httpd, stderr)
+            app.utils.apache.conf.getConfiguration(function(httpd)
             {
                 var curr_version_match = new RegExp(/(php[0-9]{2})[^.]+.so/g).exec(httpd);
                 var curr_version = curr_version_match !== null && typeof curr_version_match[1] !== 'undefined' ? curr_version_match[1] : '';

@@ -8,6 +8,7 @@
     'use strict';
 
     var module = {};
+    var cached = false;
 
     /**
      * Gets httpd.conf
@@ -15,11 +16,18 @@
      */
     module.getConfiguration = function(callback)
     {
-        app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+        if (cached !== false)
         {
-            app.logActivity(stderr);
-            callback(error, stdout, stderr);
-        });
+            callback(cached);
+        }
+        else
+        {
+            app.node.exec('cat ' + app.models.apache.confPath, function(error, stdout, stderr)
+            {
+                app.logActivity(stderr);
+                callback(stdout);
+            });
+        }
     };
 
     /**
@@ -33,6 +41,10 @@
         app.node.exec(update_command, function(error, stdout, stderr)
         {
             app.logActivity(stderr);
+            if (stderr.search(/[^ \n]/g) !== -1)
+            {
+                cached = conf;
+            }
             if (callback)
             {
                 callback();
