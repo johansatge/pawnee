@@ -33,38 +33,28 @@
     };
 
     /**
-     * Gets the list of modules with their state
+     * Gets the list of modules and their state
      * @param callback
      */
     module.get = function(callback)
     {
-        app.node.exec('ls ' + app.models.apache.modulesPath, function(error, stdout, stderr)
+        app.node.exec('ls ' + app.models.apache.modulesPath, function(error, available_modules, stderr)
         {
             app.logActivity(stderr);
-            _checkEnabledModules(stdout, callback);
-        });
-    };
-
-    /**
-     * Gets the list of enabled modules
-     * @param available_modules
-     * @param callback
-     */
-    var _checkEnabledModules = function(available_modules, callback)
-    {
-        app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
-        {
-            var enabled_modules = [];
-            app.utils.regex.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
+            app.utils.apache.conf.getConfiguration(function(error, stdout, stderr)
             {
-                enabled_modules.push(match[1]);
+                var enabled_modules = [];
+                app.utils.regex.search(/[^#]?LoadModule\s(.*)_module.*\.so/gi, stdout, function(match)
+                {
+                    enabled_modules.push(match[1]);
+                });
+                var modules = [];
+                app.utils.regex.search(/mod_([^.]*)\.so/g, available_modules, function(match)
+                {
+                    modules.push({name: match[1], filename: match[1] + '.so', enabled: enabled_modules.indexOf(match[1]) !== -1});
+                });
+                callback(modules);
             });
-            var modules = [];
-            app.utils.regex.search(/mod_([^.]*)\.so/g, available_modules, function(match)
-            {
-                modules.push({name: match[1], filename: match[1] + '.so', enabled: enabled_modules.indexOf(match[1]) !== -1});
-            });
-            callback(modules);
         });
     };
 

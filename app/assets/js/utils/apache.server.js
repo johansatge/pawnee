@@ -28,8 +28,10 @@
      */
     module.isRunning = function(callback)
     {
-        _isProcessRunning('/usr/sbin/httpd', function(is_running)
+        app.node.exec('ps aux', function(error, stdout, stderr)
         {
+            app.logActivity(stderr);
+            var is_running = stdout.search('/usr/sbin/httpd') !== -1;
             app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
             callback(is_running);
         });
@@ -46,20 +48,6 @@
         {
             app.logActivity(stderr);
             callback();
-        });
-    };
-
-    /**
-     * Tells if the given process is running
-     * @param process
-     * @param callback
-     */
-    var _isProcessRunning = function(process, callback)
-    {
-        app.node.exec('ps aux', function(error, stdout, stderr)
-        {
-            app.logActivity(stderr);
-            callback(stdout.search(process) !== -1, stdout, stderr);
         });
     };
 

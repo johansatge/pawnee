@@ -39,24 +39,10 @@
         {
             var new_virtual_host = '';
             new_virtual_host += '<VirtualHost ' + data.ip + ':' + data.port + '>\n';
-            if (data.document_root !== '')
-            {
-                new_virtual_host += '    DocumentRoot ' + data.document_root + '\n';
-            }
-            if (data.server_name !== '')
-            {
-                new_virtual_host += '    ServerName ' + data.server_name + '\n';
-            }
+            new_virtual_host += data.document_root !== '' ? '    DocumentRoot ' + data.document_root + '\n' : '';
+            new_virtual_host += data.server_name !== '' ? '    ServerName ' + data.server_name + '\n' : '';
             new_virtual_host += '</VirtualHost>' + '\n';
-            var updated_httpd;
-            if (virtual_host !== false)
-            {
-                updated_httpd = stdout.replace(virtual_host.raw, new_virtual_host);
-            }
-            else
-            {
-                updated_httpd = stdout + '\n' + new_virtual_host;
-            }
+            var updated_httpd = virtual_host !== false ? stdout.replace(virtual_host.raw, new_virtual_host) : stdout + '\n' + new_virtual_host;
             app.utils.apache.conf.updateConfiguration(updated_httpd, callback);
         });
     };
