@@ -15,9 +15,25 @@
      */
     module.setVersion = function(version, callback)
     {
-        app.log('@todo php version: ' + version);
-        callback(version);
-        // @todo read httpd, remove existing module if needed, adds new one, unlinks brew packages, link right one, triggers the callback
+        app.logActivity(app.locale.apache.set_php_version.replace('%s', version));
+        app.utils.apache.conf.getConfiguration(function(httpd)
+        {
+            var current_module = new RegExp(/(LoadModule php5_module[^;\n]+)/gi).exec(httpd);
+            if (current_module !== null && typeof current_module[1] !== 'undefined')
+            {
+                httpd = httpd.replace(current_module[1], '');
+            }
+            httpd = app.models.apache.phpModuleDirective.replace('%s', version) + '\n' + httpd;
+            app.node.exec('for version in $(brew list | grep "php"); do brew unlink $version; done', function(error, stdout, stderr)
+            {
+                app.logActivity(stdout + stderr);
+                app.node.exec('brew link ' + version, function(error, stdout, stderr)
+                {
+                    app.logActivity(stdout + stderr);
+                    app.utils.apache.conf.updateConfiguration(httpd, callback);
+                });
+            });
+        });
     };
 
     /**

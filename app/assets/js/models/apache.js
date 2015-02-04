@@ -11,6 +11,7 @@
     module.confPath = '/etc/apache2/httpd.conf';
     module.modulesPath = '/usr/libexec/apache2/';
     module.relativeModulesPath = 'libexec/apache2/';
+    module.phpModuleDirective = 'LoadModule php5_module /usr/local/opt/%s/libexec/apache2/libphp5.so';
 
     var watcher;
     var refreshData;
