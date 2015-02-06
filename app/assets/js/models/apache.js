@@ -13,7 +13,6 @@
     module.relativeModulesPath = 'libexec/apache2/';
     module.phpModuleDirective = 'LoadModule php5_module /usr/local/opt/%s/libexec/apache2/libphp5.so';
 
-    var watcher;
     var refreshData;
 
     /**
@@ -33,20 +32,9 @@
     module.watch = function()
     {
         app.utils.apache.server.watchProcess(_onProcessUpdate);
-        watcher = app.node.watcher.watch(app.models.apache.confPath, {persistent: true});
-        watcher.add(app.models.apache.modulesPath);
-        app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.confPath));
-        app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.modulesPath));
+        var watcher = app.node.watcher.watch([app.models.apache.confPath, app.models.apache.modulesPath], {persistent: true});
         watcher.on('change', _onWatcherUpdate);
         watcher.on('ready', _refreshConfiguration);
-    };
-
-    /**
-     * Stops watching files
-     */
-    module.unwatchFiles = function()
-    {
-        //watcher.close();
     };
 
     /**

@@ -64,7 +64,6 @@
      */
     app.quit = function()
     {
-        app.models.apache.unwatchFiles();
         app.node.gui.App.quit();
     };
 

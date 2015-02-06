@@ -15,7 +15,6 @@
         "stopped": "Server is stopped.",
         "enable_module": "Enabling module %s...",
         "disable_module": "Disabling module %s...",
-        "watch": "Starts watching %s.",
         "filechange": "Filechange detected.",
         "delete_vhost": "Deleting virtual host...",
         "set_vhost": "Setting virtual host...",
