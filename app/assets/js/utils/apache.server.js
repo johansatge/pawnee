@@ -7,6 +7,8 @@
     'use strict';
 
     var module = {};
+    var processCallback;
+    var isRunning;
 
     /**
      * Toggles the server status (start, stop, restart)
@@ -24,17 +26,20 @@
 
     /**
      * Checks if the server is running
-     * @param callback
      */
-    module.isRunning = function(callback)
+    module.isRunning = function()
     {
-        app.node.exec('ps aux', function(error, stdout, stderr)
-        {
-            app.logActivity(stderr);
-            var is_running = stdout.search('/usr/sbin/httpd') !== -1;
-            app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-            callback({is_running: is_running});
-        });
+        return isRunning;
+    };
+
+    /**
+     * Starts watching httpd process
+     * @param process_callback
+     */
+    module.watchProcess = function(process_callback)
+    {
+        processCallback = process_callback;
+        _recursiveWatchProcess();
     };
 
     /**
@@ -48,6 +53,24 @@
         {
             app.logActivity(stderr);
             callback();
+        });
+    };
+
+    /**
+     * Recursively watches Apache process (httpd)
+     */
+    var _recursiveWatchProcess = function()
+    {
+        app.node.exec('ps -ax | grep "httpd"', function(error, stdout, stderr)
+        {
+            var is_running = stdout.search('/usr/sbin/httpd') !== -1;
+            if (isRunning !== is_running)
+            {
+                app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
+                processCallback(is_running);
+                isRunning = is_running;
+            }
+            setTimeout(_recursiveWatchProcess, 2000);
         });
     };
 

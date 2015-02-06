@@ -28,16 +28,17 @@
     };
 
     /**
-     * Starts watching files
+     * Starts watching files & process
      */
-    module.watchFiles = function()
+    module.watch = function()
     {
+        app.utils.apache.server.watchProcess(_onProcessUpdate);
         watcher = app.node.watcher.watch(app.models.apache.confPath, {persistent: true});
         watcher.add(app.models.apache.modulesPath);
-        watcher.on('change', _onWatcherUpdate);
-        watcher.on('ready', _onWatcherUpdate);
         app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.confPath));
         app.logActivity(app.locale.apache.watch.replace('%s', app.models.apache.modulesPath));
+        watcher.on('change', _onWatcherUpdate);
+        watcher.on('ready', _refreshConfiguration);
     };
 
     /**
@@ -54,7 +55,7 @@
      */
     module.toggleServerState = function(state)
     {
-        events.emit('working');
+        events.emit('busy');
         app.utils.apache.server.toggleState(state, _refreshConfiguration);
     };
 
@@ -65,7 +66,7 @@
      */
     module.toggleModuleState = function(module, enable)
     {
-        events.emit('working');
+        events.emit('busy');
         app.utils.apache.module.toggleState(module, enable);
     };
 
@@ -76,7 +77,7 @@
      */
     module.setVirtualHost = function(virtual_host, data)
     {
-        events.emit('working');
+        events.emit('busy');
         app.utils.apache.virtualhost.set(virtual_host, data, _refreshConfiguration);
     };
 
@@ -86,7 +87,7 @@
      */
     module.deleteVirtualHost = function(virtual_host)
     {
-        events.emit('working');
+        events.emit('busy');
         app.utils.apache.virtualhost.delete(virtual_host, _refreshConfiguration);
     };
 
@@ -96,28 +97,27 @@
      */
     module.setPHPVersion = function(version)
     {
-        events.emit('working');
+        events.emit('busy');
         app.utils.apache.php.setVersion(version, _refreshConfiguration);
     };
 
     /**
-     * Restarts the server when a config file changes (if already running)
+     * Restarts the server when a config file changes (if already running) and refreshes the configuration
      */
     var _onWatcherUpdate = function()
     {
-        events.emit('working');
+        events.emit('busy');
         app.logActivity(app.locale.apache.filechange);
-        app.utils.apache.server.isRunning(function(is_running)
-        {
-            if (is_running)
-            {
-                app.utils.apache.server.toggleState('restart', _refreshConfiguration);
-            }
-            else
-            {
-                _refreshConfiguration();
-            }
-        });
+        app.utils.apache.server.isRunning() ? app.utils.apache.server.toggleState('restart', _refreshConfiguration) : _refreshConfiguration();
+    };
+
+    /**
+     * Handles a process change (starts / stops)
+     * @param is_running
+     */
+    var _onProcessUpdate = function(is_running)
+    {
+        events.emit('status', is_running);
     };
 
     /**
@@ -131,7 +131,6 @@
         app.utils.apache.virtualhost.get(_handleRefreshProcess);
         app.utils.apache.php.getVersions(_handleRefreshProcess);
         app.utils.apache.php.getPackages(_handleRefreshProcess);
-        app.utils.apache.server.isRunning(_handleRefreshProcess);
     };
 
     /**
@@ -142,7 +141,7 @@
     {
         $.extend(refreshData, data);
         var missing_data = false;
-        var required_data = ['is_running', 'modules', 'virtual_hosts', 'php_versions', 'php_packages'];
+        var required_data = ['modules', 'virtual_hosts', 'php_versions', 'php_packages'];
         for (var index = 0; index < required_data.length; index += 1)
         {
             if (typeof refreshData[required_data[index]] === 'undefined')
@@ -153,7 +152,7 @@
         }
         if (!missing_data)
         {
-            events.emit('idle', refreshData);
+            events.emit('refresh', refreshData);
         }
     };
 

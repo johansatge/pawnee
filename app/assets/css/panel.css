@@ -88,11 +88,6 @@ body
     box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.panel .top .switcher.js-disabled
-{
-    opacity : 0.3;
-}
-
 .panel .top .switcher .switch
 {
     z-index       : 4;
@@ -167,11 +162,6 @@ body
     border        : 1px solid #6b6b6b;
     border-radius : 50%;
     box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7);
-}
-
-.panel .top .restart.js-disabled
-{
-    opacity : 0.3;
 }
 
 .panel .top .restart:active

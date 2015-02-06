@@ -60,7 +60,10 @@
         var _onViewLoaded = function()
         {
             events.emit('loaded');
-            app.models.apache.on('working', $.proxy(_onApacheWorking, this)).on('idle', $.proxy(_onApacheIdle, this)).watchFiles();
+            app.models.apache.on('busy', $.proxy(_onApacheWorking, this));
+            app.models.apache.on('refresh', $.proxy(_onApacheIdle, this));
+            app.models.apache.on('status', $.proxy(_onApacheStatus, this));
+            app.models.apache.watch();
         };
 
         /**
@@ -71,7 +74,6 @@
             view.php.togglePendingState(true);
             view.module.togglePendingState(true);
             view.virtualhost.togglePendingState(true);
-            view.switcher.disable();
             for (var index in editors)
             {
                 editors[index].togglePendingState(true);
@@ -91,12 +93,20 @@
             view.virtualhost.togglePendingState(false);
             view.module.setModules(data.modules);
             view.virtualhost.setHosts(data.virtual_hosts);
-            view.switcher.enable(data.is_running);
             view.search.refresh();
             for (var index in editors)
             {
                 editors[index].togglePendingState(false);
             }
+        };
+
+        /**
+         * Handles a new Apache status
+         * @param is_running
+         */
+        var _onApacheStatus = function(is_running)
+        {
+            view.switcher.setPosition(is_running);
         };
 
         /**

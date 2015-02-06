@@ -11,7 +11,6 @@
 
         var events = new app.node.events.EventEmitter();
         var $ui = {};
-        var enabled = true;
 
         /**
          * Attaches an event
@@ -42,22 +41,9 @@
          * Enables actions
          * @param is_running
          */
-        this.enable = function(is_running)
+        this.setPosition = function(is_running)
         {
-            enabled = true;
             $ui.switch.toggleClass('js-off', !is_running);
-            $ui.switcher.removeClass('js-disabled');
-            $ui.restart.removeClass('js-disabled');
-        };
-
-        /**
-         * Disables actions
-         */
-        this.disable = function()
-        {
-            enabled = false;
-            $ui.switcher.addClass('js-disabled');
-            $ui.restart.addClass('js-disabled');
         };
 
         /**
@@ -67,10 +53,7 @@
         var _onToggleSwitcher = function(evt)
         {
             evt.preventDefault();
-            if (enabled)
-            {
-                events.emit('action', $ui.switch.hasClass('js-off') ? 'start_server' : 'stop_server');
-            }
+            events.emit('action', $ui.switch.hasClass('js-off') ? 'start_server' : 'stop_server');
         };
 
         /**
@@ -80,10 +63,7 @@
         var _onRestart = function(evt)
         {
             evt.preventDefault();
-            if (enabled)
-            {
-                events.emit('action', 'restart_server');
-            }
+            events.emit('action', 'restart_server');
         };
 
     };
