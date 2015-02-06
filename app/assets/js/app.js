@@ -53,10 +53,7 @@
      */
     app.logActivity = function(message)
     {
-        if (message.search(/[^ \n]/g) !== -1)
-        {
-            panel.logActivity(message);
-        }
+        panel.logActivity(message);
     };
 
     /**

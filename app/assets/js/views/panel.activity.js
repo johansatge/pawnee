@@ -27,8 +27,12 @@
          */
         this.logActivity = function(message)
         {
-            $ui.textarea.val($ui.textarea.val() + "\n" + message);
-            $ui.textarea.scrollTop($ui.textarea[0].scrollHeight - $ui.textarea.height());
+            message = message.replace(/^\s*\n/gm, '');
+            if (message !== '')
+            {
+                $ui.textarea.val($ui.textarea.val() + message + "\n");
+                $ui.textarea.scrollTop($ui.textarea[0].scrollHeight - $ui.textarea.height());
+            }
         };
 
         /**
