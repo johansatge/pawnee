@@ -30,9 +30,8 @@
      * Sets a virtual host (adds or edits)
      * @param virtual_host
      * @param data
-     * @param callback
      */
-    module.set = function(virtual_host, data, callback)
+    module.set = function(virtual_host, data)
     {
         app.logActivity(app.locale.apache.set_vhost);
         app.utils.apache.conf.getConfiguration(function(stdout)
@@ -43,22 +42,21 @@
             new_virtual_host += data.server_name !== '' ? '    ServerName ' + data.server_name + '\n' : '';
             new_virtual_host += '</VirtualHost>' + '\n';
             var updated_httpd = virtual_host !== false ? stdout.replace(virtual_host.raw, new_virtual_host) : stdout + '\n' + new_virtual_host;
-            app.utils.apache.conf.updateConfiguration(updated_httpd, callback);
+            app.utils.apache.conf.updateConfiguration(updated_httpd);
         });
     };
 
     /**
      * Deletes a virtual host
      * @param virtual_host
-     * @param callback
      */
-    module.delete = function(virtual_host, callback)
+    module.delete = function(virtual_host)
     {
         app.logActivity(app.locale.apache.delete_vhost);
         app.utils.apache.conf.getConfiguration(function(stdout)
         {
             var updated_httpd = stdout.replace(virtual_host.raw, '\n');
-            app.utils.apache.conf.updateConfiguration(updated_httpd, callback);
+            app.utils.apache.conf.updateConfiguration(updated_httpd);
         });
     };
 

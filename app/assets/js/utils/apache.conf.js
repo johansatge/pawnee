@@ -33,9 +33,8 @@
     /**
      * Updates httpd.conf
      * @param conf
-     * @param callback
      */
-    module.updateConfiguration = function(conf, callback)
+    module.updateConfiguration = function(conf)
     {
         var tmp_path = app.node.os.tmpdir() + 'PawneeTemp.' + Date.now();
         app.node.exec('cat << "EOF" > ' + tmp_path + "\n" + conf + 'EOF', function(error, stdout, stderr)
@@ -47,10 +46,6 @@
                 if (stderr.search(/[^ \n]/g) !== -1)
                 {
                     cached = conf;
-                }
-                if (callback)
-                {
-                    callback();
                 }
             });
         });

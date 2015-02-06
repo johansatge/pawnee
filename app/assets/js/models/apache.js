@@ -66,7 +66,7 @@
     module.setVirtualHost = function(virtual_host, data)
     {
         events.emit('busy');
-        app.utils.apache.virtualhost.set(virtual_host, data, _refreshConfiguration);
+        app.utils.apache.virtualhost.set(virtual_host, data);
     };
 
     /**
@@ -76,7 +76,7 @@
     module.deleteVirtualHost = function(virtual_host)
     {
         events.emit('busy');
-        app.utils.apache.virtualhost.delete(virtual_host, _refreshConfiguration);
+        app.utils.apache.virtualhost.delete(virtual_host);
     };
 
     /**
