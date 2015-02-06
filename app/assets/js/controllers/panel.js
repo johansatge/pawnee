@@ -153,7 +153,7 @@
             }
             if (action === 'php_package')
             {
-                app.log('@todo php package: ' + data);
+                app.utils.apache.php.showPackageInfo(data);
             }
         };
 
