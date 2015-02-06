@@ -15,6 +15,7 @@
     app.node.util = require('util');
     app.node.exec = require('child_process').exec;
     app.node.crypto = require('crypto');
+    app.node.os = require('os');
     app.models = {};
     app.views = {};
     app.views.panel = {};

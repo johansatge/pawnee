@@ -37,18 +37,22 @@
      */
     module.updateConfiguration = function(conf, callback)
     {
-        var update_command = 'sudo cat << "EOF" > ' + app.models.apache.confPath + "\n" + conf + 'EOF';
-        app.node.exec(update_command, function(error, stdout, stderr)
+        var tmp_path = app.node.os.tmpdir() + 'PawneeTemp.' + Date.now();
+        app.node.exec('cat << "EOF" > ' + tmp_path + "\n" + conf + 'EOF', function(error, stdout, stderr)
         {
             app.logActivity(stderr);
-            if (stderr.search(/[^ \n]/g) !== -1)
+            app.node.exec('sudo mv ' + tmp_path + ' ' + app.models.apache.confPath, function(error, stdout, stderr)
             {
-                cached = conf;
-            }
-            if (callback)
-            {
-                callback();
-            }
+                app.logActivity(stderr);
+                if (stderr.search(/[^ \n]/g) !== -1)
+                {
+                    cached = conf;
+                }
+                if (callback)
+                {
+                    callback();
+                }
+            });
         });
     };
 
