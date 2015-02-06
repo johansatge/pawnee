@@ -92,7 +92,9 @@
          */
         var _onSelectPackage = function(evt)
         {
-            events.emit('action', 'php_package', $(evt.currentTarget).val());
+            var $select = $(evt.currentTarget);
+            events.emit('action', 'php_package', $select.val());
+            $select.val('').find('option:selected').removeAttr('selected');
         };
 
     };
