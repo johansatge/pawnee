@@ -120,7 +120,6 @@
 
     /**
      * Inits app menu
-     * @todo remove unused items
      */
     var _initMenu = function()
     {

@@ -9,6 +9,7 @@
     var module = {};
     var events = new app.node.events.EventEmitter();
     module.confPath = '/etc/apache2/httpd.conf';
+    module.backupConfPath = '/etc/apache2/httpd.pawnee-backup.conf';
     module.modulesPath = '/usr/libexec/apache2/';
     module.relativeModulesPath = 'libexec/apache2/';
     module.phpModuleDirective = 'LoadModule php5_module /usr/local/opt/%s/libexec/apache2/libphp5.so';
