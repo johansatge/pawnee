@@ -32,9 +32,8 @@
     module.watch = function()
     {
         app.utils.apache.server.watchProcess(_onProcessUpdate);
-        var watcher = app.node.watcher.watch([app.models.apache.confPath, app.models.apache.modulesPath], {persistent: true});
-        watcher.on('change', _onWatcherUpdate);
-        watcher.on('ready', _refreshConfiguration);
+        app.utils.apache.conf.watchFile(_onConfigUpdate);
+        _refreshConfiguration();
     };
 
     /**
@@ -92,10 +91,9 @@
     /**
      * Restarts the server when a config file changes (if already running) and refreshes the configuration
      */
-    var _onWatcherUpdate = function()
+    var _onConfigUpdate = function()
     {
         events.emit('busy');
-        app.logActivity(app.locale.apache.filechange);
         app.utils.apache.server.isRunning() ? app.utils.apache.server.toggleState('restart', _refreshConfiguration) : _refreshConfiguration();
     };
 

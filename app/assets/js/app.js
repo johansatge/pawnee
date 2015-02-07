@@ -11,7 +11,7 @@
     app.node.gui = require('nw.gui');
     app.node.fs = require('fs');
     app.node.events = require('events');
-    app.node.watcher = require('chokidar');
+    //app.node.watcher = require('chokidar');
     app.node.util = require('util');
     app.node.exec = require('child_process').exec;
     app.node.crypto = require('crypto');

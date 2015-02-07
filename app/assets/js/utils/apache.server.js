@@ -7,8 +7,8 @@
     'use strict';
 
     var module = {};
-    var processCallback;
-    var isRunning;
+    var watcherCallback;
+    var isRunning = null;
 
     /**
      * Toggles the server status (start, stop, restart)
@@ -34,11 +34,11 @@
 
     /**
      * Starts watching httpd process
-     * @param process_callback
+     * @param callback
      */
-    module.watchProcess = function(process_callback)
+    module.watchProcess = function(callback)
     {
-        processCallback = process_callback;
+        watcherCallback = callback;
         _recursiveWatchProcess();
     };
 
@@ -67,7 +67,7 @@
             if (isRunning !== is_running)
             {
                 app.logActivity(app.locale.apache[is_running ? 'running' : 'stopped']);
-                processCallback(is_running);
+                watcherCallback(is_running);
                 isRunning = is_running;
             }
             setTimeout(_recursiveWatchProcess, 2000);

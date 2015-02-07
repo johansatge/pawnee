@@ -9,6 +9,8 @@
 
     var module = {};
     var cached = false;
+    var watcherCallback;
+    var fileModificationTime = false;
 
     /**
      * Gets httpd.conf
@@ -48,6 +50,36 @@
                     cached = conf;
                 }
             });
+        });
+    };
+
+    /**
+     * Starts watching config file
+     * @param callback
+     */
+    module.watchFile = function(callback)
+    {
+        watcherCallback = callback;
+        _recursiveWatchFile();
+    };
+
+    /**
+     * Recursively watches config file
+     */
+    var _recursiveWatchFile = function()
+    {
+        app.node.exec('stat -f "%Sm" -t "%Y%m%dT%H%M%S" ' + app.models.apache.confPath, function(error, stdout, stderr)
+        {
+            if (fileModificationTime !== stdout)
+            {
+                if (fileModificationTime !== false)
+                {
+                    app.logActivity(app.locale.apache.filechange);
+                    watcherCallback();
+                }
+                fileModificationTime = stdout;
+            }
+            setTimeout(_recursiveWatchFile, 2000);
         });
     };
 
