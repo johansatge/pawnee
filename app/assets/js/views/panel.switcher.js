@@ -43,7 +43,7 @@
          */
         this.setPosition = function(is_running)
         {
-            $ui.switch.toggleClass('js-off', !is_running);
+            $ui.switcher.toggleClass('js-off', !is_running);
         };
 
         /**
@@ -53,7 +53,7 @@
         var _onToggleSwitcher = function(evt)
         {
             evt.preventDefault();
-            events.emit('action', $ui.switch.hasClass('js-off') ? 'start_server' : 'stop_server');
+            events.emit('action', $ui.switcher.hasClass('js-off') ? 'start_server' : 'stop_server');
         };
 
         /**

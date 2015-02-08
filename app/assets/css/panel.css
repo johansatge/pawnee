@@ -23,19 +23,6 @@ body
     -webkit-user-select : none;
 }
 
-.panel:before
-{
-    content      : '';
-    z-index      : 2;
-    position     : absolute;
-    top          : -10px;
-    left         : 50%;
-    margin       : 0 0 0 -10px;
-    border-style : solid;
-    border-width : 0 10px 10px 10px;
-    border-color : transparent transparent #a3a3a3 transparent;
-}
-
 .panel
 {
     z-index       : 1;
@@ -44,7 +31,6 @@ body
     width         : 460px;
     border-radius : 6px;
     box-shadow    : 0 5px 20px rgba(58, 58, 58, 0.5);
-    border        : 1px solid #a3a3a3;
 }
 
 .panel .top:before
@@ -57,7 +43,7 @@ body
     margin       : 0 0 0 -10px;
     border-style : solid;
     border-width : 0 10px 10px 10px;
-    border-color : transparent transparent #e7e7e7 transparent;
+    border-color : transparent transparent #ffffff transparent;
 }
 
 .panel .top
@@ -66,11 +52,10 @@ body
     position                : relative;
     width                   : 100%;
     box-sizing              : border-box;
-    height                  : 58px;
-    background              : linear-gradient(to bottom, #e8e8e8 0%, #d4d4d4 100%);
-    box-shadow              : inset 0 1px 0 #f6f6f6;
-    border-top-left-radius  : 6px;
-    border-top-right-radius : 6px;
+    height                  : 48px;
+    background              : linear-gradient(to bottom, #ffffff 0%, #f4f4f4 100%);
+    border-top-left-radius  : 7px;
+    border-top-right-radius : 7px;
     border-bottom           : 1px solid #a3a3a3;
     margin                  : 0 0 -1px 0;
 }
@@ -78,105 +63,86 @@ body
 .panel .top .switcher
 {
     position      : absolute;
-    border        : 1px solid #6b6b6b;
-    height        : 26px;
-    width         : 80px;
-    overflow      : hidden;
-    border-radius : 4px;
-    margin        : 15px 0 0 15px;
-    background    : linear-gradient(to bottom, #adadad 0%, #cacaca 100%);
-    box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2);
+    width         : 42px;
+    height        : 24px;
+    border-radius : 12px;
+    margin        : 12px 0 0 10px;
+    background    : #52d467;
+    transition    : background-color 250ms;
+}
+
+.panel .top .switcher.js-off
+{
+    background : #d45252;
 }
 
 .panel .top .switcher .switch
 {
     z-index       : 4;
     position      : absolute;
-    top           : 0;
-    left          : 0;
-    width         : 40px;
-    height        : 100%;
-    border-radius : 3px;
-    box-shadow    : 0 0 6px rgba(0, 0, 0, 0.5);
-    background    : linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%);
+    top           : 1px;
+    left          : 1px;
+    width         : 22px;
+    height        : 22px;
+    border-radius : 11px;
+    box-shadow    : 0 1px 5px rgba(0, 0, 0, 0.2);
+    background    : #ffffff;
     transition    : left 250ms;
 }
 
-.panel .top .switch.js-off
+.panel .top .switcher.js-off .switch
 {
-    left : 40px;
-}
-
-.panel .top .switcher .text
-{
-    z-index     : 5;
-    position    : relative;
-    width       : 40px;
-    float       : left;
-    text-align  : center;
-    font-size   : 15px;
-    line-height : 15px;
-    padding     : 6px 0 0 0;
-    font-weight : bold;
-    color       : #747474;
+    left : 19px;
 }
 
 .panel .top .settings
 {
-    display       : block;
-    position      : absolute;
-    top           : 15px;
-    right         : 15px;
-    background    : linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%);
-    width         : 26px;
-    height        : 26px;
-    border        : 1px solid #6b6b6b;
-    border-radius : 50%;
-    box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7);
-}
-
-.panel .top .settings:active
-{
-    background : linear-gradient(to top, #fdfdfd 0%, #e8e8e8 100%);
-    box-shadow : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2)
+    display  : block;
+    position : absolute;
+    top      : 10px;
+    right    : 5px;
+    width    : 26px;
+    height   : 26px;
 }
 
 .panel .top .settings i
 {
-    position  : absolute;
-    font-size : 14px;
-    top       : 6px;
-    left      : 7px;
-    color     : #747474;
+    position    : absolute;
+    font-size   : 20px;
+    top         : 4px;
+    left        : 4px;
+    color       : #747474;
+    text-shadow : 0 1px 0 #ffffff;
+}
+
+.panel .top .settings:active i
+{
+    color : #333333;
 }
 
 .panel .top .restart
 {
-    display       : block;
-    position      : absolute;
-    top           : 15px;
-    left          : 105px;
-    background    : linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%);
-    width         : 26px;
-    height        : 26px;
-    border        : 1px solid #6b6b6b;
-    border-radius : 50%;
-    box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7);
-}
-
-.panel .top .restart:active
-{
-    background : linear-gradient(to top, #fdfdfd 0%, #e8e8e8 100%);
-    box-shadow : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2)
+    display  : block;
+    position : absolute;
+    top      : 10px;
+    left     : 58px;
+    width    : 26px;
+    height   : 26px;
 }
 
 .panel .top .restart i
 {
-    position  : absolute;
-    font-size : 14px;
-    top       : 6px;
-    left      : 6px;
-    color     : #747474;
+    position    : absolute;
+    font-size   : 20px;
+    top         : 4px;
+    left        : 4px;
+    color       : #747474;
+    text-shadow : 0 1px 0 #ffffff;
+}
+
+.panel .top .restart:active i
+{
+    color : #333333;
 }
 
 .panel .section
@@ -447,7 +413,7 @@ body
     box-sizing                 : border-box;
     height                     : 32px;
     border-top                 : 1px solid #a3a3a3;
-    background                 : linear-gradient(to bottom, #e8e8e8 0%, #d4d4d4 100%);
+    background                 : linear-gradient(to bottom, #f4f4f4 0%, #ffffff 100%);
     border-bottom-left-radius  : 4px;
     border-bottom-right-radius : 4px;
 }
