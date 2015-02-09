@@ -19,10 +19,9 @@ textarea
 html,
 body
 {
-    font-family            : 'Helvetica Neue';
-    -webkit-font-smoothing : antialiased;
-    -webkit-user-select    : none;
-    background             : #f5f5f5;
+    font-family         : 'Helvetica Neue';
+    -webkit-user-select : none;
+    background          : #f4f4f4;
 }
 
 body
@@ -33,7 +32,7 @@ body
 form
 {
     margin  : -1px 0 0 0;
-    padding : 15px 15px 8px 15px;
+    padding : 15px 10px 8px 10px;
 }
 
 form button.right
@@ -45,15 +44,15 @@ form button.right
 {
     position    : relative;
     padding     : 0 0 8px 0;
-    color       : #757678;
-    font-size   : 12px;
-    line-height : 12px;
+    color       : #4a4a4a;
+    font-size   : 13px;
+    line-height : 13px;
 }
 
 input[type=text]
 {
     height        : 28px;
-    font-size     : 12px;
+    font-size     : 13px;
     color         : #4a4a4a;
     font-family   : 'Helvetica Neue';
     border-radius : 4px;
@@ -71,28 +70,28 @@ input[type=text]
     position   : relative;
     width      : 100%;
     box-sizing : border-box;
-    border-top : 1px solid #a3a3a3;
-    padding    : 13px 15px 0 15px;
+    border-top : 1px solid #c0c0c0;
+    padding    : 13px 10px 0 10px;
     margin     : 0 0 -1px 0;
     height     : 58px;
-    background : linear-gradient(to bottom, #e8e8e8 0%, #d4d4d4 100%);
+    background : linear-gradient(to top, #ffffff 0%, #f4f4f4 100%);
 }
 
 .bottom button
 {
     background    : linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%);
-    border        : 1px solid #6b6b6b;
+    border        : 1px solid #c0c0c0;
     box-shadow    : 0 1px 0 rgba(256, 256, 256, 0.7);
-    font-size     : 12px;
+    font-size     : 13px;
     color         : #4a4a4a;
     border-radius : 4px;
-    padding       : 6px 8px 6px 8px;
+    padding       : 7px 10px 7px 10px;
 }
 
 .bottom button:active
 {
     background : linear-gradient(to top, #fdfdfd 0%, #e8e8e8 100%);
-    box-shadow : 0 1px 0 rgba(256, 256, 256, 0.7), inset 0 2px 6px rgba(0, 0, 0, 0.2)
+    box-shadow : 0 1px 0 rgba(256, 256, 256, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bottom button.right

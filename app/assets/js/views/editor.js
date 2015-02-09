@@ -31,7 +31,7 @@
         this.init = function(vhost)
         {
             virtual_host = vhost;
-            var params = {toolbar: false, frame: true, resizable: false, show: false, width: 350, height: 310};
+            var params = {toolbar: false, frame: true, resizable: false, show: false, width: 350, height: 318};
             window = app.node.gui.Window.open('templates/editor.html', params);
             window.on('document-end', function()
             {
