@@ -3,81 +3,235 @@
  */
 html, body, div, button, p, img, h1, h2, h3, h4, pre
 {
-    margin  : 0;
-    padding : 0;
-    border  : 0;
-    font-family: "Source Sans Pro";
-    -webkit-font-smoothing: antialiased;
+    margin                 : 0;
+    padding                : 0;
+    border                 : 0;
+    font-family            : "Source Sans Pro";
+    -webkit-font-smoothing : antialiased;
+    font-weight            : 400;
 }
 
 .header
 {
-    width: 100%;
-    height: 650px;
-    background: rgb(105,29,128);
-    background: -moz-linear-gradient(top, rgba(105,29,128,1) 0%, rgba(248,0,47,1) 100%);
-    background: -webkit-linear-gradient(top, rgba(105,29,128,1) 0%,rgba(248,0,47,1) 100%);
-    background: -o-linear-gradient(top, rgba(105,29,128,1) 0%,rgba(248,0,47,1) 100%);
-    background: -ms-linear-gradient(top, rgba(105,29,128,1) 0%,rgba(248,0,47,1) 100%);
-    background: linear-gradient(to bottom, rgba(105,29,128,1) 0%,rgba(248,0,47,1) 100%);
+    width      : 100%;
+    background : rgb(105, 29, 128);
+    background : -moz-linear-gradient(top, rgba(105, 29, 128, 1) 0%, rgba(248, 0, 47, 1) 100%);
+    background : -webkit-linear-gradient(top, rgba(105, 29, 128, 1) 0%, rgba(248, 0, 47, 1) 100%);
+    background : -o-linear-gradient(top, rgba(105, 29, 128, 1) 0%, rgba(248, 0, 47, 1) 100%);
+    background : -ms-linear-gradient(top, rgba(105, 29, 128, 1) 0%, rgba(248, 0, 47, 1) 100%);
+    background : linear-gradient(to bottom, rgba(105, 29, 128, 1) 0%, rgba(248, 0, 47, 1) 100%);
 }
 
-.header .text
+.header:after
 {
-    color: #ffffff;
-    font-size: 26px;
-    font-weight: 400;
-    width: 600px;
-    text-align: center;
-    left: 50%;
-    position: absolute;
-    margin: 360px 0 0 -300px;
-    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+    content : ' ';
+    clear   : both;
 }
 
-.header .text strong
+.header .headline
 {
-    font-weight: 600;
+    color       : #ffffff;
+    font-size   : 34px;
+    width       : 650px;
+    text-align  : center;
+    left        : 50%;
+    position    : relative;
+    padding     : 230px 0 0 0;
+    margin      : 0 0 0 -325px;
+    text-shadow : 0 2px 0 rgba(0, 0, 0, 0.35);
+    line-height : 38px;
+}
+
+@media screen and (max-width : 950px)
+{
+    .header .headline
+    {
+        width  : 80%;
+        left   : 0;
+        margin : 0 0 0 10%;
+    }
+}
+
+.header .headline strong
+{
+    font-weight : 600;
+}
+
+.header .headline-sub
+{
+    color       : #ffffff;
+    font-size   : 20px;
+    width       : 620px;
+    text-align  : center;
+    left        : 50%;
+    position    : relative;
+    margin      : 30px 0 0 -310px;
+    text-shadow : 0 2px 0 rgba(0, 0, 0, 0.35);
+    line-height : 28px;
+}
+
+@media screen and (max-width : 950px)
+{
+    .header .headline-sub
+    {
+        width  : 80%;
+        left   : 0;
+        margin : 30px 0 0 10%;
+    }
 }
 
 .header .buttons
 {
-    width: 340px;
-    left: 50%;
-    position: absolute;
-    margin: 490px 0 0 -170px;
+    width    : 470px;
+    left     : 50%;
+    position : relative;
+    margin   : 50px 0 0 -235px;
+    padding  : 0 0 150px 0;
 }
 
-.header .buttons .button
+@media screen and (max-width : 950px)
 {
-    position: absolute;
-    top: 0;
-    box-sizing: border-box;
-    width: 140px;
-    text-align: center;
-    text-decoration: none;
-    color: #EE0039;
-    font-size: 20px;
-    font-weight: 600;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
-    border-radius: 6px;
-    padding: 13px 0 14px 0;
-    background: rgb(255,255,255);
-    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%);
-    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
-    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
-    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
-    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
-    text-shadow: 0 1px 0 #ffffff;
+    .header .buttons
+    {
+        padding : 0 0 40px 0;
+    }
 }
 
-.header .buttons .button.right
+.header .buttons a
 {
-    font-weight: 400;
-    right: 0;
+    display         : block;
+    position        : relative;
+    float           : left;
+    top             : 0;
+    box-sizing      : border-box;
+    width           : 210px;
+    text-align      : center;
+    text-decoration : none;
+    color           : #ee0039;
+    font-size       : 20px;
+    font-weight     : 600;
+    box-shadow      : 0 2px 0 rgba(0, 0, 0, 0.35);
+    border-radius   : 6px;
+    padding         : 13px 0 14px 0;
+    background      : rgb(255, 255, 255);
+    background      : -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(229, 229, 229, 1) 100%);
+    background      : -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(229, 229, 229, 1) 100%);
+    background      : -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(229, 229, 229, 1) 100%);
+    background      : -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(229, 229, 229, 1) 100%);
+    background      : linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(229, 229, 229, 1) 100%);
+    text-shadow     : 0 1px 0 #ffffff;
 }
 
-.header .buttons .button:hover
+.header .buttons a.right
 {
-    background: #ffffff;
+    font-weight : 400;
+    float       : right;
+}
+
+@media screen and (max-width : 950px)
+{
+    .header .buttons a,
+    .header .buttons a.right
+    {
+        float  : none;
+        left   : 50%;
+        margin : 0 0 60px -105px;
+    }
+}
+
+.header .buttons a:hover
+{
+    background : #ffffff;
+}
+
+.header .buttons a i
+{
+    font-size : 18px;
+    margin    : 0 4px 0 0;
+}
+
+.header .buttons a span
+{
+    cursor      : default;
+    position    : absolute;
+    top         : 60px;
+    left        : 0;
+    box-sizing  : border-box;
+    width       : 210px;
+    text-align  : center;
+    color       : #ffffff;
+    font-size   : 14px;
+    font-weight : 400;
+    text-shadow : 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.content
+{
+    position : relative;
+    float    : left;
+    width    : 870px;
+    left     : 50%;
+    margin   : 50px 0 50px -420px;
+}
+
+@media screen and (max-width : 950px)
+{
+    .content
+    {
+        width  : 80%;
+        left   : 0;
+        margin : 50px 0 50px 10%;
+    }
+}
+
+.content .box
+{
+    width  : 250px;
+    float  : left;
+    margin : 0 40px 0 0;
+}
+
+@media screen and (max-width : 950px)
+{
+    .content .box
+    {
+        width  : 100%;
+        float  : left;
+        margin : 0 0 50px 0;
+    }
+}
+
+.content .box h3
+{
+    font-size   : 22px;
+    font-weight : 600;
+    color       : #f8002f;
+}
+
+.content .box h3 i
+{
+    margin : 0 4px 0 0;
+}
+
+.content .box p
+{
+    margin      : 10px 0 0 0;
+    font-size   : 15px;
+    line-height : 24px;
+    color       : #212121;
+    text-align  : justify;
+}
+
+.content .clear
+{
+    height : 50px;
+    clear  : both;
+}
+
+@media screen and (max-width : 950px)
+{
+    .content .clear
+    {
+        display : none;
+    }
 }
