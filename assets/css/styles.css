@@ -31,13 +31,13 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
 .header .headline
 {
     color       : #ffffff;
-    font-size   : 34px;
-    width       : 650px;
+    font-size   : 36px;
+    width       : 680px;
     text-align  : center;
     left        : 50%;
     position    : relative;
     padding     : 230px 0 0 0;
-    margin      : 0 0 0 -325px;
+    margin      : 0 0 0 -340px;
     text-shadow : 0 2px 0 rgba(0, 0, 0, 0.35);
     line-height : 38px;
 }
@@ -169,12 +169,12 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
 {
     position : relative;
     float    : left;
-    width    : 870px;
+    width    : 1020px;
     left     : 50%;
-    margin   : 50px 0 50px -420px;
+    margin   : 50px 0 50px -490px;
 }
 
-@media screen and (max-width : 950px)
+@media screen and (max-width : 1100px)
 {
     .content
     {
@@ -186,12 +186,12 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
 
 .content .box
 {
-    width  : 250px;
+    width  : 300px;
     float  : left;
     margin : 0 40px 0 0;
 }
 
-@media screen and (max-width : 950px)
+@media screen and (max-width : 1100px)
 {
     .content .box
     {
@@ -203,23 +203,37 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
 
 .content .box h3
 {
-    font-size   : 22px;
-    font-weight : 600;
-    color       : #f8002f;
+    font-size : 24px;
+    color     : #f8002f;
 }
 
 .content .box h3 i
 {
-    margin : 0 4px 0 0;
+    margin    : 9px 8px 0 0;
+    font-size : 16px;
+    float     : left;
 }
 
 .content .box p
 {
     margin      : 10px 0 0 0;
-    font-size   : 15px;
+    font-size   : 16px;
     line-height : 24px;
     color       : #212121;
     text-align  : justify;
+}
+
+.content .box p code
+{
+    font-family    : monospace;
+    letter-spacing : 0;
+}
+
+.content .box p a,
+.content .box p a:visited
+{
+    color           : #f8002f;
+    text-decoration : none;
 }
 
 .content .clear
@@ -228,10 +242,33 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
     clear  : both;
 }
 
-@media screen and (max-width : 950px)
+@media screen and (max-width : 1100px)
 {
     .content .clear
     {
         display : none;
     }
+}
+
+.footer
+{
+    position   : relative;
+    float      : left;
+    clear      : both;
+    width      : 770px;
+    left       : 50%;
+    padding    : 50px 0 50px 0;
+    margin     : 0 0 0 -385px;
+    font-size  : 14px;
+    text-align : center;
+    color      : #999999;
+}
+
+.footer a,
+.footer a:hover,
+.footer a:visited
+{
+    color           : #999999;
+    text-decoration : none;
+    border-bottom   : 1px dashed #bababa;
 }
