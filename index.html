@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Pawnee</title>
+        <link href="assets/css/images/favicon.png" rel="icon" type="image/png">
         <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet" type="text/css">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/styles.css" rel="stylesheet" type="text/css">
@@ -29,10 +30,10 @@
                     <i class="fa fa-download"></i>
                     Download now
                     <span>
-                        Requires OSX 10.10
+                        1.0.0 - Requires OSX 10.10
                     </span>
                 </a>
-                <a href="#@todo" class="right">
+                <a href="#donate" class="right">
                     <i class="fa fa-usd"></i>
                     Donate to support
                     <span>
@@ -59,7 +60,7 @@
                 </h3>
                 <p>
                     Do you need to edit your <a href="http://en.wikipedia.org/wiki/Httpd.conf" target="_blank">httpd.conf</a>
-                    file to match your specific needs ? Work and save the file by using your favorite text editor, and the server will
+                    file by yourself to match your specific needs ? Work and save the file by using your favorite text editor, and the server will
                     automatically restart to retrieve your updated configuration.
                 </p>
             </div>
@@ -103,8 +104,31 @@
                 <p>
                     Did you configure things by yourself in your <a href="http://en.wikipedia.org/wiki/Httpd.conf" target="_blank">httpd.conf</a> file ?
                     Pawnee will handle it and only modify the needed code, without messing around with your custom data.<br>
-                    The tool also make a backup before doing destructive operations.
+                    The tool also makes a backup before doing destructive operations.
                 </p>
+            </div>
+        </div>
+        <div id="donate" class="donate">
+            <div class="inside">
+                <h3>
+                    Donate to support development
+                </h3>
+                <p>
+                    Independant software takes a great time to develop and maintain, which is why I ask you, if you find Pawnee useful, to
+                    consider making a donation to support the future development of features and bug fixes.
+                </p>
+                <p>
+                    I answer with pleasure to support and feature requests through the
+                    <a target="_blank" href="https://github.com/johansatge/pawnee/issues">Github issues</a> page.
+                </p>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+                    <button type="submit" class="button" target="_blank" href="@todo">
+                        <i class="fa fa-usd"></i>
+                        Donate via Paypal
+                    </button>
+                </form>
             </div>
         </div>
         <div class="footer">

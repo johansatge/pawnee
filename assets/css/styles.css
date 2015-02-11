@@ -28,6 +28,17 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
     clear   : both;
 }
 
+.header:before
+{
+    content    : ' ';
+    position   : absolute;
+    top        : 0;
+    left       : 0;
+    width      : 100%;
+    height     : 500px;
+    background : url(images/app.png) no-repeat center 0;
+}
+
 .header .headline
 {
     color       : #ffffff;
@@ -36,7 +47,7 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
     text-align  : center;
     left        : 50%;
     position    : relative;
-    padding     : 230px 0 0 0;
+    padding     : 400px 0 0 0;
     margin      : 0 0 0 -340px;
     text-shadow : 0 2px 0 rgba(0, 0, 0, 0.35);
     line-height : 38px;
@@ -205,6 +216,7 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
 {
     font-size : 24px;
     color     : #f8002f;
+    margin    : 0 0 10px 0;
 }
 
 .content .box h3 i
@@ -216,7 +228,6 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
 
 .content .box p
 {
-    margin      : 10px 0 0 0;
     font-size   : 16px;
     line-height : 24px;
     color       : #212121;
@@ -250,15 +261,96 @@ html, body, div, button, p, img, h1, h2, h3, h4, pre
     }
 }
 
+.donate
+{
+    width      : 100%;
+    float      : left;
+    padding    : 45px 0 50px 0;
+    background : #efefef;
+}
+
+.donate .inside
+{
+    width    : 400px;
+    position : relative;
+    left     : 50%;
+    margin   : 0 0 0 -200px;
+}
+
+@media screen and (max-width : 540px)
+{
+    .donate .inside
+    {
+        width    : 80%;
+        position : relative;
+        left     : 0;
+        margin   : 0 0 0 10%;
+    }
+}
+
+.donate .inside h3
+{
+    font-size  : 24px;
+    color      : #9b9b9b;
+    text-align : center;
+    margin     : 0 0 20px 0;
+}
+
+.donate .inside p
+{
+    font-size   : 16px;
+    line-height : 24px;
+    color       : #a9a9a9;
+    text-align  : center;
+    margin      : 0 0 30px 0;
+}
+
+.donate .inside p a,
+.donate .inside p a:visited
+{
+    color           : #717171;
+    text-decoration : none;
+}
+
+.donate .inside .button
+{
+    cursor          : pointer;
+    display         : block;
+    position        : relative;
+    box-sizing      : border-box;
+    width           : 210px;
+    left            : 50%;
+    margin          : 0 0 0 -105px;
+    text-align      : center;
+    text-decoration : none;
+    color           : #212121;
+    font-size       : 16px;
+    border-radius   : 6px;
+    padding         : 13px 0 14px 0;
+    background      : #fcfcfc;
+    text-shadow     : 0 1px 0 #ffffff;
+}
+
+.donate .inside .button:hover
+{
+    background : #ffffff;
+}
+
+.donate .inside .button i
+{
+    font-size : 15px;
+    margin    : 0 4px 0 0;
+}
+
 .footer
 {
     position   : relative;
     float      : left;
     clear      : both;
-    width      : 770px;
+    width      : 420px;
     left       : 50%;
     padding    : 50px 0 50px 0;
-    margin     : 0 0 0 -385px;
+    margin     : 0 0 0 -210px;
     font-size  : 14px;
     text-align : center;
     color      : #999999;
