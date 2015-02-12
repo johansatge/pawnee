@@ -23,6 +23,37 @@ module.exports = function(grunt)
     });
 
     /**
+     * Builds the app
+     */
+    grunt.registerTask('build', function()
+    {
+        var builder = new nwb(
+            {
+                files: './app/**/**',
+                platforms: ['osx'],
+                buildDir: './build',
+                macCredits: false,
+                macIcns: './assets/icns/icon.icns'
+            });
+        var done = this.async();
+        grunt.log.writeln('Building app...');
+        setDevMode(false);
+        builder.build().then(function()
+        {
+            grunt.log.ok('Build done.');
+            if (grunt.option('launch'))
+            {
+                exec('./build/Pawnee/osx/Pawnee.app/Contents/MacOS/nwjs');
+            }
+            done();
+        }).catch(function(error)
+        {
+            grunt.log.error(error);
+            done();
+        });
+    });
+
+    /**
      * Toggles dev mode
      * @param enable
      */

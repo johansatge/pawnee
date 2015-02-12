@@ -27,7 +27,7 @@
             app.node.exec('for version in $(brew list | grep "php"); do brew unlink $version; done', function(error, stdout, stderr)
             {
                 app.logActivity(stdout + stderr);
-                app.node.exec('brew link ' + version, function(error, stdout, stderr)
+                app.node.exec(app.models.apache.brewPath + ' link ' + version, function(error, stdout, stderr)
                 {
                     app.logActivity(stdout + stderr);
                     app.utils.apache.conf.updateConfiguration(httpd, callback);
@@ -42,7 +42,7 @@
      */
     module.getVersions = function(callback)
     {
-        app.node.exec('brew list', function(error, stdout, stderr)
+        app.node.exec(app.models.apache.brewPath + ' list', function(error, stdout, stderr)
         {
             app.logActivity(stderr);
             app.utils.apache.conf.getConfiguration(function(httpd)
@@ -66,10 +66,10 @@
      */
     module.getPackages = function(callback)
     {
-        app.node.exec('brew search | grep php', function(error, availabe_packages, stderr)
+        app.node.exec(app.models.apache.brewPath + ' search | grep php', function(error, availabe_packages, stderr)
         {
             app.logActivity(stderr);
-            app.node.exec('brew list | grep php', function(error, stdout, stderr)
+            app.node.exec(app.models.apache.brewPath + ' list | grep php', function(error, stdout, stderr)
             {
                 app.logActivity(stderr);
                 var installed_packages = stdout.split('\n');
@@ -89,7 +89,7 @@
      */
     module.showPackageInfo = function(package_name)
     {
-        app.node.exec('brew info ' + package_name, function(error, stdout, stderr)
+        app.node.exec(app.models.apache.brewPath + ' info ' + package_name, function(error, stdout, stderr)
         {
             var formula_url = new RegExp(/From: ?(http.*)$/gm).exec(stdout);
             var website_url = new RegExp(/^http.*$/gm).exec(stdout);

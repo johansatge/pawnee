@@ -1,6 +1,6 @@
 {
     "name": "Pawnee",
-    "version": "0.1.0-beta",
+    "version": "1.0.0",
     "main": "app.html",
     "window": {
         "show": false,

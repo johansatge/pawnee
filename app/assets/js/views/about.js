@@ -26,7 +26,7 @@
          */
         this.init = function()
         {
-            var params = {toolbar: false, frame: true, resizable: false, show: false, width: 200, height: 210};
+            var params = {title: '', toolbar: false, frame: true, resizable: false, show: false, width: 200, height: 210};
             window = app.node.gui.Window.open('templates/about.html', params);
             var self = this;
             window.on('document-end', function()

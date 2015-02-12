@@ -13,6 +13,7 @@
     module.modulesPath = '/usr/libexec/apache2/';
     module.relativeModulesPath = 'libexec/apache2/';
     module.phpModuleDirective = 'LoadModule php5_module /usr/local/opt/%s/libexec/apache2/libphp5.so';
+    module.brewPath = '/usr/local/bin/brew';
 
     var refreshData;
 
