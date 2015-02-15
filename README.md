@@ -2,7 +2,7 @@
 
 An Apache GUI for OSX.
 
-Visit **[Project page](http://johansatge.github.io/pawnee/)** for more informations.
+Visit **[Project page](http://johansatge.github.io/pawnee/)** for more information.
 
 ## Changelog
 
