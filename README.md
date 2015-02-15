@@ -26,3 +26,5 @@ This project is releases under the [MIT License](LICENSE).
 * [jQuery](http://jquery.com/)
 * [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 * [Brew](http://brew.sh/)
+* [Grunt](http://gruntjs.com/)
+
