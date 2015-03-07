@@ -2,7 +2,7 @@
 
 An Apache GUI for OSX.
 
-Visit **[Project page](http://johansatge.github.io/pawnee/)** for more information.
+Visit **[project page](http://johansatge.github.io/pawnee/)** for more information.
 
 ## Changelog
 
@@ -12,8 +12,12 @@ Version | Notes
 
 ## Todos and known issues
 
+* Add updates checker
+  * Add an item in the cog contextuel menu
+  * Check to enable the feature
+  * Display the last version in the panel footer
 * Add MySQL Support
-* Support custom Apache installation
+* Add support to custom Apache installation (using Brew)
 
 ## License
 
