@@ -21,7 +21,7 @@ Version | Notes
 
 ## License
 
-This project is releases under the [MIT License](LICENSE).
+This project is released under the [MIT License](LICENSE).
 
 ## Credits
 
