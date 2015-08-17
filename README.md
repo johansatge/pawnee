@@ -1,6 +1,6 @@
 # Pawnee
 
-Downloads and features can be found on the [homepage](http://johansatge.com/pawnee/).
+Downloads and features can be found on the [homepage](http://johansatge.github.io/pawnee/).
 
 ---
 
