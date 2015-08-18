@@ -1,16 +1,43 @@
-# Pawnee
+![Screenshot](screenshot.png)
 
-Downloads and features can be found on the [homepage](http://johansatge.github.io/pawnee/).
+An Apache GUI for OSX.
 
 ---
 
+* [Download](#download)
+* [Features](#features)
 * [Development installation](#development-installation)
-* [Todos](#todos)
 * [Changelog](#changelog)
 * [License](#license)
 * [Credits](#credits)
 
+## Download
+
+### [Download v1.0.0](https://github.com/johansatge/pawnee/releases/download/v1.0.0/pawnee-1.0.0.zip)
+
+*34Mb - Requires Mac OS 10.10*
+
+## Features
+
+Pawnee is a menubar utility designed to help you manage your local Apache installation.
+
+Features are organised in panels:
+
+| Panel | Description |
+| --- | --- |
+| PHP | Detects installed PHP versions (with [Homebrew](http://brew.sh/)) for easy switch |
+| Virtual hosts | View and edit configured virtual hosts |
+| Modules | Displays available and enabled Apache modules |
+| Activity | Shows server activity for easy debug |
+
+The application works with the `/private/etc/apache2/httpd.conf` file.
+
+* When this file is updated, the server will restart automatically
+* When editing the file for the first time, a backup will be made (`/private/etc/apache2/httpd.pawnee-backup.conf`)
+
 ## Development installation
+
+If you want to contribute, you should follow those steps to get started.
 
 ### Installation steps
 
@@ -41,10 +68,6 @@ Build the application:
 ```bash
 grunt build
 ```
-
-## Todos
-
-Planned features are listed in the [Issues](https://github.com/johansatge/vuplicity/issues).
 
 ## Changelog
 
