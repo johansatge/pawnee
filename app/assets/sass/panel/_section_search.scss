@@ -1,0 +1,29 @@
+.section .search
+{
+    z-index  : 3;
+    position : absolute;
+    width    : 150px;
+    top      : 5px;
+    right    : 5px;
+
+    i
+    {
+        position  : absolute;
+        font-size : 9px;
+        top       : 4px;
+        left      : 6px;
+        color     : #aeaeae;
+    }
+
+    input
+    {
+        cursor        : text;
+        width         : 100%;
+        height        : 18px;
+        box-sizing    : border-box;
+        border-radius : 15px;
+        padding       : 0 8px 0 20px;
+        font-size     : 11px;
+        font-family   : 'Helvetica Neue', sans-serif;
+    }
+}

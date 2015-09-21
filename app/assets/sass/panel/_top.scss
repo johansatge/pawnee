@@ -1,0 +1,111 @@
+.top
+{
+    z-index                 : 3;
+    position                : relative;
+    width                   : 100%;
+    box-sizing              : border-box;
+    height                  : 52px;
+    background              : linear-gradient(to bottom, #ffffff 0%, #f4f4f4 100%);
+    border-top-left-radius  : 7px;
+    border-top-right-radius : 7px;
+    border-bottom           : 1px solid #c0c0c0;
+    margin                  : 0 0 -1px 0;
+
+    &:before
+    {
+        content      : '';
+        z-index      : 3;
+        position     : absolute;
+        top          : -9px;
+        left         : 50%;
+        margin       : 0 0 0 -10px;
+        border-style : solid;
+        border-width : 0 10px 10px 10px;
+        border-color : transparent transparent #ffffff transparent;
+    }
+
+    .switcher
+    {
+        position      : absolute;
+        width         : 42px;
+        height        : 24px;
+        border-radius : 12px;
+        margin        : 14px 0 0 10px;
+        background    : #52d467;
+        transition    : background-color 250ms;
+
+        &.js-off
+        {
+            background : #d45252;
+
+            .switch
+            {
+                left : 19px;
+            }
+        }
+
+        .switch
+        {
+            z-index       : 4;
+            position      : absolute;
+            top           : 1px;
+            left          : 1px;
+            width         : 22px;
+            height        : 22px;
+            border-radius : 11px;
+            box-shadow    : 0 1px 5px rgba(0, 0, 0, 0.2);
+            background    : #ffffff;
+            transition    : left 250ms;
+        }
+    }
+
+    .settings
+    {
+        display  : block;
+        position : absolute;
+        top      : 12px;
+        right    : 8px;
+        width    : 26px;
+        height   : 26px;
+
+        i
+        {
+            position    : absolute;
+            font-size   : 20px;
+            top         : 4px;
+            left        : 4px;
+            color       : #747474;
+            text-shadow : 0 1px 0 #ffffff;
+        }
+
+        &:active i
+        {
+            color : #333333;
+        }
+    }
+
+    .restart
+    {
+        display  : block;
+        position : absolute;
+        top      : 12px;
+        left     : 56px;
+        width    : 26px;
+        height   : 26px;
+
+        i
+        {
+            position    : absolute;
+            font-size   : 20px;
+            top         : 4px;
+            left        : 4px;
+            color       : #747474;
+            text-shadow : 0 1px 0 #ffffff;
+        }
+
+        &:active i
+        {
+            color : #333333;
+        }
+    }
+}

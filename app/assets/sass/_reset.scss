@@ -1,0 +1,24 @@
+html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label, ul, li, button
+{
+    margin  : 0;
+    padding : 0;
+    border  : 0;
+    cursor  : default;
+}
+
+select, input, textarea, button
+{
+    outline : 0;
+}
+
+textarea
+{
+    resize : none;
+}
+
+html,
+body
+{
+    font-family         : 'Helvetica Neue', sans-serif;
+    -webkit-user-select : none;
+}

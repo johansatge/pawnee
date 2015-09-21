@@ -1,0 +1,66 @@
+.section.js-closed .heading
+{
+    margin : 0 0 -1px 0;
+
+    .toggle i
+    {
+        transform : rotate(90deg);
+    }
+}
+
+.section .heading
+{
+    z-index                : 3;
+    position               : relative;
+    padding                : 8px 8px 9px 26px;
+    color                  : #757678;
+    font-size              : 11px;
+    line-height            : 11px;
+    font-weight            : bold;
+    background             : #f4f4f4;
+    border-top             : 1px solid #c0c0c0;
+    border-bottom          : 1px solid #c0c0c0;
+    -webkit-font-smoothing : antialiased;
+
+    .action
+    {
+        cursor          : default;
+        margin          : 0 0 0 5px;
+        color           : #bcbcbc;
+        text-decoration : none;
+        transition      : color 150ms;
+
+        &:hover
+        {
+            color : #757678;
+        }
+    }
+
+    .toggle
+    {
+        top        : 0;
+        left       : 0;
+        position   : absolute;
+        width      : 27px;
+        height     : 27px;
+        opacity    : 0.4;
+        transition : opacity 150ms;
+        cursor     : default;
+
+        &:hover
+        {
+            opacity : 1;
+        }
+
+        i
+        {
+            position     : absolute;
+            margin       : 10px 0 0 10px;
+            border-style : solid;
+            border-width : 0 5px 8px 5px;
+            border-color : transparent transparent #757678 transparent;
+            transform    : rotate(180deg);
+            transition   : transform 150ms;
+        }
+    }
+}

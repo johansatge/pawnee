@@ -1,0 +1,83 @@
+.section .list
+{
+    position        : relative;
+    z-index         : 3;
+    list-style-type : none;
+    height          : 156px;
+    overflow-y      : auto;
+
+    .entry
+    {
+        font-size      : 13px;
+        letter-spacing : 0.02em;
+        float          : left;
+        width          : 100%;
+        box-sizing     : border-box;
+        padding        : 0 0 0 10px;
+
+        &:nth-child(even)
+        {
+            background : #f7f7f7;
+        }
+
+        &:nth-child(even) .name:after
+        {
+            background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #f7f7f7);
+        }
+
+        .name
+        {
+            position    : relative;
+            display     : block;
+            float       : left;
+            padding     : 6px 0 5px 0;
+            margin      : 0 5px 0 0;
+            width       : 70%;
+            white-space : nowrap;
+            overflow    : hidden;
+            color       : #4a4a4a;
+
+            &:after
+            {
+                display    : block;
+                position   : absolute;
+                top        : 0;
+                right      : 0;
+                content    : '';
+                width      : 30px;
+                height     : 25px;
+                background : linear-gradient(to right, rgba(255, 255, 255, 0) 0%, #ffffff)
+            }
+        }
+
+        .moreinfo
+        {
+            float   : right;
+            color   : rgba(74, 74, 74, 0.5);
+            padding : 6px 0 5px 0;
+            margin  : 0 10px 0 0;
+        }
+
+        a
+        {
+            cursor          : default;
+            color           : #757678;
+            float           : right;
+            opacity         : 0.5;
+            text-decoration : none;
+            transition      : opacity 150ms;
+            padding         : 5px 10px 6px 5px;
+
+            &:hover
+            {
+                opacity : 1;
+            }
+        }
+
+        input
+        {
+            float  : right;
+            margin : 7px 10px 0 0;
+        }
+    }
+}

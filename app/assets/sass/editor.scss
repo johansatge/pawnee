@@ -1,26 +1,8 @@
-html, body, div, span, p, form, input, textarea, select, h1, h2, h3, table, tbody, tr, td, label, ul, li, button
-{
-    margin  : 0;
-    padding : 0;
-    border  : 0;
-    cursor  : default;
-}
-
-select, input, textarea, button
-{
-    outline : 0;
-}
-
-textarea
-{
-    resize : none;
-}
+@import 'reset';
 
 html,
 body
 {
-    font-family         : 'Helvetica Neue';
-    -webkit-user-select : none;
     background          : #f4f4f4;
 }
 
@@ -54,7 +36,7 @@ input[type=text]
     height        : 28px;
     font-size     : 13px;
     color         : #4a4a4a;
-    font-family   : 'Helvetica Neue';
+    font-family   : 'Helvetica Neue', sans-serif;
     border-radius : 4px;
     padding       : 0 8px 0 8px;
     width         : 100%;
