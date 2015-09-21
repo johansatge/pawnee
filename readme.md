@@ -69,6 +69,12 @@ Build the application:
 grunt build
 ```
 
+Watch SASS files:
+
+```bash
+grunt sass
+```
+
 ## Changelog
 
 | Version | Date | Notes |

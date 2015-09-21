@@ -51,4 +51,16 @@ module.exports = function(grunt)
         });
     });
 
+    /**
+     * Basic SASS support
+     */
+    grunt.registerTask('sass', function()
+    {
+        var done = this.async();
+        var child = exec('cd app/assets && compass watch sass/*');
+        child.stdout.on('data', grunt.log.write);
+        child.stderr.on('data', grunt.log.write);
+        child.on('close', done);
+    });
+
 };
