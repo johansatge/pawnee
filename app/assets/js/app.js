@@ -11,7 +11,6 @@
     app.node.gui = require('nw.gui');
     app.node.fs = require('fs');
     app.node.events = require('events');
-    //app.node.watcher = require('chokidar');
     app.node.util = require('util');
     app.node.exec = require('child_process').exec;
     app.node.crypto = require('crypto');
@@ -22,7 +21,7 @@
     app.controllers = {};
     app.utils = {};
     app.utils.apache = {};
-    app.devMode = app.node.fs.existsSync('.dev') && app.node.fs.readFileSync('.dev', {encoding: 'utf8'}) === '1';
+    app.devMode = app.node.util.inspect(process.execPath).search('nwjs.app') !== -1;
     app.locale = eval('(' + app.node.fs.readFileSync('locale/en.json') + ')');
 
     var panel;

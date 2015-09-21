@@ -4,17 +4,15 @@ module.exports = function(grunt)
     'use strict';
 
     var exec = require('child_process').exec;
-    var nwb = require('node-webkit-builder');
+    var nwb = require('nw-builder');
 
     grunt.registerTask('default', []);
 
     /**
      * Runs the app
-     * Use the "--dev" option to enable toolbars and debug
      */
     grunt.registerTask('run', function()
     {
-        setDevMode(grunt.option('dev') === true);
         var done = this.async();
         var child = exec('/Applications/nwjs.app/Contents/MacOS/nwjs ./app');
         child.stdout.on('data', grunt.log.write);
@@ -30,6 +28,7 @@ module.exports = function(grunt)
         var builder = new nwb(
             {
                 files: './app/**/**',
+                version: '0.12.3',
                 platforms: ['osx'],
                 buildDir: './build',
                 macCredits: false,
@@ -37,7 +36,6 @@ module.exports = function(grunt)
             });
         var done = this.async();
         grunt.log.writeln('Building app...');
-        setDevMode(false);
         builder.build().then(function()
         {
             grunt.log.ok('Build done.');
@@ -52,14 +50,5 @@ module.exports = function(grunt)
             done();
         });
     });
-
-    /**
-     * Toggles dev mode
-     * @param enable
-     */
-    function setDevMode(enable)
-    {
-        grunt.file.write('./app/.dev', enable ? '1' : '0', {encoding: 'utf8'});
-    }
 
 };
