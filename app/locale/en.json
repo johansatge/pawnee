@@ -18,8 +18,6 @@
         "filechange": "Filechange detected.",
         "delete_vhost": "Deleting virtual host...",
         "set_vhost": "Setting virtual host...",
-        "php_packages": "Available packages",
-        "php_installed_package": "(Installed)",
         "set_php_version": "Setting %s..."
     },
     "settings": {

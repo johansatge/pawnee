@@ -60,50 +60,6 @@
         });
     };
 
-    /**
-     * Gets available PHP Brew packages
-     * @param callback
-     */
-    module.getPackages = function(callback)
-    {
-        app.node.exec(app.models.apache.brewPath + ' search | grep php', function(error, availabe_packages, stderr)
-        {
-            app.logActivity(stderr);
-            app.node.exec(app.models.apache.brewPath + ' list | grep php', function(error, stdout, stderr)
-            {
-                app.logActivity(stderr);
-                var installed_packages = stdout.split('\n');
-                var packages = [];
-                app.utils.regex.search(/^php.*/gm, availabe_packages, function(match)
-                {
-                    packages.push({name: match[0], value: match[0], installed: installed_packages.indexOf(match[0]) !== -1});
-                });
-                callback({php_packages: packages});
-            });
-        });
-    };
-
-    /**
-     * Shows the informations of a package
-     * @param package_name
-     */
-    module.showPackageInfo = function(package_name)
-    {
-        app.node.exec(app.models.apache.brewPath + ' info ' + package_name, function(error, stdout, stderr)
-        {
-            var formula_url = new RegExp(/From: ?(http.*)$/gm).exec(stdout);
-            var website_url = new RegExp(/^http.*$/gm).exec(stdout);
-            if (formula_url !== null && typeof formula_url[1] !== 'undefined')
-            {
-                app.node.gui.Shell.openExternal(formula_url[1]);
-            }
-            if (website_url !== null && typeof website_url[0] !== 'undefined')
-            {
-                app.node.gui.Shell.openExternal(website_url[0]);
-            }
-        });
-    };
-
     app.utils.apache.php = module;
 
 })(window.App);

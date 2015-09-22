@@ -118,7 +118,6 @@
         app.utils.apache.module.get(_handleRefreshProcess);
         app.utils.apache.virtualhost.get(_handleRefreshProcess);
         app.utils.apache.php.getVersions(_handleRefreshProcess);
-        app.utils.apache.php.getPackages(_handleRefreshProcess);
     };
 
     /**
@@ -129,7 +128,7 @@
     {
         $.extend(refreshData, data);
         var missing_data = false;
-        var required_data = ['modules', 'virtual_hosts', 'php_versions', 'php_packages'];
+        var required_data = ['modules', 'virtual_hosts', 'php_versions'];
         for (var index = 0; index < required_data.length; index += 1)
         {
             if (typeof refreshData[required_data[index]] === 'undefined')

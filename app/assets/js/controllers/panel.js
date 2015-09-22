@@ -88,7 +88,6 @@
         {
             view.php.togglePendingState(false);
             view.php.setVersions(data.php_versions);
-            view.php.setPackages(data.php_packages);
             view.module.togglePendingState(false);
             view.virtualhost.togglePendingState(false);
             view.module.setModules(data.modules);
@@ -150,10 +149,6 @@
             if (action === 'php_version')
             {
                 app.models.apache.setPHPVersion(data);
-            }
-            if (action === 'php_package')
-            {
-                app.utils.apache.php.showPackageInfo(data);
             }
         };
 
